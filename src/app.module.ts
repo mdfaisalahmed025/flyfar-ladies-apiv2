@@ -9,11 +9,11 @@ import { UsersModule } from './users/users.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
-      port: 3306,
+      host: 'containers-us-west-92.railway.app',
+      port: 6675,
       username: 'root',
-      password: '',
-      database: 'flyfarladies-apiv2',
+      password: 'bat35GnjfyJNyPzIS3l6',
+      database: 'railway',
       entities: [User],
       synchronize: true,
     }),
