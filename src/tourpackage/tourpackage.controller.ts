@@ -257,7 +257,6 @@ addTourPackageBookingPolicy(
   // refund policy End
 
 
-
   // Inclusions  start
 
   // add inclsuions
