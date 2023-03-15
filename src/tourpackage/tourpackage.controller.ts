@@ -267,12 +267,12 @@ addTourPackageBookingPolicy(
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    const packageincluded = this.tourpackageService.AddpackageInclusions(
+    const packageinclsuions = this.tourpackageService.AddpackageInclusions(
       id,
       packageInclusionsdto,
     );
     return res.status(HttpStatus.OK).json({
-      packageincluded,
+      packageinclsuions,
       message: 'travel package Inlclusions Iteam Added',
     });
   }
