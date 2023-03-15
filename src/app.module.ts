@@ -6,6 +6,15 @@ import { AppService } from './app.service';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { TourpackageModule } from './tourpackage/tourpackage.module';
+import { AlbumImage } from './tourpackage/entities/albumimage.entity';
+import { packageexcluions } from './tourpackage/entities/packageexclsuions.entity';
+import { packageincluded } from './tourpackage/entities/PackageInclude.entity';
+import { Packageinclusion } from './tourpackage/entities/packageInclusion.entitry';
+import { tourpackageplan } from './tourpackage/entities/tourpackageplan.entity';
+import { packagehighlight } from './tourpackage/entities/packagehighlight.entity';
+import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
+import { bookingpolicy } from './tourpackage/entities/bookingpolicy.entity';
+import { VisitedPalce } from './tourpackage/entities/visitedplace.entity';
 
 @Module({
   imports: [
@@ -16,7 +25,17 @@ import { TourpackageModule } from './tourpackage/tourpackage.module';
       username: 'root',
       password: 'bat35GnjfyJNyPzIS3l6',
       database: 'railway',
-      entities: [User, Tourpackage],
+      entities: [User,
+        Tourpackage,
+        AlbumImage,
+        packageexcluions,
+        packageincluded,
+        Packageinclusion,
+        tourpackageplan,
+        packagehighlight,
+        refundpolicy,
+        bookingpolicy,
+        VisitedPalce,],
       synchronize: true,
     }),
     UsersModule,
