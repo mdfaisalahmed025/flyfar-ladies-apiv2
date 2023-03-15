@@ -1,5 +1,3 @@
-
-
 export class CreateTourpackageDto {
     Id: number
     PkId: string
@@ -14,5 +12,6 @@ export class CreateTourpackageDto {
     TotalDuration: string
     PackageOverview: string
     Showpackage: boolean
+    ImageUrl:string
 
 }

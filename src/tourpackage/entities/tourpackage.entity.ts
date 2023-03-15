@@ -1,4 +1,5 @@
 import { IsNotEmpty } from "@nestjs/class-validator";
+import { Transform } from "class-transformer";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
@@ -42,4 +43,7 @@ export class Tourpackage {
     @IsNotEmpty()
     @Column({ default: true })
     Showpackage: boolean;
+    @IsNotEmpty()
+    @Column()
+    ImageUrl:string
 }
