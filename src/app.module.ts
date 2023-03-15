@@ -26,3 +26,17 @@ import { TourpackageModule } from './tourpackage/tourpackage.module';
   providers: [AppService],
 })
 export class AppModule {}
+
+
+// host: 'containers-us-west-92.railway.app',
+// port: 6675,
+// username: 'root',
+// password: 'bat35GnjfyJNyPzIS3l6',
+// database: 'railway',
+
+
+// host: '127.0.0.1',
+// port: 3306,
+// username: 'root',
+// password: '',
+// database: 'flyfar-ladies',

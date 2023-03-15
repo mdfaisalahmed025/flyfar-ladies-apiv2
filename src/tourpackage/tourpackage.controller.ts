@@ -44,8 +44,7 @@ export class TourpackageController {
     files: Express.Multer.File[],
     @Req() req: Request,
     @Body() body,
-    @Res() res: Response,
-    @Body() createTourpackageDto: CreateTourpackageDto) {
+    @Res() res: Response) {
       for (const file of files) {
         const tourpackage = new Tourpackage();
         tourpackage.ImageUrl = file.path
@@ -63,7 +62,7 @@ export class TourpackageController {
         tourpackage.Showpackage =req.body.Showpackage
         await this.TourpackageRepo.save({ ...tourpackage})
       }
-    return res.status(HttpStatus.OK).send({ status:"success", })
+    return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package added succesfully" })
   }
 
   @Get('getall')
