@@ -8,7 +8,7 @@ export class Packageinclusion {
   @PrimaryGeneratedColumn()
   InId: number; 
   @IsNotEmpty()
-  @Column({default:true})
+  @Column()
   inclusions:string
   @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.PackageInclusions)
   @JoinColumn({name:'inclusionId'})
