@@ -29,40 +29,23 @@ export class TourpackageController {
   )
 
   async AddTravelPAckage(
-    @UploadedFiles()
-    file: Express.Multer.File,
+    @UploadedFiles(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: /(jpg|jpeg|png|gif)$/,
+        })
+        .addMaxSizeValidator({
+          maxSize: 1024 * 1024 * 6,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
     @Req() req: Request,
     @Body() body,
     @Res() res: Response,
     @Body() createTourpackageDto: CreateTourpackageDto) {
-    const {
-      PkId,
-      MainTitle,
-      SubTitle,
-      Price,
-      Location,
-      StartDate,
-      EndDate,
-      TripType,
-      Availability,
-      TotalDuration,
-      PackageOverview,
-      Showpackage} = createTourpackageDto;
-      const tourpackage = new Tourpackage()
-      tourpackage.MainTitle =MainTitle
-      tourpackage.PkId=PkId
-      tourpackage.SubTitle =SubTitle
-      tourpackage.Price =Price
-      tourpackage.Location =Location
-      tourpackage.Availability =Availability
-      tourpackage.StartDate =StartDate
-      tourpackage.EndDate =EndDate
-      tourpackage.TripType =TripType
-      tourpackage.TotalDuration =TotalDuration
-      tourpackage.PackageOverview =PackageOverview
-      tourpackage.Showpackage =Showpackage
-      tourpackage.ImageUrl =file.path
-    await this.TourpackageRepo.save(tourpackage);
+    await this.tourpackageService.Addpackage(createTourpackageDto)
     return res.status(HttpStatus.OK).send({ status:"success", })
   }
 
@@ -76,10 +59,10 @@ export class TourpackageController {
     return this.tourpackageService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTourpackageDto: UpdateTourpackageDto) {
-    return this.tourpackageService.update(+id, updateTourpackageDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateTourpackageDto: UpdateTourpackageDto) {
+  //   return this.tourpackageService.update(+id, updateTourpackageDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

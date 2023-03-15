@@ -46,4 +46,6 @@ export class Tourpackage {
     @IsNotEmpty()
     @Column()
     ImageUrl:string
+    @Transform(({ value }) => value[0])
+    file: Express.Multer.File;
 }
