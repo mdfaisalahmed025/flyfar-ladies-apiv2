@@ -8,17 +8,17 @@ export class VisitedPalce{
    @PrimaryGeneratedColumn()
    Id:number
    @IsNotEmpty({message:"please give place number"})
-   @Column()
+   @Column({default:true})
    PlaceName:string
-   @Column()
+   @Column({default:true})
    fieldname: string;
-   @Column()
+   @Column({default:true})
    originalname: string;
-   @Column()
+   @Column({default:true})
    destination: string;
-   @Column()
+   @Column({default:true})
    filename: string;
-   @Column()
+   @Column({default:true})
    path: string;
    @ManyToOne(() => Tourpackage, tourpackage=>tourpackage.vistitedImages)
    @JoinColumn({name:'vistited image'})
