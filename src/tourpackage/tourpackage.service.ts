@@ -13,13 +13,9 @@ constructor(@InjectRepository(Tourpackage) private TourpackageRepo:Repository<To
 async findAll() {
     return this.TourpackageRepo.find();
   }
-
+  
 async  findOne(Id: number) {
     return  this.TourpackageRepo.findOne({where:{Id}});
-  }
-
-async  update(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
-    return this.TourpackageRepo.update({Id}, {...updateTourpackageDto});
   }
 
 async  remove(Id: number) {
