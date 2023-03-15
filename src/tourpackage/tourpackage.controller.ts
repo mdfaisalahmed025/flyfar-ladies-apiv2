@@ -34,9 +34,6 @@ export class TourpackageController {
         .addFileTypeValidator({
           fileType: /(jpg|jpeg|png|gif)$/,
         })
-        .addMaxSizeValidator({
-          maxSize: 1024 * 1024 * 6,
-        })
         .build({
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
         }),
