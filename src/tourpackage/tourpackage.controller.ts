@@ -29,18 +29,7 @@ export class TourpackageController {
   )
 
   async AddTravelPAckage(
-    @UploadedFiles(
-      new ParseFilePipeBuilder()
-        .addFileTypeValidator({
-          fileType: /(jpg|jpeg|png|gif)$/,
-        })
-        .addMaxSizeValidator({
-          maxSize: 1024 * 1024 * 6,
-        })
-        .build({
-          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-        }),
-    )
+    @UploadedFiles()
     file: Express.Multer.File,
     @Req() req: Request,
     @Body() body,
