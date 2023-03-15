@@ -75,13 +75,22 @@ export class TourpackageController {
     return this.tourpackageService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateTourpackageDto: UpdateTourpackageDto) {
-  //   return this.tourpackageService.update(+id, updateTourpackageDto);
-  // }
-
+  @Patch(':id')
+ async update(
+  @Param('id') id: string,
+  @Req() req: Request,
+  @Res() res: Response,
+  @Body() updateTourpackageDto: UpdateTourpackageDto) {
+    await this.tourpackageService.update(+id, updateTourpackageDto);
+    return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package updated succesfully" })
+  }
+  
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tourpackageService.remove(+id);
+ async remove(
+  @Param('id') id: string,
+  @Req() req: Request,
+  @Res() res: Response) {
+    await this.tourpackageService.remove(+id);
+    return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package delete succesfully" })
   }
 }
