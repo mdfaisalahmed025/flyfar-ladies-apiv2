@@ -79,21 +79,22 @@ export class TourpackageController {
   @Param('Id') Id: number,
   @Req() req: Request,
   @Res() res: Response,
-  @Body() body) {
-  const update = await this.TourpackageRepo.findOne({where:{Id}})
-  update.MainTitle = req.body.MainTitle
-  update.PkId= req.body.PkId
-  update.SubTitle =req.body.SubTitle
-  update.Price =req.body.Price
-  update.Location =req.body.Location
-  update.Availability =req.body.Availability
-  update.StartDate =req.body.StartDate
-  update.EndDate =req.body.EndDate
-  update.TripType =req.body.TripType
-  update.TotalDuration =req.body.TotalDuration
-  update.PackageOverview =req.body.PackageOverview
-  update.Showpackage =req.body.Showpackage
-  await this.TourpackageRepo.save({ ...update})
+  @Body() body,
+  @Body() updatetravelpackagedto:UpdateTourpackageDto) {
+    const update = await this.tourpackageService.update(Id,updatetravelpackagedto)
+  // update.MainTitle = req.body.MainTitle
+  // update.PkId= req.body.PkId
+  // update.SubTitle =req.body.SubTitle
+  // update.Price =req.body.Price
+  // update.Location =req.body.Location
+  // update.Availability =req.body.Availability
+  // update.StartDate =req.body.StartDate
+  // update.EndDate =req.body.EndDate
+  // update.TripType =req.body.TripType
+  // update.TotalDuration =req.body.TotalDuration
+  // update.PackageOverview =req.body.PackageOverview
+  // update.Showpackage =req.body.Showpackage
+  // await this.TourpackageRepo.save({ ...update})
   return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package updated succesfully" })
   }
 
