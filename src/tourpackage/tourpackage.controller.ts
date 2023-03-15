@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator } from '@nestjs/common';
 import { TourpackageService } from './tourpackage.service';
 import { CreateTourpackageDto } from './dto/create-tourpackage.dto';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
@@ -15,7 +15,7 @@ export class TourpackageController {
 
   @Post('Addpackage')
   @UseInterceptors(
-    FileInterceptor('image',{
+    FilesInterceptor('image',5,{
       storage: diskStorage({
         destination: './CoverImage',
         filename: (req, image, callback) => {
@@ -34,15 +34,35 @@ export class TourpackageController {
         .addFileTypeValidator({
           fileType: /(jpg|jpeg|png|gif)$/,
         })
+        .addMaxSizeValidator({
+          maxSize: 1024 * 1024 * 6,
+        })
         .build({
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
         }),
     )
+    files: Express.Multer.File[],
     @Req() req: Request,
     @Body() body,
     @Res() res: Response,
     @Body() createTourpackageDto: CreateTourpackageDto) {
-    await this.tourpackageService.Addpackage(createTourpackageDto)
+      for (const file of files) {
+        const tourpackage = new Tourpackage();
+        tourpackage.ImageUrl = file.path
+        tourpackage.MainTitle = req.body.MainTitle
+        tourpackage.PkId= req.body.PkId
+        tourpackage.SubTitle =req.body.SubTitle
+        tourpackage.Price =req.body.Price
+        tourpackage.Location =req.body.Location
+        tourpackage.Availability =req.body.Availability
+        tourpackage.StartDate =req.body.StartDate
+        tourpackage.EndDate =req.body.EndDate
+        tourpackage.TripType =req.body.TripType
+        tourpackage.TotalDuration =req.body.TotalDuration
+        tourpackage.PackageOverview =req.body.PackageOverview
+        tourpackage.Showpackage =req.body.Showpackage
+        await this.TourpackageRepo.save({ ...tourpackage})
+      }
     return res.status(HttpStatus.OK).send({ status:"success", })
   }
 

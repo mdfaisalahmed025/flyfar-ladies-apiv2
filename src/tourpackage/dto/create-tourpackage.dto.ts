@@ -1,4 +1,3 @@
-import { Transform } from "class-transformer"
 
 export class CreateTourpackageDto {
     Id: number
@@ -15,6 +14,4 @@ export class CreateTourpackageDto {
     PackageOverview: string
     Showpackage: boolean
     ImageUrl:string
-    file: Express.Multer.File;
-
 }

@@ -10,37 +10,26 @@ export class TourpackageService {
 
   constructor(@InjectRepository(Tourpackage) private TourpackageRepo:Repository<Tourpackage>){}
 
- async Addpackage(createTourpackageDto: CreateTourpackageDto) {
-  const {
-    PkId,
-    MainTitle,
-    SubTitle,
-    Price,
-    Location,
-    StartDate,
-    EndDate,
-    TripType,
-    Availability,
-    TotalDuration,
-    PackageOverview,
-    Showpackage, file} = createTourpackageDto;
-    const filePath = file.path;
-    const tourpackage = new Tourpackage()
-    tourpackage.MainTitle =MainTitle
-    tourpackage.PkId=PkId
-    tourpackage.SubTitle =SubTitle
-    tourpackage.Price =Price
-    tourpackage.Location =Location
-    tourpackage.Availability =Availability
-    tourpackage.StartDate =StartDate
-    tourpackage.EndDate =EndDate
-    tourpackage.TripType =TripType
-    tourpackage.TotalDuration =TotalDuration
-    tourpackage.PackageOverview =PackageOverview
-    tourpackage.Showpackage =Showpackage
-    tourpackage.ImageUrl =filePath
-    await this.TourpackageRepo.save(tourpackage);
-  }
+//  async Addpackage(createTourpackageDto: CreateTourpackageDto) {
+//   const {
+//     PkId,
+//     MainTitle,
+//     SubTitle,
+//     Price,
+//     Location,
+//     StartDate,
+//     EndDate,
+//     TripType,
+//     Availability,
+//     TotalDuration,
+//     PackageOverview,
+//     Showpackage} = createTourpackageDto;
+   
+//     const tourpackage = new Tourpackage()
+//     tourpackage.MainTitle =MainTitle
+  
+//     await this.TourpackageRepo.save(tourpackage);
+//   }
 
   findAll() {
     return this.TourpackageRepo.find();
