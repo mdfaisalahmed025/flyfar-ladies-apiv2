@@ -7,13 +7,11 @@ import { updateUserProfileDto } from './Dto/update-userprofile.dto';
 import { Userprofile } from './entitties/userprofile.entities';
 
 
-
-
 @Injectable()
 export class UserProfileServices{
    constructor(@InjectRepository(Userprofile)private profileRepository:Repository<Userprofile>){}
 
-   // Addd traveller
+   // // Addd traveller
    async AddProfile(userprofileDto:CreateUserProfileDto){
       const profile= await this.profileRepository.create(userprofileDto);
       const saveprofile = await this.profileRepository.save(profile);
