@@ -90,8 +90,9 @@ export class TravellerController{
       @Req() req: Request,
       @Res() res: Response,
       @Body() travellerupdatedto:updateTravellerDto){
-         await this.travellerServices.UpdateTravller(id,travellerupdatedto)
-         return res.status(HttpStatus.OK).json({message:'traveller updated successfully'});
+
+      await this.travellerServices.UpdateTravller(id,travellerupdatedto)
+      return res.status(HttpStatus.OK).json({message:'traveller updated successfully'});
       }
 
    @Delete(':id')
