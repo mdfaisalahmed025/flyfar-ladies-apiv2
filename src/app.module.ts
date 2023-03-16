@@ -1,10 +1,9 @@
+import { Userprofile } from './userProfile/entitties/userprofile.entities';
 import { Tourpackage } from './tourpackage/entities/tourpackage.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { User } from './users/entities/user.entity';
-import { UsersModule } from './users/users.module';
 import { TourpackageModule } from './tourpackage/tourpackage.module';
 import { AlbumImage } from './tourpackage/entities/albumimage.entity';
 import { packageexcluions } from './tourpackage/entities/packageexclsuions.entity';
@@ -15,6 +14,9 @@ import { packagehighlight } from './tourpackage/entities/packagehighlight.entity
 import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
 import { bookingpolicy } from './tourpackage/entities/bookingpolicy.entity';
 import { VisitedPalce } from './tourpackage/entities/visitedplace.entity';
+import { Traveller } from './Traveller/entities/traveller.entity';
+import { User } from './Auth/entities/user.entity';
+import { UserModule } from './Auth/user.module';
 
 @Module({
   imports: [
@@ -35,10 +37,13 @@ import { VisitedPalce } from './tourpackage/entities/visitedplace.entity';
         packagehighlight,
         refundpolicy,
         bookingpolicy,
-        VisitedPalce,],
+        VisitedPalce,
+        Userprofile,
+        Traveller
+      ],
       synchronize: true,
     }),
-    UsersModule,
+    UserModule,
     TourpackageModule,
   ],
   controllers: [AppController],
