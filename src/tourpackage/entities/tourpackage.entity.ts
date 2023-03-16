@@ -21,7 +21,7 @@ export class Tourpackage {
     @IsNotEmpty({ message: "Please enter PkId" })
     PkId: string;
     @Column()
-    @IsNotEmpty()
+    @IsNotEmpty({message: "Please enter Main Id"})
     MainTitle: string;
     @Column()
     @IsNotEmpty()
