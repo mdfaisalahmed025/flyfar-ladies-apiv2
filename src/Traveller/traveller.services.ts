@@ -12,13 +12,6 @@ import { Traveller } from './entities/traveller.entity';
 export class TravellerServices{
    constructor(@InjectRepository(Traveller)private tarvellerRepository:Repository<Traveller>){}
 
-   // Addd traveller
-   async AddTraveller(tarvellerDto:CreateTravellerDto){
-      const tarveller= await this.tarvellerRepository.create(tarvellerDto);
-      const savetraveller = await this.tarvellerRepository.save(tarveller);
-      return savetraveller
-   }
-    
 
       // get All User
       async FindAllTraveller() {

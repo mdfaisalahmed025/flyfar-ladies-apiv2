@@ -17,7 +17,7 @@ export class TravellerController{
    constructor(@InjectRepository(Traveller)private tarvellerRepository:Repository<Traveller>,
     private readonly travellerServices:TravellerServices){}
 
-   // Add Traveller
+   //Add Traveller
    @Post('addtraveller')
    @UseInterceptors(
       FilesInterceptor('passportimage',5,{

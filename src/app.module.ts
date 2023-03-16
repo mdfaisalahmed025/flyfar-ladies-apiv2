@@ -1,3 +1,4 @@
+
 import { Userprofile } from './userProfile/entitties/userprofile.entities';
 import { Tourpackage } from './tourpackage/entities/tourpackage.entity';
 import { Module } from '@nestjs/common';
@@ -17,6 +18,8 @@ import { VisitedPalce } from './tourpackage/entities/visitedplace.entity';
 import { Traveller } from './Traveller/entities/traveller.entity';
 import { User } from './Auth/entities/user.entity';
 import { UserModule } from './Auth/user.module';
+import { TravellerModule } from './Traveller/traveller.module';
+import { UsderProfileModule } from './userProfile/userprofile.module';
 
 @Module({
   imports: [
@@ -45,6 +48,8 @@ import { UserModule } from './Auth/user.module';
     }),
     UserModule,
     TourpackageModule,
+   TravellerModule,
+   UsderProfileModule
   ],
   controllers: [AppController],
   providers: [AppService],

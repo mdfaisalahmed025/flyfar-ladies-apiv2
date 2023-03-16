@@ -1,4 +1,3 @@
-import { INestApplication } from '@nestjs/common';
 
 export class CreateTravellerDto{
    Id:string

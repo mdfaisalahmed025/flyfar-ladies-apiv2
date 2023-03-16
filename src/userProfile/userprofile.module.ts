@@ -15,4 +15,4 @@ import { UserProfileServices } from './userprofile.services';
 
 })
 
-export class TravellerModule{}
+export class UsderProfileModule{}
