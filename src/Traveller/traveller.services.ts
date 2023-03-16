@@ -2,7 +2,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateTravellerDto } from './Dto/create-traveller.dto';
 import { updateTravellerDto } from './Dto/update-traveller.dto';
 import { Traveller } from './entities/traveller.entity';
 
@@ -16,9 +15,6 @@ export class TravellerServices{
       // get All User
       async FindAllTraveller() {
          const traveller = await this.tarvellerRepository.find({});
-         if (!traveller) {
-            throw new HttpException("Traveller not found", HttpStatus.BAD_REQUEST);
-         }
          return traveller;
       }
 
@@ -39,7 +35,11 @@ export class TravellerServices{
    
    // Delte User
    async DeleteTraveller(Id:string){
-      const traveller = await this.tarvellerRepository.delete(Id)
-      return traveller;
+      const traveller = await this.tarvellerRepository.findOne({ where:{Id} });
+      if (!traveller) {
+         throw new HttpException("traveller not found", HttpStatus.BAD_REQUEST);
+      }
+      const deletetraveller = await this.tarvellerRepository.delete(Id)
+      return deletetraveller;
    }
 }
