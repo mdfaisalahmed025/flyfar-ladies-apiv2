@@ -210,7 +210,7 @@ addTourPackageBookingPolicy(
     );
     return res.status(HttpStatus.OK).json({
       status:"success",
-      message: 'travel package refundpolicy policy added',
+      message: 'refund policy added',
     });
   }
 
@@ -429,7 +429,7 @@ addTourPackageBookingPolicy(
         HttpStatus.BAD_REQUEST,
       );
     }
-    
+
     for (const file of files) {
       const newalbum = new VisitedPalce();
       newalbum.path = file.path
