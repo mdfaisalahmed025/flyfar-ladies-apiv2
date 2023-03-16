@@ -14,4 +14,4 @@ export class CreateTourpackageDto {
     PackageOverview: string
     Showpackage: boolean
     ImageUrl:string
-}
+    }

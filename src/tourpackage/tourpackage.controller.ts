@@ -94,29 +94,28 @@ export class TourpackageController {
     return this.tourpackageService.findOne(+id);
   }
 
-  @Patch(':Id')
+  @Patch(':id')
  async update( 
-  @Param('Id') Id: number,
+  @Param('id') id: number,
   @Req() req: Request,
   @Res() res: Response,
-  @Body() body,) {
-  const update = await this.TourpackageRepo.findOne({where:{
-      Id
-    }})
-    update.MainTitle = req.body.MainTitle
-    update.PkId= req.body.PkId
-    update.SubTitle =req.body.SubTitle
-    update.Price =req.body.Price
-    update.Location =req.body.Location
-    update.Availability =req.body.Availability
-    update.StartDate =req.body.StartDate
-    update.EndDate =req.body.EndDate
-    update.TripType =req.body.TripType
-    update.TotalDuration =req.body.TotalDuration
-    update.PackageOverview =req.body.PackageOverview
-    update.Showpackage =req.body.Showpackage
-    await this.TourpackageRepo.save({ ...update})
-  return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package updated succesfully" })
+  @Body() body,
+   @Body() updateTourpackageDto:UpdateTourpackageDto){
+    const updatepackage = await this.tourpackageService.updatePackage(
+      +id,
+      updateTourpackageDto,
+    );
+    if (!updatepackage) {
+      throw new HttpException(
+        `TourPackage not found with this = ${id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return res.status(HttpStatus.OK).json({
+      status: "success",
+      message: `Tour Package  has updated successfully`,
+
+    });
   }
 
   @Delete(':id')

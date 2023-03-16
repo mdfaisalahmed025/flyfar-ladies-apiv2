@@ -86,21 +86,12 @@ export class TravellerController{
 
    @Patch(':id')
    async updateTraveller(
-      @Param('id') Id:string,
+      @Param('id') id:string,
       @Req() req: Request,
       @Res() res: Response,
-      @Body() body){
-      const traveller = await this.tarvellerRepository.findOne({ where:{Id} });
-         if (!traveller) {
-            throw new HttpException("traveller not found", HttpStatus.BAD_REQUEST);
-         }
-         traveller.FirstName = req.body.FirstName
-         traveller.LastName= req.body.LastName
-         traveller.PassportExpireDate =req.body.PassportExpireDate
-         traveller.DOB =req.body.DOB
-         traveller.Gender=req.body.Gender
-         traveller.PassportNumber =req.body.PassportNumber
-         await this.tarvellerRepository.save({ ...traveller})
+      @Body() body,
+      updateTravellerDto: updateTravellerDto){
+      await this.travellerServices.UpdateTravller(id, updateTravellerDto )
       return res.status(HttpStatus.OK).json({message:'traveller updated successfully'});
       }
 
