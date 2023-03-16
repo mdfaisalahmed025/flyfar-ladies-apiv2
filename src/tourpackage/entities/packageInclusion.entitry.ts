@@ -9,7 +9,7 @@ export class Packageinclusion {
   InId: number; 
   @IsNotEmpty()
   @Column()
-  inclusions:string
+  Inclusions:string
   @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.PackageInclusions)
   @JoinColumn({name:'inclusionId'})
   tourpackage:Tourpackage

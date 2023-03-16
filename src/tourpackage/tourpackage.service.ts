@@ -58,14 +58,34 @@ async findAll() {
   }
 
 async  findOne(Id: number) {
-    return  this.TourpackageRepo.findOne({where:{Id}});
+    const tourpackage=  this.TourpackageRepo.findOne({where:{Id}});
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
 async  update(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
+  const tourpackage=  this.TourpackageRepo.findOne({where:{Id}});
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
     return this.TourpackageRepo.update({Id}, {...updateTourpackageDto});
   }
 
 async  remove(Id: number) {
+  const tourpackage=  this.TourpackageRepo.findOne({where:{Id}});
+  if (!tourpackage) {
+    throw new HttpException(
+      `TourPackage not found with this id=${Id}`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
     return  this.TourpackageRepo.delete(Id);
   }
 
@@ -212,7 +232,6 @@ async  remove(Id: number) {
 
 
 
-
   // start refund policy
   async AddRefundPolicy(
     Id: number,
@@ -306,18 +325,14 @@ async  remove(Id: number) {
     await this.refundPolicyRepo.delete(RId);
   }
 
+///End refund Policy
 
-  ///End refund Policy
-
-
-  /// start packgae inclsions.....................
+//  Add package inclusions
 
 
-  //  Add package inclusions
-
-  async AddpackageInclusions(
+  async AddInclusions(
     Id: number,
-    PackgeinclusionsDto: createpackageincluionDto,
+    inclusionsDto: createpackageincluionDto,
   ) {
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
     if (!tourpackage) {
@@ -326,9 +341,9 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const newInclusions = await this.packageInclusionRepo.create({ ...PackgeinclusionsDto, tourpackage });
-    const updatetour = await this.packageInclusionRepo.save(newInclusions)
-    return updatetour;
+    const newInclusions = await this.packageInclusionRepo.create({ ...inclusionsDto, tourpackage });
+    const saveinclsuions = await this.packageInclusionRepo.save(newInclusions)
+    return saveinclsuions;
   }
 
   // find inclusions
@@ -376,8 +391,8 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const updateinclsuions = await this.packageInclusionRepo.update({ InId }, { ...updateInclusionsDto })
-    return updateinclsuions;
+    const updateinclusion = await this.packageInclusionRepo.update({ InId }, { ...updateInclusionsDto })
+    return updateinclusion;
   }
 
 
@@ -762,12 +777,12 @@ async  remove(Id: number) {
     const highlight = await this.packageHighlightRepo.findOne({ where: { HiId } })
     if (!highlight) {
       throw new HttpException(
-        `day plan not found with this id=${HiId}`,
+        `Package highlight found with this id=${HiId}`,
         HttpStatus.BAD_REQUEST,
       );
     }
-    const uodatedhighlight = await this.packageHighlightRepo.update({ HiId }, { ...updateHighlightDto })
-    return uodatedhighlight;
+    const updatedhighlight = await this.packageHighlightRepo.update({ HiId }, { ...updateHighlightDto })
+    return updatedhighlight;
   }
 
 
@@ -787,7 +802,7 @@ async  remove(Id: number) {
     const highlight = await this.packageHighlightRepo.findOne({ where: { HiId } })
     if (!highlight) {
       throw new HttpException(
-        `Inclsuions not found with this id=${HiId}`,
+        `Package highlight not found with this id=${HiId}`,
         HttpStatus.BAD_REQUEST,
       );
     }

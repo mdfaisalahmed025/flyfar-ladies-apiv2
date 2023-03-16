@@ -36,7 +36,7 @@ import { VisitedPalce } from './tourpackage/entities/visitedplace.entity';
         refundpolicy,
         bookingpolicy,
         VisitedPalce,],
-      synchronize: false,
+      synchronize: true,
     }),
     UsersModule,
     TourpackageModule,

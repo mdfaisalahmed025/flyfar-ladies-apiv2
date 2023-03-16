@@ -127,8 +127,6 @@ export class TourpackageController {
     return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package deleted succesfully" })
   }
 
-
-
   
 // add booking policy
 @Post(':id/AddBookingPolicy')
@@ -138,12 +136,14 @@ addTourPackageBookingPolicy(
   @Req() req: Request,
   @Res() res: Response,
 ) {
-  const tourpackageplan = this.tourpackageService.createbookingPolicy(
+
+  this.tourpackageService.createbookingPolicy(
     id,
     bookingpolicydto,
   );
   return res.status(HttpStatus.OK).json({
-    message: 'travel package booking policy added', tourpackageplan
+    status:"success",
+    message: 'booking policy added',
   });
 }
 
@@ -157,7 +157,7 @@ addTourPackageBookingPolicy(
     @Req() req: Request,
     @Res() res: Response) {
     const bookingpolicy = await this.tourpackageService.FindbookingPolicy(id, BkId)
-    return res.status(HttpStatus.OK).json({bookingpolicy,
+    return res.status(HttpStatus.OK).json({status:"success",bookingpolicy
     });
   }
 
@@ -174,12 +174,10 @@ addTourPackageBookingPolicy(
   ) {
     const updatebooking = await this.tourpackageService.updateBookingolicy(id, BkId, updatebookingpolicyDto)
     return res.status(HttpStatus.OK).json({
-      message: `Booking policy with Id=${BkId} has updated successfully`,
-      updatebooking,
+      status:"success",
+      message: `Booking policy updated successfully`,
     });
   }
-
-
 
   @Delete(':id/deletepolicy/:BkId')
   async DeleteBookingPolicy(
@@ -189,7 +187,8 @@ addTourPackageBookingPolicy(
     @Res() res: Response) {
     await this.tourpackageService.DeletebookingPolicy(id, BkId)
     return res.status(HttpStatus.OK).json({
-      message: `booking policy Id=${BkId} has deleted successfully`,
+      status:"success",
+      message: `booking policy deleted successfully`,
     });
   }
 
@@ -210,6 +209,7 @@ addTourPackageBookingPolicy(
       refundpolicydto,
     );
     return res.status(HttpStatus.OK).json({
+      status:"success",
       message: 'travel package refundpolicy policy added',
     });
   }
@@ -234,10 +234,11 @@ addTourPackageBookingPolicy(
     req: Request,
     @Res() res: Response,
   ) {
-    const updatebooking = await this.tourpackageService.updateRefundolicy(id, RId, updateRefundlicyDto)
+    const updaterefund = await this.tourpackageService.updateRefundolicy(id, RId, updateRefundlicyDto)
     return res.status(HttpStatus.OK).json({
-      message: `refund policy with Id=${RId} has updated successfully`,
-      updatebooking,
+      status:"success",
+      message: `refund policy has updated successfully`,
+      updaterefund,
     });
   }
 
@@ -251,28 +252,28 @@ addTourPackageBookingPolicy(
     @Res() res: Response) {
     await this.tourpackageService.DeleterefundPolicy(id, RId)
     return res.status(HttpStatus.OK).json({
+      status:"success",
       message: `refund policy Id=${RId} has deleted successfully`,
     });
   }
   // refund policy End
 
-
   // Inclusions  start
 
   // add inclsuions
   @Post(':id/AddPackageInclusions')
-  addpackageInclusion(
+ async addInclusion(
     @Param('id', ParseIntPipe) id: number,
-    @Body() packageInclusionsdto: createpackageincluionDto,
+    @Body() Inclusionsdto: createpackageincluionDto,
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    const packageinclsuions = this.tourpackageService.AddpackageInclusions(
+    await this.tourpackageService.AddInclusions(
       id,
-      packageInclusionsdto,
+      Inclusionsdto,
     );
     return res.status(HttpStatus.OK).json({
-      packageinclsuions,
+      status:"success",
       message: 'travel package Inlclusions Iteam Added',
     });
   }
@@ -300,10 +301,10 @@ addTourPackageBookingPolicy(
     req: Request,
     @Res() res: Response,
   ) {
-    const updatebooking = await this.tourpackageService.updateInclusions(id, InId, updateInclusionsDto)
+    const updateInclsuions = await this.tourpackageService.updateInclusions(id, InId, updateInclusionsDto)
     return res.status(HttpStatus.OK).json({
       message: `Inclsuions with Id=${InId} has updated successfully`,
-      updatebooking,
+      updateInclsuions,
     });
   }
 
@@ -317,7 +318,8 @@ addTourPackageBookingPolicy(
     @Res() res: Response) {
     await this.tourpackageService.DeleteInclusion(id, InId)
     return res.status(HttpStatus.OK).json({
-      message: `Inclusion Id=${InId} has deleted successfully`,
+      status:"success",
+      message: `Inclusion has deleted successfully`,
     });
   }
 
@@ -329,10 +331,9 @@ addTourPackageBookingPolicy(
     @Param('id') id: number,
     @Req() req: Request,
     @Res() res: Response) {
-    const cardimage = await this.tourpackageService.FindAllAlbum(id)
+    const Albumimages = await this.tourpackageService.FindAllAlbum(id)
     return res.status(HttpStatus.OK).json({
-      message: `Album images`,
-      cardimage,
+      Albumimages,
     });
   }
 
@@ -381,11 +382,12 @@ addTourPackageBookingPolicy(
       newalbum.filename = file.filename
       newalbum.fieldname = file.fieldname
       newalbum.AlbumTitle = req.body.AlbumTitle
-      await this.VisitedmageRepo.save({ ...newalbum, tourpackage })
+      await this.VisitedmageRepo.save({...newalbum, tourpackage })
     }
-    return res.status(HttpStatus.OK).send({ message: "album Image  Added Successfully", Tourpackage })
+    return res.status(HttpStatus.OK).send({  
+      status:"success", 
+      message: "album Image Added Successfully"})
   }
-
 
 
   @Post(':Id/AddvistitedImages')
@@ -427,7 +429,7 @@ addTourPackageBookingPolicy(
         HttpStatus.BAD_REQUEST,
       );
     }
-
+    
     for (const file of files) {
       const newalbum = new VisitedPalce();
       newalbum.path = file.path
@@ -446,9 +448,9 @@ addTourPackageBookingPolicy(
     @Param('id') id: number,
     @Req() req: Request,
     @Res() res: Response) {
-    const cardimage = await this.tourpackageService.FindAllvisitedImage(id)
+    const visitedImage = await this.tourpackageService.FindAllvisitedImage(id)
     return res.status(HttpStatus.OK).json({
-      cardimage,
+    visitedImage
     });
   }
 
