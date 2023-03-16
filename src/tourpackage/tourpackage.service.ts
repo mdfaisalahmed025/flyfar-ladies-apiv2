@@ -68,16 +68,16 @@ async  findOne(Id: number) {
     return tourpackage;
   }
 
-async  update(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
-  const tourpackage=  this.TourpackageRepo.findOne({where:{Id}});
-  if (!tourpackage) {
-    throw new HttpException(
-      `TourPackage not found with this id=${Id}`,
-      HttpStatus.BAD_REQUEST,
-    );
-  }
-    return this.TourpackageRepo.update({Id}, {...updateTourpackageDto});
-  }
+// async  update(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
+//   const tourpackage=  this.TourpackageRepo.findOne({where:{Id}});
+//   if (!tourpackage) {
+//     throw new HttpException(
+//       `TourPackage not found with this id=${Id}`,
+//       HttpStatus.BAD_REQUEST,
+//     );
+//   }
+//     return this.TourpackageRepo.update({Id}, {...updateTourpackageDto});
+//   }
 
 async  remove(Id: number) {
   const tourpackage=  this.TourpackageRepo.findOne({where:{Id}});

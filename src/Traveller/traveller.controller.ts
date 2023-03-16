@@ -1,5 +1,5 @@
 
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Patch, Post, Req, Res, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseFilePipeBuilder, Patch, Post, Req, Res, UploadedFiles, UseInterceptors } from "@nestjs/common";
 import { CreateTravellerDto } from "./Dto/create-traveller.dto";
 import { TravellerServices } from './traveller.services';
 import { Request, Response } from 'express';
@@ -86,12 +86,21 @@ export class TravellerController{
 
    @Patch(':id')
    async updateTraveller(
-      @Param('id') id:string,
+      @Param('id') Id:string,
       @Req() req: Request,
       @Res() res: Response,
-      @Body() travellerupdatedto:updateTravellerDto){
-
-      await this.travellerServices.UpdateTravller(id,travellerupdatedto)
+      @Body() body){
+      const traveller = await this.tarvellerRepository.findOne({ where:{Id} });
+         if (!traveller) {
+            throw new HttpException("traveller not found", HttpStatus.BAD_REQUEST);
+         }
+         traveller.FirstName = req.body.FirstName
+         traveller.LastName= req.body.LastName
+         traveller.PassportExpireDate =req.body.PassportExpireDate
+         traveller.DOB =req.body.DOB
+         traveller.Gender=req.body.Gender
+         traveller.PassportNumber =req.body.PassportNumber
+         await this.tarvellerRepository.save({ ...traveller})
       return res.status(HttpStatus.OK).json({message:'traveller updated successfully'});
       }
 
