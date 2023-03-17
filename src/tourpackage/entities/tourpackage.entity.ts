@@ -18,10 +18,10 @@ export class Tourpackage {
     @PrimaryGeneratedColumn()
     Id: number;
     @Column()
-    @IsNotEmpty({ message: "Please enter PkId" })
+    @IsNotEmpty()
     PkId: string;
     @Column()
-    @IsNotEmpty({message: "Please enter Main Id"})
+    @IsNotEmpty()
     MainTitle: string;
     @Column()
     @IsNotEmpty()
@@ -54,43 +54,36 @@ export class Tourpackage {
     Showpackage: boolean;
     @IsNotEmpty()
     @Column()
-    ImageUrl:string
-    
-    @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage,{eager:true,
-    onUpdate: "RESTRICT",
-    cascade: true,})
-    @JoinColumn({name:'album image'})
+    ImageUrl: string
+
+    @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
+        eager: true,
+        cascade: true,
+    })
+    @JoinColumn({ name: 'album image' })
     albumImages: AlbumImage;
 
-    @OneToMany(() => VisitedPalce, (albumImage) => albumImage.tourpackage,{eager:true, cascade:false, onDelete: "RESTRICT",
-    onUpdate: "RESTRICT"}) 
+    @OneToMany(() => VisitedPalce, (albumImage) => albumImage.tourpackage, { eager: true, cascade: true })
     vistitedImages: VisitedPalce;
 
-    @OneToMany(() =>packageexcluions, (exclusion)=>exclusion.tourpackage, {eager:true, cascade:false, onDelete: "RESTRICT",
-    onUpdate: "RESTRICT"})
+    @OneToMany(() => packageexcluions, (exclusion) => exclusion.tourpackage, { eager: true, cascade: true, })
     exclusions: packageexcluions;
 
-    @OneToMany(() => Packageinclusion, (inclsuions)=>inclsuions.tourpackage, { eager:true,onDelete: "RESTRICT",
-    onUpdate: "RESTRICT"})
+    @OneToMany(() => Packageinclusion, (inclsuions) => inclsuions.tourpackage, { eager: true, cascade: true })
     PackageInclusions: Packageinclusion;
 
-    @OneToMany(() => bookingpolicy, (policy)=>policy.tourpackage,{ eager:true,onDelete: "RESTRICT",
-    onUpdate: "RESTRICT"})
+    @OneToMany(() => bookingpolicy, (policy) => policy.tourpackage, { eager: true, cascade: true })
     BookingPolicys: bookingpolicy;
 
-    @OneToMany(() => packagehighlight, (highlights)=>highlights.tourpackage,{ eager:true,onDelete: "RESTRICT",
-    onUpdate: "RESTRICT"})
+    @OneToMany(() => packagehighlight, (highlights) => highlights.tourpackage, { eager: true, cascade: true })
     highlights: packagehighlight;
 
-    @OneToMany(() => packageincluded, (includes)=>includes.tourpackage,{ eager:true,onDelete: "RESTRICT",
-    onUpdate: "RESTRICT"} )
+    @OneToMany(() => packageincluded, (includes) => includes.tourpackage, { eager: true, cascade: true })
     includes: packageincluded;
 
-    @OneToMany(() => refundpolicy, (refundpolicy)=>refundpolicy.tourpackage,{ eager:true,onDelete: "RESTRICT",
-    onUpdate: "RESTRICT"})
+    @OneToMany(() => refundpolicy, (refundpolicy) => refundpolicy.tourpackage, { eager: true, cascade: true })
     refundpolicys: refundpolicy;
 
-    @OneToMany(() => tourpackageplan, (dayplans)=>dayplans.tourpackage, {eager:true,onDelete: "RESTRICT",
-    onUpdate: "RESTRICT"})
+    @OneToMany(() => tourpackageplan, (dayplans) => dayplans.tourpackage, { eager: true, cascade: true })
     tourpackageplans: tourpackageplan;
 }
