@@ -84,12 +84,19 @@ export class TravellerController {
       return res.status(HttpStatus.OK).json({ traveller });
    }
 
-   @Patch(':id')
+   @Patch(':Id')
    async updateTraveller(
-      @Param('id') id: string,
+      @Param('Id') Id: number,
       @Res() res: Response,
-      updateTravellerDto: updateTravellerDto) {
-      await this.travellerServices.UpdateTravller(+id, updateTravellerDto)
+      updateTravellerdto: updateTravellerDto) {
+      const traveller = this.tarvellerRepository.findOne({ where: { Id } });
+      if (!traveller) {
+         throw new HttpException(
+            `traveller not found`,
+            HttpStatus.BAD_REQUEST
+         );
+      }
+      await this.travellerServices.UpdateTravller(+Id, updateTravellerdto)
       return res.status(HttpStatus.OK).json({ message: 'traveller updated successfully' });
    }
 

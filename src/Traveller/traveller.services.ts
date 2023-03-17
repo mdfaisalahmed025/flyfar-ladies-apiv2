@@ -29,13 +29,6 @@ export class TravellerServices {
 
    // update user
    async UpdateTravller(Id: number, updtetravellerDto: updateTravellerDto) {
-      const traveller = this.tarvellerRepository.findOne({ where: { Id } });
-      if (!traveller) {
-         throw new HttpException(
-            `traveller not found`,
-            HttpStatus.BAD_REQUEST
-         );
-      }
       return this.tarvellerRepository.update({ Id }, { ...updtetravellerDto });
    }
 
