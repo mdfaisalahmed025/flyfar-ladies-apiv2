@@ -5,7 +5,7 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 @Entity()
 export class Traveller {
    @PrimaryGeneratedColumn()
-   Id:string
+   Id:number
    @IsNotEmpty()
    @Column()   
    FirstName:string

@@ -13,95 +13,93 @@ import { InjectRepository } from "@nestjs/typeorm";
 
 
 @Controller('Traveller')
-export class TravellerController{
-   constructor(@InjectRepository(Traveller)private tarvellerRepository:Repository<Traveller>,
-    private readonly travellerServices:TravellerServices){}
+export class TravellerController {
+   constructor(@InjectRepository(Traveller) private tarvellerRepository: Repository<Traveller>,
+      private readonly travellerServices: TravellerServices) { }
 
    //Add Traveller
    @Post('addtraveller')
    @UseInterceptors(
-      FilesInterceptor('passportimage',5,{
-        storage: diskStorage({
-          destination: './passportimage',
-          filename: (req, image, callback) => {
-            // const uniqueSuffix = Date.now() + '-' +Math.round(Math.random()*1e9);
-            // const ext = extname(image.originalname)
-            const filename = `${image.originalname}`;
-            callback(null, filename);
-          },
-        }),
+      FilesInterceptor('passportimage', 5, {
+         storage: diskStorage({
+            destination: './passportimage',
+            filename: (req, image, callback) => {
+               // const uniqueSuffix = Date.now() + '-' +Math.round(Math.random()*1e9);
+               // const ext = extname(image.originalname)
+               const filename = `${image.originalname}`;
+               callback(null, filename);
+            },
+         }),
       }),
-    )
+   )
    async AddTraveller(
       @UploadedFiles(
          new ParseFilePipeBuilder()
-           .addFileTypeValidator({
-             fileType: /(jpg|jpeg|png|gif)$/,
-           })
-           .addMaxSizeValidator({
-             maxSize: 1024 * 1024 * 6,
-           })
-           .build({
-             errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-           }),
-       )
+            .addFileTypeValidator({
+               fileType: /(jpg|jpeg|png|gif)$/,
+            })
+            .addMaxSizeValidator({
+               maxSize: 1024 * 1024 * 6,
+            })
+            .build({
+               errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+            }),
+      )
       files: Express.Multer.File[],
-      @Body() travellerDto:CreateTravellerDto,
+      @Body() travellerDto: CreateTravellerDto,
       @Req() req: Request,
-      @Res() res: Response){
-         for (const file of files) {
-            const traveller = new Traveller();
-            traveller.PassportCopyURL = file.path
-            traveller.FirstName = req.body.FirstName
-            traveller.LastName= req.body.LastName
-            traveller.PassportNumber =req.body.PassportNumber
-            traveller.PassportExpireDate =req.body.PassportExpireDate
-            traveller.DOB =req.body.DOB
-            traveller.Gender =req.body.Gender
-         await this.tarvellerRepository.save({ ...traveller})
-         }
-         return res.status(HttpStatus.OK).send({ status:"success", message:"Traveller added succesfully" })
+      @Res() res: Response) {
+      for (const file of files) {
+         const traveller = new Traveller();
+         traveller.PassportCopyURL = file.path
+         traveller.FirstName = req.body.FirstName
+         traveller.LastName = req.body.LastName
+         traveller.PassportNumber = req.body.PassportNumber
+         traveller.PassportExpireDate = req.body.PassportExpireDate
+         traveller.DOB = req.body.DOB
+         traveller.Gender = req.body.Gender
+         await this.tarvellerRepository.save({ ...traveller })
+      }
+      return res.status(HttpStatus.OK).send({ status: "success", message: "Traveller added succesfully" })
    }
-  
+
 
    // all user
-   
+
    @Get('Alltraveller')
    async FindAll(
       @Req() req: Request,
-      @Res() res: Response){
-         const traveller = await this.travellerServices.FindAllTraveller();
-         return res.status(HttpStatus.OK).json({traveller});
+      @Res() res: Response) {
+      const traveller = await this.travellerServices.FindAllTraveller();
+      return res.status(HttpStatus.OK).json({ traveller });
    }
 
    // // get user dashbboard
    @Get(':id')
    async TravellerDashboard(
-      @Param('id') id:string,
+      @Param('id') id: number,
       @Req() req: Request,
-      @Res() res: Response){
-         const traveller = await this.travellerServices.FindTrveller(id);
-         return res.status(HttpStatus.OK).json({traveller});
+      @Res() res: Response) {
+      const traveller = await this.travellerServices.FindTrveller(id);
+      return res.status(HttpStatus.OK).json({ traveller });
    }
 
    @Patch(':id')
    async updateTraveller(
-      @Param('id') id:string,
-      @Req() req: Request,
+      @Param('id') id: string,
       @Res() res: Response,
-      @Body() body,
-      updateTravellerDto: updateTravellerDto){
-      await this.travellerServices.UpdateTravller(id, updateTravellerDto )
-      return res.status(HttpStatus.OK).json({message:'traveller updated successfully'});
-      }
+      updateTravellerDto: updateTravellerDto) {
+      await this.travellerServices.UpdateTravller(+id, updateTravellerDto)
+      return res.status(HttpStatus.OK).json({ message: 'traveller updated successfully' });
+   }
 
    @Delete(':id')
    async DeleteTraveller(
-      @Param('id') id:string,
+      @Param('id') id: number,
       @Req() req: Request,
-      @Res() res: Response ){
-         await this.travellerServices.DeleteTraveller(id)
-         return res.status(HttpStatus.OK).json({message:'traveller has deleted'});
-      }
+      @Res() res: Response) {
+      await this.travellerServices.DeleteTraveller(id)
+      return res.status(HttpStatus.OK).json({ message: 'traveller has deleted' });
+   }
 
 }

@@ -69,14 +69,7 @@ async  findOne(Id: number) {
   }
 
 async  updatePackage(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
-  const tourpackage=  this.TourpackageRepo.findOne({where:{Id}});
-  if (!tourpackage) {
-    throw new HttpException(
-      `TourPackage not found with this id=${Id}`,
-      HttpStatus.BAD_REQUEST,
-    );
-  }
-    return this.TourpackageRepo.update({Id}, {...updateTourpackageDto});
+    return await this.TourpackageRepo.update({Id}, {...updateTourpackageDto});
   }
 
 async  remove(Id: number) {

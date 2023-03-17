@@ -19,7 +19,7 @@ export class TravellerServices {
    }
 
    // find user by Id
-   async FindTrveller(Id: string): Promise<Traveller> {
+   async FindTrveller(Id: number): Promise<Traveller> {
       const traveller = await this.tarvellerRepository.findOne({ where: { Id } });
       if (!traveller) {
          throw new HttpException("traveller not found", HttpStatus.BAD_REQUEST);
@@ -28,12 +28,12 @@ export class TravellerServices {
    }
 
    // update user
-   async UpdateTravller(Id: string, updtetravellerDto: updateTravellerDto) {
+   async UpdateTravller(Id: number, updtetravellerDto: updateTravellerDto) {
       const traveller = this.tarvellerRepository.findOne({ where: { Id } });
       if (!traveller) {
          throw new HttpException(
             `traveller not found`,
-            HttpStatus.BAD_REQUEST,
+            HttpStatus.BAD_REQUEST
          );
       }
       return this.tarvellerRepository.update({ Id }, { ...updtetravellerDto });
@@ -42,7 +42,7 @@ export class TravellerServices {
 
 
    // Delte User
-   async DeleteTraveller(Id: string) {
+   async DeleteTraveller(Id: number) {
       const traveller = await this.tarvellerRepository.findOne({ where: { Id } });
       if (!traveller) {
          throw new HttpException("traveller not found", HttpStatus.BAD_REQUEST);

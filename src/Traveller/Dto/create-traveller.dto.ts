@@ -1,6 +1,6 @@
 
 export class CreateTravellerDto{
-   Id:string
+   Id:number
    FirstName:string
    LastName:string
    DOB:string
