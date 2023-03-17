@@ -36,15 +36,14 @@ export class userProfileController {
                errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
             }),
       )
-      files: { passportsizephoto?: Express.Multer.File[], passportphoto?: Express.Multer.File[] },
+      files: { passportsizephoto?: Express.Multer.File, passportphoto?: Express.Multer.File },
       @Body() body,
       @Req() req: Request,
       @Res() res: Response) {
 
-      for (const file of files.passportphoto || files.passportsizephoto) {
          const userprofile = new Userprofile();
-         userprofile.PassportCopy = file.path
-         userprofile.PassportSizePhoto = file.path
+         userprofile.PassportCopy = files.passportphoto.path
+         userprofile.PassportSizePhoto = files.passportsizephoto.path
          userprofile.NameTitle = req.body.NameTitle
          userprofile.FirstName = req.body.FirstName
          userprofile.LastName = req.body.LastName
@@ -60,7 +59,7 @@ export class userProfileController {
          userprofile.LinkedIn = req.body.LinkedIn
          userprofile.whatsApp = req.body.whatsApp
          await this.profileRepository.save({ ...userprofile })
-      }
+      
       return res.status(HttpStatus.CREATED).json({ message: 'user Profile Added successfully' });
    }
 
