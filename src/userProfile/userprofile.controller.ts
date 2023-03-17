@@ -20,27 +20,26 @@ export class userProfileController {
    // Add Traveller
    @Post('addProfile')
    @UseInterceptors(FileFieldsInterceptor([
-      { name: 'passportsizephoto', maxCount: 1 },
-      { name: 'passportphoto', maxCount: 1 },
+      { name: 'passportsizephoto', maxCount: 2 },
+      { name: 'passportphoto', maxCount: 5 },
    ]))
    async addProfile(
       @UploadedFiles(
-         new ParseFilePipeBuilder()
-            .addFileTypeValidator({
-               fileType: /(jpg|jpeg|png|gif)$/,
-            })
-            .addMaxSizeValidator({
-               maxSize: 1024 * 1024 * 6,
-            })
-            .build({
-               errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-            }),
+         // new ParseFilePipeBuilder()
+         //    .addFileTypeValidator({
+         //       fileType: /(jpg|jpeg|png|gif)$/,
+         //    })
+         //    .addMaxSizeValidator({
+         //       maxSize: 1024 * 1024 * 6,
+         //    })
+         //    .build({
+         //       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+         //    }),
       )
-      files: { passportsizephoto?: Express.Multer.File, passportphoto?: Express.Multer.File },
+      files: { passportsizephoto?: Express.Multer.File, passportphoto?: Express.Multer.File},
       @Body() body,
       @Req() req: Request,
       @Res() res: Response) {
-
          const userprofile = new Userprofile();
          userprofile.PassportCopy = files.passportphoto.path
          userprofile.PassportSizePhoto = files.passportsizephoto.path
