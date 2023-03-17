@@ -13,7 +13,7 @@ export class userProfileController{
 
    // Add Traveller
    @Post('addProfile')
-   async AddTraveller(
+   async addProfile(
       @Body() UserprofileDto:CreateUserProfileDto,
       @Req() req: Request,
       @Res() res: Response){
