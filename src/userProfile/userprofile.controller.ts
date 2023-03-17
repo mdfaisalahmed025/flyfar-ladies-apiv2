@@ -36,13 +36,13 @@ export class userProfileController {
          //       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
          //    }),
       )
-      files: { passportsizephoto?: Express.Multer.File, passportphoto?: Express.Multer.File},
+      files: { passportsizephoto?: Express.Multer.File[], passportphoto?: Express.Multer.File[]},
       @Body() body,
       @Req() req: Request,
       @Res() res: Response) {
          const userprofile = new Userprofile();
-         userprofile.PassportCopy = req.body.files.passportphoto.filename
-         userprofile.PassportSizePhoto = req.body.files.passportsizephoto.filename
+         userprofile.PassportCopy = req.body.files.passportphoto.path
+         userprofile.PassportSizePhoto =req.body.files.passportsizephoto.filename
          userprofile.NameTitle = req.body.NameTitle
          userprofile.FirstName = req.body.FirstName
          userprofile.LastName = req.body.LastName
