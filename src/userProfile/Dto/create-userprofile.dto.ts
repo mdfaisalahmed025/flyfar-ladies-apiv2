@@ -14,10 +14,9 @@ export class CreateUserProfileDto{
    Address:string
    PassportNumber:string
    PassportExpireDate:string
-   PassportCopyURL:string
-   PassportSizePhotURL:string
+   PassportCopy:string
+   PassportSizePhoto:string
    FaceBookId:string
-   visacopyURl:string
    whatsApp:string
    LinkedIn:string
 

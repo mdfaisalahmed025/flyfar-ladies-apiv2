@@ -12,11 +12,11 @@ export class UserProfileServices{
    constructor(@InjectRepository(Userprofile)private profileRepository:Repository<Userprofile>){}
 
    // // Addd traveller
-   async AddProfile(userprofileDto:CreateUserProfileDto){
-      const profile= await this.profileRepository.create(userprofileDto);
-      const saveprofile = await this.profileRepository.save(profile);
-      return saveprofile
-   }
+   // async AddProfile(userprofileDto:CreateUserProfileDto){
+   //    const profile= await this.profileRepository.create(userprofileDto);
+   //    const saveprofile = await this.profileRepository.save(profile);
+   //    return saveprofile
+   // }
     
 
       // get All User

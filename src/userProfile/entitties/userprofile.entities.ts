@@ -51,6 +51,9 @@ export class Userprofile {
    PassportCopy:string
    @IsNotEmpty()
    @Column()
+   PassportSizePhoto: string
+   @IsNotEmpty()
+   @Column()
    FaceBookId:string
    @IsNotEmpty()
    @Column()
