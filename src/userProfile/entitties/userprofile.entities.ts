@@ -57,7 +57,7 @@ export class Userprofile {
    FaceBookId:string
    @IsNotEmpty()
    @Column()
-   whatsApp:string
+   WhatsApp:string
    @IsNotEmpty()
    @Column()
    LinkedIn:string
