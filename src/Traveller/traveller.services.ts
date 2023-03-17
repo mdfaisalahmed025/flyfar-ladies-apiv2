@@ -11,7 +11,6 @@ import { Traveller } from './entities/traveller.entity';
 export class TravellerServices {
    constructor(@InjectRepository(Traveller) private tarvellerRepository: Repository<Traveller>) { }
 
-
    // get All User
    async FindAllTraveller() {
       const traveller = await this.tarvellerRepository.find({});
@@ -28,15 +27,15 @@ export class TravellerServices {
    }
 
    // update user
-   async UpdateTravller(Id: number, updtetravellerDto: updateTravellerDto) {
-      const traveller = this.tarvellerRepository.update({ Id }, { ...updtetravellerDto });
-      if (!traveller) {
-         throw new HttpException(
-            `traveller not found`,
-            HttpStatus.BAD_REQUEST
-         );
+   async UpdateTravller(Id: number, updatetravellerdto: updateTravellerDto) {
+
+      const traveller = await this.tarvellerRepository.findOne({where:{Id}})
+      if(!traveller){
+         throw new HttpException("traveller not found", HttpStatus.BAD_REQUEST);
       }
-      return traveller;
+
+      const updatedtraveller = await this.tarvellerRepository.update({ Id },{ ...updatetravellerdto})
+      return updatedtraveller;
    }
 
 

@@ -64,7 +64,7 @@ export class TravellerController {
    }
 
 
-   // all user
+   // all Traveller
 
    @Get('Alltraveller')
    async FindAll(
@@ -74,7 +74,7 @@ export class TravellerController {
       return res.status(HttpStatus.OK).json({ traveller });
    }
 
-   // // get user dashbboard
+   // get traveller dashbboard
    @Get(':id')
    async TravellerDashboard(
       @Param('id') id: number,
@@ -88,8 +88,7 @@ export class TravellerController {
    async updateTraveller(
       @Param('id') id: number,
       @Res() res: Response,
-      updateTravellerdto: updateTravellerDto) {
-
+      @Body() updateTravellerdto: updateTravellerDto) {
       await this.travellerServices.UpdateTravller(+id, updateTravellerdto)
       return res.status(HttpStatus.OK).json({ status: "success", message: 'traveller updated successfully' });
    }
