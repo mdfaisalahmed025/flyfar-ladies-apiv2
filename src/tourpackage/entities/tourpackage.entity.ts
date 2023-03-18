@@ -31,13 +31,13 @@ export class Tourpackage {
     @Column({nullable:true})
     TripType: string;
     @Column({default:true})
-    Availability: boolean
+    Availability:boolean
     @Column({nullable:true})
     TotalDuration: string
     @Column({nullable:true})
     PackageOverview: string;
     @Column({default:true})
-    Showpackage: boolean
+    Showpackage:boolean
     @Column()
     ImageUrl: string
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {

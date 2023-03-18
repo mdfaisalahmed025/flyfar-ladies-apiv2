@@ -381,7 +381,7 @@ addTourPackageBookingPolicy(
       newalbum.filename = file.filename
       newalbum.fieldname = file.fieldname
       newalbum.AlbumTitle = req.body.AlbumTitle
-      await this.visitedplaceRepo.save({...newalbum, tourpackage })
+      await this.AlbumimageRepo.save({...newalbum, tourpackage })
     }
     return res.status(HttpStatus.OK).send({  
       status:"success", 
