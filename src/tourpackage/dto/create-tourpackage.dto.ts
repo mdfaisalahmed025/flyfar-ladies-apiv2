@@ -9,8 +9,9 @@ export class CreateTourpackageDto {
     EndDate: string
     TripType: string
     Availability:boolean
+    Showpackage: boolean
     TotalDuration: string
     PackageOverview: string
-    Showpackage:boolean
+ 
     ImageUrl:string
     }

@@ -45,12 +45,12 @@ import { MulterModule } from '@nestjs/platform-express';
         Userprofile,
         Traveller
       ],
-      synchronize:true,
+      synchronize: false,
     }),
     UserModule,
     TourpackageModule,
-   TravellerModule,
-   UsderProfileModule
+    TravellerModule,
+    UsderProfileModule
   ],
   controllers: [AppController],
   providers: [AppService],
