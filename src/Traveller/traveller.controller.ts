@@ -7,7 +7,6 @@ import { updateTravellerDto } from "./Dto/update-traveller.dto";
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 import { Traveller } from "./entities/traveller.entity";
-import { async } from "rxjs";
 import { Repository } from "typeorm/repository/Repository";
 import { InjectRepository } from "@nestjs/typeorm";
 
