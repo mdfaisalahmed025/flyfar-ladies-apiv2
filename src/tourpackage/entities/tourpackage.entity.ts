@@ -30,13 +30,13 @@ export class Tourpackage {
     EndDate: string;
     @Column({nullable:true})
     TripType: string;
-    @Column({default:true})
+    @Column({nullable:true})
     Availability:boolean
     @Column({nullable:true})
     TotalDuration: string
     @Column({nullable:true})
     PackageOverview: string;
-    @Column({default:true})
+    @Column({nullable:true})
     Showpackage:boolean
     @Column()
     ImageUrl: string
@@ -53,13 +53,11 @@ export class Tourpackage {
         onUpdate: "RESTRICT"
     })
     vistitedImages: VisitedPlace;
-
     @OneToMany(() => packageexcluions, (exclusion) => exclusion.tourpackage, {
         eager: true, cascade: false, onDelete: "RESTRICT",
         onUpdate: "RESTRICT"
     })
     exclusions: packageexcluions;
-
     @OneToMany(() => Packageinclusion, (inclsuions) => inclsuions.tourpackage, {
         eager: true, onDelete: "RESTRICT",
         onUpdate: "RESTRICT"
