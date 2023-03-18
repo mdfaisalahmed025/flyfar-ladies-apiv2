@@ -21,7 +21,7 @@ export class userProfileController {
    @Post('addProfile')
    @UseInterceptors(FileFieldsInterceptor([
       { name: 'passportsizephoto', maxCount: 2 },
-      { name: 'passportphoto', maxCount: 5 },
+      { name: 'passportphoto', maxCount: 3 },
    ]))
    async addProfile(
       @UploadedFiles(
