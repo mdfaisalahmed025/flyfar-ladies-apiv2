@@ -20,7 +20,8 @@ export class userProfileController {
    // Add Traveller
    @Post('addProfile')
    @UseInterceptors(FileFieldsInterceptor([
-      { name: 'passportsizephoto', maxCount: 2 }
+      { name: 'PassportsizephotoUrl', maxCount: 2 },
+      { name: 'passportphotoUrl', maxCount: 2 },
    ]))
    async addProfile(
       @UploadedFiles(
@@ -35,12 +36,13 @@ export class userProfileController {
          //       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
          //    }),
       )
-      files: { passportsizephoto?: Express.Multer.File},
+      files: { passportsizephoto?: Express.Multer.File[], passportphoto?: Express.Multer.File[]},
       @Body() body,
       @Req() req: Request,
       @Res() res: Response) {
          const userprofile = new Userprofile();
-         userprofile.PassportSizePhoto =files.passportsizephoto.path
+         userprofile.PassportCopy = req.body.files.passportphoto.path
+         userprofile.PassportsizephotoUrl =req.body.files.passportsizephoto.path
          userprofile.NameTitle = req.body.NameTitle
          userprofile.FirstName = req.body.FirstName
          userprofile.LastName = req.body.LastName

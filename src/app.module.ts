@@ -20,6 +20,7 @@ import { User } from './Auth/entities/user.entity';
 import { UserModule } from './Auth/user.module';
 import { TravellerModule } from './Traveller/traveller.module';
 import { UsderProfileModule } from './userProfile/userprofile.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [

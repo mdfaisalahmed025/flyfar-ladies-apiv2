@@ -391,7 +391,7 @@ addTourPackageBookingPolicy(
 
   @Post(':Id/AddvistitedImages')
   @UseInterceptors(
-    FilesInterceptor('images', 20, {
+    FilesInterceptor('VisitedImagePath',20,{
       storage: diskStorage({
         destination: './vistitedplaceimages',
         filename: (req, image, callback) => {
@@ -431,7 +431,7 @@ addTourPackageBookingPolicy(
 
     for (const file of files) {
       const newalbum = new VisitedPalce();
-      newalbum.path = file.path
+      newalbum.VisitedImagePath = file.path
       newalbum.destination = file.destination
       newalbum.filename = file.filename
       newalbum.fieldname = file.fieldname;

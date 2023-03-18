@@ -6,21 +6,15 @@ export class Userprofile {
    @PrimaryColumn({type:"uuid"})
    @Generated("uuid")
    Id:string
-   @IsNotEmpty()
-   @Column()
+   @Column({nullable:true})
    NameTitle:string
-   @IsNotEmpty()
    @Column()   
    FirstName:string
-   @IsNotEmpty()
    @Column()
    LastName:string
    @IsEmail()
-   @IsNotEmpty()
    @Column()
    Email:string
-   @IsNotEmpty()
-   @IsNotEmpty()
    @Column()
    DOB:string
    @IsNotEmpty()
@@ -51,7 +45,7 @@ export class Userprofile {
    PassportCopy:string
    @IsNotEmpty()
    @Column()
-   PassportSizePhoto: string
+   PassportsizephotoUrl: string
    @IsNotEmpty()
    @Column()
    FaceBookId:string

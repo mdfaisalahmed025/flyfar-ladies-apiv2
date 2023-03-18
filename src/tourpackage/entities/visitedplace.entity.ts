@@ -7,7 +7,6 @@ import { Tourpackage } from './tourpackage.entity';
 export class VisitedPalce{
    @PrimaryGeneratedColumn()
    Id:number
-   @IsNotEmpty({message:"please give place number"})
    @Column({default:true})
    PlaceName:string
    @Column({default:true})
@@ -19,7 +18,7 @@ export class VisitedPalce{
    @Column({default:true})
    filename: string;
    @Column({default:true})
-   path: string;
+   VisitedImagePath: string;
    @ManyToOne(() => Tourpackage, tourpackage=>tourpackage.vistitedImages)
    @JoinColumn({name:'vistited image'})
    tourpackage:Tourpackage;

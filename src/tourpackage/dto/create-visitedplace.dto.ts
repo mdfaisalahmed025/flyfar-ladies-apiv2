@@ -7,6 +7,6 @@ export class CreateVisitedplaceDto{
    originalname: string;
    destination: string;
    filename: string;
-   path: string;
+   VisitedImagePath: string;
   
 }
