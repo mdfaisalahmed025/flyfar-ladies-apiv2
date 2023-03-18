@@ -25,7 +25,7 @@ import { Packageinclusion } from './entities/packageInclusion.entitry';
 import { refundpolicy } from './entities/refundpolicy.entity';
 import { Tourpackage } from './entities/tourpackage.entity';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
-import { VisitedPalce } from './entities/visitedplace.entity';
+import { VisitedPlace } from './entities/visitedplace.entity';
 
 // tour package ser
 @Injectable()
@@ -50,8 +50,8 @@ private bookingPolicyRepo: Repository<bookingpolicy>,
 private refundPolicyRepo: Repository<refundpolicy>,
 @InjectRepository(AlbumImage)
 private AlbumImageRepo: Repository<AlbumImage>,
-@InjectRepository(VisitedPalce)
-private visitedImageRepo: Repository<VisitedPalce>){}
+@InjectRepository(VisitedPlace)
+private visitedImageRepo: Repository<VisitedPlace>){}
 
 async findAll() {
     return this.TourpackageRepo.find();

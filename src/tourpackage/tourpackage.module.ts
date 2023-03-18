@@ -4,7 +4,7 @@ import { TourpackageService } from './tourpackage.service';
 import { TourpackageController } from './tourpackage.controller';
 import { Tourpackage } from './entities/tourpackage.entity';
 import { AlbumImage } from './entities/albumimage.entity';
-import { VisitedPalce } from './entities/visitedplace.entity';
+import { VisitedPlace } from './entities/visitedplace.entity';
 import { packageincluded } from './entities/PackageInclude.entity';
 import { Packageinclusion } from './entities/packageInclusion.entitry';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
@@ -17,7 +17,7 @@ import { refundpolicy } from './entities/refundpolicy.entity';
   imports:[TypeOrmModule.forFeature([
     Tourpackage,
     AlbumImage,
-    VisitedPalce,
+    VisitedPlace,
     packageincluded,
     Packageinclusion,
     tourpackageplan,

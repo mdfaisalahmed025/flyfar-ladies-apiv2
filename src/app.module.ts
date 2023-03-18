@@ -14,7 +14,7 @@ import { tourpackageplan } from './tourpackage/entities/tourpackageplan.entity';
 import { packagehighlight } from './tourpackage/entities/packagehighlight.entity';
 import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
 import { bookingpolicy } from './tourpackage/entities/bookingpolicy.entity';
-import { VisitedPalce } from './tourpackage/entities/visitedplace.entity';
+import { VisitedPlace } from './tourpackage/entities/visitedplace.entity';
 import { Traveller } from './Traveller/entities/traveller.entity';
 import { User } from './Auth/entities/user.entity';
 import { UserModule } from './Auth/user.module';
@@ -41,7 +41,7 @@ import { MulterModule } from '@nestjs/platform-express';
         packagehighlight,
         refundpolicy,
         bookingpolicy,
-        VisitedPalce,
+        VisitedPlace,
         Userprofile,
         Traveller
       ],

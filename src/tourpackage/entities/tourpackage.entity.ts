@@ -8,7 +8,7 @@ import { packageincluded } from "./PackageInclude.entity";
 import { Packageinclusion } from "./packageInclusion.entitry";
 import { refundpolicy } from "./refundpolicy.entity";
 import { tourpackageplan } from "./tourpackageplan.entity";
-import { VisitedPalce } from "./visitedplace.entity";
+import { VisitedPlace } from "./visitedplace.entity";
 
 
 @Entity()
@@ -47,11 +47,11 @@ export class Tourpackage {
     @JoinColumn({ name: 'album image' })
     albumImages: AlbumImage;
 
-    @OneToMany(() => VisitedPalce, (albumImage) => albumImage.tourpackage, {
+    @OneToMany(() => VisitedPlace, (visitedimage) => visitedimage.tourpackage, {
         eager: true, cascade: false, onDelete: "RESTRICT",
         onUpdate: "RESTRICT"
     })
-    vistitedImages: VisitedPalce;
+    vistitedImages: VisitedPlace;
 
     @OneToMany(() => packageexcluions, (exclusion) => exclusion.tourpackage, {
         eager: true, cascade: false, onDelete: "RESTRICT",

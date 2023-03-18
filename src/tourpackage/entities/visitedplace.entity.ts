@@ -1,10 +1,10 @@
-import { IsNotEmpty } from '@nestjs/class-validator';
+
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Tourpackage } from './tourpackage.entity';
 
 
 @Entity()
-export class VisitedPalce{
+export class VisitedPlace{
    @PrimaryGeneratedColumn()
    Id:number
    @Column({default:true})
@@ -20,6 +20,6 @@ export class VisitedPalce{
    @Column({default:true})
    VisitedImagePath: string;
    @ManyToOne(() => Tourpackage, tourpackage=>tourpackage.vistitedImages)
-   @JoinColumn({name:'vistited image'})
+   @JoinColumn({name:'visited image'})
    tourpackage:Tourpackage;
 }

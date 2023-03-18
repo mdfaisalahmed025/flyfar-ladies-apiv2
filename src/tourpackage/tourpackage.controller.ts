@@ -8,7 +8,7 @@ import { Tourpackage } from './entities/tourpackage.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumImage } from './entities/albumimage.entity';
-import { VisitedPalce } from './entities/visitedplace.entity';
+import { VisitedPlace } from './entities/visitedplace.entity';
 import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
 import { updateBookingPolicyDto } from './dto/update-bookingpolicy.dto';
 import { createRefundPolicyDto } from './dto/create-refundpolicy.dto';
@@ -28,8 +28,8 @@ import { UpdateTourpackageIncludedDto } from './dto/update-packageInclude.dto';
 export class TourpackageController {
   constructor(
     @InjectRepository(Tourpackage) private TourpackageRepo:Repository<Tourpackage>,
-    @InjectRepository(AlbumImage) private VisitedmageRepo: Repository<AlbumImage>,
-    @InjectRepository(VisitedPalce) private AlbumimageRepo: Repository<AlbumImage>,
+    @InjectRepository(AlbumImage) private AlbumimageRepo: Repository<AlbumImage>,
+    @InjectRepository(VisitedPlace) private visitedplaceRepo: Repository<VisitedPlace>,
      private readonly tourpackageService: TourpackageService) {}
 
   @Post('Addpackage')
@@ -381,7 +381,7 @@ addTourPackageBookingPolicy(
       newalbum.filename = file.filename
       newalbum.fieldname = file.fieldname
       newalbum.AlbumTitle = req.body.AlbumTitle
-      await this.VisitedmageRepo.save({...newalbum, tourpackage })
+      await this.visitedplaceRepo.save({...newalbum, tourpackage })
     }
     return res.status(HttpStatus.OK).send({  
       status:"success", 
@@ -430,7 +430,7 @@ addTourPackageBookingPolicy(
     }
 
     for (const file of files) {
-      const newalbum = new VisitedPalce();
+      const newalbum = new VisitedPlace();
       newalbum.VisitedImagePath = file.path
       newalbum.destination = file.destination
       newalbum.filename = file.filename
