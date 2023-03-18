@@ -16,29 +16,29 @@ import { VisitedPalce } from "./visitedplace.entity";
 export class Tourpackage {
     @PrimaryGeneratedColumn()
     Id: number;
-    @Column()
+    @Column({nullable:true})
     MainTitle: string;
-    @Column()
+    @Column({nullable:true})
     SubTitle: string;
-    @Column()
+    @Column({nullable:true})
     Price: string;
-    @Column()
+    @Column({nullable:true})
     Location: string;
-    @Column()
+    @Column({nullable:true})
     StartDate: string;
-    @Column()
+    @Column({nullable:true})
     EndDate: string;
-    @Column()
+    @Column({nullable:true})
     TripType: string;
     @Column({ default: true })
     Availability: boolean;
-    @Column()
+    @Column({nullable:true})
     TotalDuration: string;
-    @Column('text')
+    @Column({nullable:true})
     PackageOverview: string;
     @Column({ default: true })
     Showpackage: boolean;
-    @Column()
+    @Column({nullable:true})
     ImageUrl: string
 
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
