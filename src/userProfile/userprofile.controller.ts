@@ -42,7 +42,7 @@ export class userProfileController {
       @Res() res: Response) {
          const userprofile = new Userprofile();
          userprofile.PassportCopy = req.body.files.passportphoto.path
-         userprofile.PassportSizePhoto =req.body.files.passportsizephoto.filename
+         userprofile.PassportSizePhoto =req.body.files.passportsizephoto.path
          userprofile.NameTitle = req.body.NameTitle
          userprofile.FirstName = req.body.FirstName
          userprofile.LastName = req.body.LastName
@@ -56,7 +56,7 @@ export class userProfileController {
          userprofile.PassportNumber = req.body.PassportNumber
          userprofile.FaceBookId = req.body.FaceBookId
          userprofile.LinkedIn = req.body.LinkedIn
-         userprofile.WhatsApp = req.body.hatsApp
+         userprofile.WhatsApp = req.body.whatsApp
          await this.profileRepository.save({ ...userprofile })
       
       return res.status(HttpStatus.CREATED).json({ message: 'user Profile Added successfully' });
