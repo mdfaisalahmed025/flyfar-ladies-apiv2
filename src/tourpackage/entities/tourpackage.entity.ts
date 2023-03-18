@@ -30,13 +30,13 @@ export class Tourpackage {
     EndDate: string;
     @Column({nullable:true})
     TripType: string;
-    @Column({default:null})
+    @Column({default:true})
     Availability:boolean
     @Column({nullable:true})
     TotalDuration: string
     @Column({nullable:true})
     PackageOverview: string;
-    @Column({default:null})
+    @Column({default:true})
     Showpackage:boolean
     @Column()
     ImageUrl: string
