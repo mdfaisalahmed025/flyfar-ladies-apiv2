@@ -30,14 +30,14 @@ export class Tourpackage {
     EndDate: string;
     @Column({nullable:true})
     TripType: string;
+    @Column({default:true})
+    Availability: boolean
     @Column({nullable:true})
-    Availability: boolean;
-    @Column({nullable:true})
-    TotalDuration: string;
+    TotalDuration: string
     @Column({nullable:true})
     PackageOverview: string;
-    @Column({nullable:true})
-    Showpackage: boolean;
+    @Column({default:true})
+    Showpackage: boolean
     @Column()
     ImageUrl: string
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
