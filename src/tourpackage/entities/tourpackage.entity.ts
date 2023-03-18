@@ -1,5 +1,5 @@
 
-import { IsBoolean } from "class-validator";
+import { IsBoolean, IsBooleanString } from "class-validator";
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
@@ -16,28 +16,30 @@ import { VisitedPlace } from "./visitedplace.entity";
 export class Tourpackage {
     @PrimaryGeneratedColumn()
     Id: number;
-    @Column({nullable:true})
+    @Column({ nullable: true })
     MainTitle: string;
-    @Column({nullable:true})
+    @Column({ nullable: true })
     SubTitle: string;
-    @Column({nullable:true})
+    @Column({ nullable: true })
     Price: string;
-    @Column({nullable:true})
+    @Column({ nullable: true })
     Location: string;
-    @Column({nullable:true})
+    @Column({ nullable: true })
     StartDate: string;
-    @Column({nullable:true})
+    @Column({ nullable: true })
     EndDate: string;
-    @Column({nullable:true})
+    @Column({ nullable: true })
     TripType: string;
-    @Column({nullable:true})
-    Availability:boolean
-    @Column({nullable:true})
+    @Column({ nullable: true })
     TotalDuration: string
-    @Column({nullable:true})
+    @Column({ nullable: true })
     PackageOverview: string;
-    @Column({nullable:true})
-    Showpackage:boolean
+    @Column({ nullable: true })
+    Showpackage: boolean
+    @IsBooleanString()
+    @Column({ nullable: true })
+    Availability: boolean
+    @IsBooleanString()
     @Column()
     ImageUrl: string
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
