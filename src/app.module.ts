@@ -45,7 +45,7 @@ import { MulterModule } from '@nestjs/platform-express';
         Userprofile,
         Traveller
       ],
-      synchronize: false,
+      synchronize: true,
     }),
     UserModule,
     TourpackageModule,

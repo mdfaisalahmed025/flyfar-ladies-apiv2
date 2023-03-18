@@ -1,4 +1,5 @@
 
+import { Transform } from "class-transformer";
 import { IsBoolean, IsBooleanString } from "class-validator";
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
@@ -34,8 +35,12 @@ export class Tourpackage {
     TotalDuration: string
     @Column({ nullable: true })
     PackageOverview: string;
+    @IsBoolean()
+    @Transform(({ value }) => value === 'true')
     @Column({nullable:true})
     Availability: boolean
+    @IsBoolean()
+    @Transform(({ value }) => value === 'true')
     @Column({nullable:true})
     Showpackage: boolean
     @Column({nullable:true})
