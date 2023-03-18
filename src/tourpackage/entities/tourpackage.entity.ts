@@ -31,7 +31,7 @@ export class Tourpackage {
     @Column({nullable:true})
     TripType: string;
     @IsBoolean()
-    @Column('bool')
+    @Column('bool',{nullable:true})
     Availability: boolean;
     @Column({nullable:true})
     TotalDuration: string;
@@ -39,7 +39,7 @@ export class Tourpackage {
     PackageOverview: string;
 
     @IsBoolean()
-    @Column('bool')
+    @Column('bool',{nullable:true})
     Showpackage: boolean;
     @Column()
     ImageUrl: string
