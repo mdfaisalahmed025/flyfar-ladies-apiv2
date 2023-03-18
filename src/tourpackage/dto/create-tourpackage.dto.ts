@@ -1,7 +1,6 @@
 
 export class CreateTourpackageDto {
     Id: number
-    PkId: string
     MainTitle: string
     SubTitle: string
     Price: string

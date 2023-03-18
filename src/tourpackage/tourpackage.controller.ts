@@ -34,7 +34,7 @@ export class TourpackageController {
 
   @Post('Addpackage')
   @UseInterceptors(
-    FilesInterceptor('image',5,{
+    FilesInterceptor('ImageUrl',5,{
       storage: diskStorage({
         destination: './CoverImage',
         filename: (req, image, callback) => {
@@ -68,7 +68,6 @@ export class TourpackageController {
         const tourpackage = new Tourpackage();
         tourpackage.ImageUrl = file.path
         tourpackage.MainTitle = req.body.MainTitle
-        tourpackage.PkId= req.body.PkId
         tourpackage.SubTitle =req.body.SubTitle
         tourpackage.Price =req.body.Price
         tourpackage.Location =req.body.Location
