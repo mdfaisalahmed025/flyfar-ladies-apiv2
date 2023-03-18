@@ -36,12 +36,10 @@ export class Tourpackage {
     @Column({ nullable: true })
     PackageOverview: string;
     @IsBoolean()
-    @Transform(({ value }) => value === 'true')
-    @Column({nullable:true})
+    @Column('bool', {nullable:true,})
     Availability: boolean
     @IsBoolean()
-    @Transform(({ value }) => value === 'true')
-    @Column({nullable:true})
+    @Column('bool',{nullable:true})
     Showpackage: boolean
     @Column({nullable:true})
     ImageUrl: string

@@ -27,14 +27,14 @@ import { UpdateTourpackageIncludedDto } from './dto/update-packageInclude.dto';
 @Controller('tourpackage')
 export class TourpackageController {
   constructor(
-    @InjectRepository(Tourpackage) private TourpackageRepo: Repository<Tourpackage>,
+    @InjectRepository(Tourpackage) private TourpackageRepo:Repository<Tourpackage>,
     @InjectRepository(AlbumImage) private AlbumimageRepo: Repository<AlbumImage>,
     @InjectRepository(VisitedPlace) private visitedplaceRepo: Repository<VisitedPlace>,
-    private readonly tourpackageService: TourpackageService) { }
+     private readonly tourpackageService: TourpackageService) {}
 
   @Post('Addpackage')
   @UseInterceptors(
-    FilesInterceptor('ImageUrl', 5, {
+    FilesInterceptor('ImageUrl',5,{
       storage: diskStorage({
         destination: './CoverImage',
         filename: (req, image, callback) => {
@@ -64,21 +64,23 @@ export class TourpackageController {
     @Req() req: Request,
     @Body() body,
     @Res() res: Response) {
-    for (const file of files) {
-      const tourpackage = new Tourpackage();
-      tourpackage.ImageUrl = file.path
-      tourpackage.MainTitle = req.body.MainTitle
-      tourpackage.SubTitle = req.body.SubTitle
-      tourpackage.Price = req.body.Price
-      tourpackage.Location = req.body.Location
-      tourpackage.StartDate = req.body.StartDate
-      tourpackage.EndDate = req.body.EndDate
-      tourpackage.TripType = req.body.TripType
-      tourpackage.TotalDuration = req.body.TotalDuration
-      tourpackage.PackageOverview = req.body.PackageOverview
-      await this.TourpackageRepo.save({ ...tourpackage })
-    }
-    return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package added succesfully" })
+      for (const file of files) {
+        const tourpackage = new Tourpackage();
+        tourpackage.ImageUrl = file.path
+        tourpackage.MainTitle = req.body.MainTitle
+        tourpackage.SubTitle =req.body.SubTitle
+        tourpackage.Price =req.body.Price
+        tourpackage.Location =req.body.Location
+        tourpackage.Availability = req.body.Availability
+        tourpackage.StartDate =req.body.StartDate
+        tourpackage.EndDate =req.body.EndDate
+        tourpackage.TripType =req.body.TripType
+        tourpackage.TotalDuration =req.body.TotalDuration
+        tourpackage.PackageOverview =req.body.PackageOverview
+        tourpackage.Showpackage =req.body.Showpackage
+        await this.TourpackageRepo.save({ ...tourpackage})
+      }
+    return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package added succesfully" })
   }
 
   @Get('getall')
@@ -92,12 +94,12 @@ export class TourpackageController {
   }
 
   @Patch(':id')
-  async update(
-    @Param('id') id: number,
-    @Req() req: Request,
-    @Res() res: Response,
-    @Body() body,
-    @Body() updateTourpackageDto: UpdateTourpackageDto) {
+ async update( 
+  @Param('id') id: number,
+  @Req() req: Request,
+  @Res() res: Response,
+  @Body() body,
+   @Body() updateTourpackageDto:UpdateTourpackageDto){
     const updatepackage = await this.tourpackageService.updatePackage(
       +id,
       updateTourpackageDto,
@@ -116,33 +118,33 @@ export class TourpackageController {
   }
 
   @Delete(':id')
-  async remove(
-    @Param('id') id: string,
-    @Req() req: Request,
-    @Res() res: Response) {
+ async remove(
+  @Param('id') id: string,
+  @Req() req: Request,
+  @Res() res: Response) {
     await this.tourpackageService.remove(+id);
-    return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package deleted succesfully" })
+    return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package deleted succesfully" })
   }
 
+  
+// add booking policy
+@Post(':id/AddBookingPolicy')
+addTourPackageBookingPolicy(
+  @Param('id', ParseIntPipe) id: number,
+  @Body() bookingpolicydto: CreateBookingPolicyDto,
+  @Req() req: Request,
+  @Res() res: Response,
+) {
 
-  // add booking policy
-  @Post(':id/AddBookingPolicy')
-  addTourPackageBookingPolicy(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() bookingpolicydto: CreateBookingPolicyDto,
-    @Req() req: Request,
-    @Res() res: Response,
-  ) {
-
-    this.tourpackageService.createbookingPolicy(
-      id,
-      bookingpolicydto,
-    );
-    return res.status(HttpStatus.OK).json({
-      status: "success",
-      message: 'booking policy added',
-    });
-  }
+  this.tourpackageService.createbookingPolicy(
+    id,
+    bookingpolicydto,
+  );
+  return res.status(HttpStatus.OK).json({
+    status:"success",
+    message: 'booking policy added',
+  });
+}
 
 
 
@@ -154,8 +156,7 @@ export class TourpackageController {
     @Req() req: Request,
     @Res() res: Response) {
     const bookingpolicy = await this.tourpackageService.FindbookingPolicy(id, BkId)
-    return res.status(HttpStatus.OK).json({
-      status: "success", bookingpolicy
+    return res.status(HttpStatus.OK).json({status:"success",bookingpolicy
     });
   }
 
@@ -172,7 +173,7 @@ export class TourpackageController {
   ) {
     const updatebooking = await this.tourpackageService.updateBookingolicy(id, BkId, updatebookingpolicyDto)
     return res.status(HttpStatus.OK).json({
-      status: "success",
+      status:"success",
       message: `Booking policy updated successfully`,
     });
   }
@@ -185,7 +186,7 @@ export class TourpackageController {
     @Res() res: Response) {
     await this.tourpackageService.DeletebookingPolicy(id, BkId)
     return res.status(HttpStatus.OK).json({
-      status: "success",
+      status:"success",
       message: `booking policy deleted successfully`,
     });
   }
@@ -207,7 +208,7 @@ export class TourpackageController {
       refundpolicydto,
     );
     return res.status(HttpStatus.OK).json({
-      status: "success",
+      status:"success",
       message: 'refund policy added',
     });
   }
@@ -220,7 +221,7 @@ export class TourpackageController {
     @Req() req: Request,
     @Res() res: Response) {
     const refundpolicy = await this.tourpackageService.FindRefundPolicy(id, RId)
-    return res.status(HttpStatus.OK).json({ refundpolicy });
+    return res.status(HttpStatus.OK).json({refundpolicy});
   }
 
   // update refund policy  
@@ -234,7 +235,7 @@ export class TourpackageController {
   ) {
     const updaterefund = await this.tourpackageService.updateRefundolicy(id, RId, updateRefundlicyDto)
     return res.status(HttpStatus.OK).json({
-      status: "success",
+      status:"success",
       message: `refund policy has updated successfully`,
       updaterefund,
     });
@@ -250,7 +251,7 @@ export class TourpackageController {
     @Res() res: Response) {
     await this.tourpackageService.DeleterefundPolicy(id, RId)
     return res.status(HttpStatus.OK).json({
-      status: "success",
+      status:"success",
       message: `refund policy Id=${RId} has deleted successfully`,
     });
   }
@@ -260,7 +261,7 @@ export class TourpackageController {
 
   // add inclsuions
   @Post(':id/AddPackageInclusions')
-  async addInclusion(
+ async addInclusion(
     @Param('id', ParseIntPipe) id: number,
     @Body() Inclusionsdto: createpackageincluionDto,
     @Req() req: Request,
@@ -271,7 +272,7 @@ export class TourpackageController {
       Inclusionsdto,
     );
     return res.status(HttpStatus.OK).json({
-      status: "success",
+      status:"success",
       message: 'travel package Inlclusions Iteam Added',
     });
   }
@@ -285,8 +286,7 @@ export class TourpackageController {
     @Req() req: Request,
     @Res() res: Response) {
     const inclsuions = await this.tourpackageService.FindInclsuions(id, InId)
-    return res.status(HttpStatus.OK).json({
-      inclsuions
+    return res.status(HttpStatus.OK).json({inclsuions
     });
   }
 
@@ -317,7 +317,7 @@ export class TourpackageController {
     @Res() res: Response) {
     await this.tourpackageService.DeleteInclusion(id, InId)
     return res.status(HttpStatus.OK).json({
-      status: "success",
+      status:"success",
       message: `Inclusion has deleted successfully`,
     });
   }
@@ -381,18 +381,17 @@ export class TourpackageController {
       newalbum.filename = file.filename
       newalbum.fieldname = file.fieldname
       newalbum.AlbumTitle = req.body.AlbumTitle
-      await this.AlbumimageRepo.save({ ...newalbum, tourpackage })
+      await this.AlbumimageRepo.save({...newalbum, tourpackage })
     }
-    return res.status(HttpStatus.OK).send({
-      status: "success",
-      message: "album Image Added Successfully"
-    })
+    return res.status(HttpStatus.OK).send({  
+      status:"success", 
+      message: "album Image Added Successfully"})
   }
 
 
   @Post(':Id/AddvistitedImages')
   @UseInterceptors(
-    FilesInterceptor('VisitedImagePath', 20, {
+    FilesInterceptor('VisitedImagePath',20,{
       storage: diskStorage({
         destination: './vistitedplaceimages',
         filename: (req, image, callback) => {
@@ -439,7 +438,7 @@ export class TourpackageController {
       newalbum.PlaceName = req.body.PlaceName;
       await this.visitedplaceRepo.save({ ...newalbum, tourpackage })
     }
-    return res.status(HttpStatus.OK).send({ status: "success", message: "visited Image Added Successfully", Tourpackage })
+    return res.status(HttpStatus.OK).send({ status:"success", message: "visited Image Added Successfully", Tourpackage })
   }
 
 
@@ -450,7 +449,7 @@ export class TourpackageController {
     @Res() res: Response) {
     const visitedImage = await this.tourpackageService.FindAllvisitedImage(id)
     return res.status(HttpStatus.OK).json({
-      visitedImage
+    visitedImage
     });
   }
 
@@ -482,7 +481,7 @@ export class TourpackageController {
     @Req() req: Request,
     @Res() res: Response) {
     const tourplan = await this.tourpackageService.Finddayplan(id, dayId)
-    return res.status(HttpStatus.OK).json({ tourplan });
+    return res.status(HttpStatus.OK).json({tourplan});
   }
 
   //update package exclsuions
@@ -615,8 +614,7 @@ export class TourpackageController {
     @Req() req: Request,
     @Res() res: Response) {
     const Highlight = await this.tourpackageService.FindHighlight(id, HiId)
-    return res.status(HttpStatus.OK).json({
-      Highlight
+    return res.status(HttpStatus.OK).json({Highlight
     });
   }
 
@@ -656,9 +654,9 @@ export class TourpackageController {
 
 
 
+  
 
-
-  // start included item package 
+// start included item package 
   @Post(':id/AddPackageIncluded')
   addpackageIncluded(
     @Param('id', ParseIntPipe) id: number,
