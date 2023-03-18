@@ -17,7 +17,7 @@ export class AlbumImage{
    @Column({default:true})
    filename: string;
    @Column({default:true})
-   path: string;
+   albumImageUrl: string;
    @ManyToOne(() => Tourpackage, tourpackage=>tourpackage.albumImages)
    tourpackage:Tourpackage;
    

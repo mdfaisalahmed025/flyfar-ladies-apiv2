@@ -5,6 +5,6 @@ export class AlbumImageDto {
    originalname: string;
    destination: string;
    filename: string;
-   path: string;
+   albumImageUrl: string;
   
  }
