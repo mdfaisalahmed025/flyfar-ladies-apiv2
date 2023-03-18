@@ -31,7 +31,7 @@ export class Tourpackage {
     @Column({nullable:true})
     TripType: string;
     @IsBoolean()
-    @Column({nullable:true})
+    @Column('bool')
     Availability: boolean;
     @Column({nullable:true})
     TotalDuration: string;
@@ -39,9 +39,9 @@ export class Tourpackage {
     PackageOverview: string;
 
     @IsBoolean()
-    @Column({nullable:true})
+    @Column('bool')
     Showpackage: boolean;
-    @Column({nullable:true})
+    @Column()
     ImageUrl: string
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
         eager: true,
