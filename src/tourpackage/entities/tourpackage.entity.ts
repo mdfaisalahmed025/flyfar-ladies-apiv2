@@ -1,5 +1,4 @@
-import { IsNotEmpty } from "@nestjs/class-validator";
-import { Transform } from "class-transformer";
+
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
@@ -40,7 +39,6 @@ export class Tourpackage {
     Showpackage: boolean;
     @Column({nullable:true})
     ImageUrl: string
-
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
         eager: true,
         onUpdate: "RESTRICT",

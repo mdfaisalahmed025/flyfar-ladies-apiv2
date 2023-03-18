@@ -44,7 +44,7 @@ import { UsderProfileModule } from './userProfile/userprofile.module';
         Userprofile,
         Traveller
       ],
-      synchronize:false,
+      synchronize:true,
     }),
     UserModule,
     TourpackageModule,
