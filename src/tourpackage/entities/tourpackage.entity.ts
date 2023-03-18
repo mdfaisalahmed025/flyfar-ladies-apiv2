@@ -1,4 +1,5 @@
 
+import { IsBoolean } from "class-validator";
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
@@ -29,12 +30,15 @@ export class Tourpackage {
     EndDate: string;
     @Column({nullable:true})
     TripType: string;
+    @IsBoolean()
     @Column({nullable:true})
     Availability: boolean;
     @Column({nullable:true})
     TotalDuration: string;
     @Column({nullable:true})
     PackageOverview: string;
+
+    @IsBoolean()
     @Column({nullable:true})
     Showpackage: boolean;
     @Column({nullable:true})
