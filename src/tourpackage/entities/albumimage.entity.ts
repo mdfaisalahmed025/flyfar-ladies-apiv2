@@ -6,17 +6,17 @@ import { Tourpackage } from './tourpackage.entity';
 export class AlbumImage{
    @PrimaryGeneratedColumn()
    AlbumId: number;
-   @Column({default:true})
+   @Column()
    AlbumTitle: string;
-   @Column({default:true})
+   @Column()
    fieldname: string;
-   @Column({default:true})
+   @Column()
    originalname: string;
-   @Column({default:true})
+   @Column()
    destination: string;
-   @Column({default:true})
+   @Column()
    filename: string;
-   @Column({default:true})
+   @Column()
    albumImageUrl: string;
    @ManyToOne(() => Tourpackage, tourpackage=>tourpackage.albumImages)
    tourpackage:Tourpackage;

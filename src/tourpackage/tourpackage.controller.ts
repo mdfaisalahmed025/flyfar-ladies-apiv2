@@ -376,8 +376,8 @@ addTourPackageBookingPolicy(
 
     for (const file of files) {
       const newalbum = new AlbumImage();
-      newalbum.AlbumTitle = req.body.AlbumTitle
       newalbum.albumImageUrl = file.path
+      newalbum.AlbumTitle = req.body.AlbumTitle
       await this.AlbumimageRepo.save({...newalbum, tourpackage })
     }
     return res.status(HttpStatus.OK).send({  
