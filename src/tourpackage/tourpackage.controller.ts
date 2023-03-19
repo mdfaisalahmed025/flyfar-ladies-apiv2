@@ -432,9 +432,6 @@ addTourPackageBookingPolicy(
     for (const file of files) {
       const newalbum = new VisitedPlace();
       newalbum.VisitedImagePath = file.path
-      newalbum.destination = file.destination
-      newalbum.filename = file.filename
-      newalbum.fieldname = file.fieldname;
       newalbum.PlaceName = req.body.PlaceName;
       await this.visitedplaceRepo.save({ ...newalbum, tourpackage })
     }
