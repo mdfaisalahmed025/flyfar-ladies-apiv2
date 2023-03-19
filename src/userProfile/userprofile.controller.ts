@@ -36,28 +36,28 @@ export class userProfileController {
          //       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
          //    }),
       )
-      files: { passportsizephoto?: Express.Multer.File[], passportphoto?: Express.Multer.File[]},
+      files: { PassportsizephotoUrl?: Express.Multer.File[], passportphotoUrl?: Express.Multer.File[]},
       @Body() body,
       @Req() req: Request,
       @Res() res: Response) {
-         const userprofile = new Userprofile();
-         userprofile.PassportCopy = req.body.files.passportphoto.path
-         userprofile.PassportsizephotoUrl =req.body.files.passportsizephoto.path
-         userprofile.NameTitle = req.body.NameTitle
-         userprofile.FirstName = req.body.FirstName
-         userprofile.LastName = req.body.LastName
-         userprofile.DOB = req.body.DOB
-         userprofile.Gender = req.body.Gender
-         userprofile.Profession = req.body.Profession
-         userprofile.Nationality = req.body.Nationality
-         userprofile.Mobile = req.body.Mobile
-         userprofile.NID = req.body.NID
-         userprofile.PassportExpireDate = req.body.PassportExpireDate
-         userprofile.PassportNumber = req.body.PassportNumber
-         userprofile.FaceBookId = req.body.FaceBookId
-         userprofile.LinkedIn = req.body.LinkedIn
-         userprofile.WhatsApp = req.body.whatsApp
-         await this.profileRepository.save({ ...userprofile })
+         // const userprofile = new Userprofile();
+         // userprofile.PassportCopy = req.body.files
+         // userprofile.PassportsizephotoUrl =req.body.files.PassportsizephotoUrl.path
+         // userprofile.NameTitle = req.body.NameTitle
+         // userprofile.FirstName = req.body.FirstName
+         // userprofile.LastName = req.body.LastName
+         // userprofile.DOB = req.body.DOB
+         // userprofile.Gender = req.body.Gender
+         // userprofile.Profession = req.body.Profession
+         // userprofile.Nationality = req.body.Nationality
+         // userprofile.Mobile = req.body.Mobile
+         // userprofile.NID = req.body.NID
+         // userprofile.PassportExpireDate = req.body.PassportExpireDate
+         // userprofile.PassportNumber = req.body.PassportNumber
+         // userprofile.FaceBookId = req.body.FaceBookId
+         // userprofile.LinkedIn = req.body.LinkedIn
+         // userprofile.WhatsApp = req.body.whatsApp
+         // await this.profileRepository.save({ ...userprofile })
       
       return res.status(HttpStatus.CREATED).json({ message: 'user Profile Added successfully' });
    }
