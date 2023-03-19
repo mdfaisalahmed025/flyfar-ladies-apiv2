@@ -464,7 +464,7 @@ addTourPackageBookingPolicy(
       tourpackagePlandto,
     );
     return res.status(HttpStatus.OK).json({
-      tourpackageplan,
+      status:"success",
       message: 'travel package plan added Iteam Added',
     });
   }
@@ -492,6 +492,7 @@ addTourPackageBookingPolicy(
   ) {
     const updatedayplan = await this.tourpackageService.updatedayplan(id, dayId, updatedayplanDto)
     return res.status(HttpStatus.OK).json({
+      status:"success",
       message: `dayplan with Id=${dayId} has updated successfully`,
       updatedayplan,
     });
@@ -525,7 +526,8 @@ addTourPackageBookingPolicy(
       id,
       packageexcluionsdto,
     );
-    return res.status(HttpStatus.OK).send({ message: "exlusions  Added Successfully", exclsuions })
+    return res.status(HttpStatus.OK).send({
+      status:"success", message: "exlusions  Added Successfully", exclsuions })
   }
 
   // get package exclsuions
@@ -595,8 +597,8 @@ addTourPackageBookingPolicy(
       id,
       packageHighlightdto,
     );
-    return res.status(HttpStatus.OK).json({
-      message: 'travel package Highlight added', tourpackagehighlight
+    return res.status(HttpStatus.OK).json({ status:"success",
+      message: 'travel package Highlight added'
     });
   }
 
@@ -628,8 +630,8 @@ addTourPackageBookingPolicy(
   ) {
     const updateHighlight = await this.tourpackageService.updateHighlight(id, HiId, updatehighlightDto)
     return res.status(HttpStatus.OK).json({
-      message: `Highlight with Id ${HiId} has updated successfully`,
-      updateHighlight,
+      status:"success",
+      message: `Highlight with Id ${HiId} has updated successfully`
     });
   }
 
@@ -665,8 +667,7 @@ addTourPackageBookingPolicy(
       id,
       createpackageIncludeDto,
     );
-    return res.status(HttpStatus.OK).send({
-      packageincluded,
+    return res.status(HttpStatus.OK).send({ status:"success",
       message: 'travel package Inlcluded Iteam Added',
     });
   }
@@ -699,6 +700,7 @@ addTourPackageBookingPolicy(
   ) {
     const Included = await this.tourpackageService.updateincluded(id, InId, updateIncludedDto)
     return res.status(HttpStatus.OK).json({
+      status:"success",
       message: `Included with Id ${InId} has updated successfully`,
       Included,
     });
@@ -715,6 +717,7 @@ addTourPackageBookingPolicy(
     @Res() res: Response) {
     await this.tourpackageService.Deleteincluded(id, InId)
     return res.status(HttpStatus.OK).json({
+      status:"success",
       message: `Included item Id ${InId} has deleted successfully`,
     });
   }
