@@ -431,7 +431,7 @@ addTourPackageBookingPolicy(
       );
     }
     const places = [];
-    for (let i = 0; i<files.length; i++) {
+    for (let i = 1; i<files.length; i++) {
       const newalbum = new VisitedPlace();
       newalbum.PlaceName =PlaceName[i]
       newalbum.VisitedImagePath =files[i].path
