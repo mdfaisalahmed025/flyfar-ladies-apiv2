@@ -417,9 +417,11 @@ addTourPackageBookingPolicy(
         }),
     )
     files: Express.Multer.File[],
+    PlaceName:string[],
     @Param('Id', ParseIntPipe) Id: number,
     @Req() req: Request,
     @Res() res: Response,
+    
   ) {
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
     if (!tourpackage) {
@@ -428,11 +430,12 @@ addTourPackageBookingPolicy(
         HttpStatus.BAD_REQUEST,
       );
     }
-
-    for (const file of files) {
+    const places = [];
+    for (let i = 0; i<files.length; i++) {
       const newalbum = new VisitedPlace();
-      newalbum.VisitedImagePath = file.path
-      newalbum.PlaceName = req.body.PlaceName;
+      newalbum.PlaceName =PlaceName[i]
+      newalbum.VisitedImagePath =files[i].path
+      places.push(newalbum)
       await this.visitedplaceRepo.save({ ...newalbum, tourpackage })
     }
     return res.status(HttpStatus.OK).send({ status:"success", message: "visited Image Added Successfully", Tourpackage })
