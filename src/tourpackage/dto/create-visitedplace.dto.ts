@@ -2,7 +2,7 @@
 
 export class CreateVisitedplaceDto{
    Id:number
-   PlaceName:string[]
+   PlaceName:string
    VisitedImagePath: string;
   
 }
