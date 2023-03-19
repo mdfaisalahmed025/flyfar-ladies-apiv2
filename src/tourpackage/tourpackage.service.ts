@@ -84,7 +84,7 @@ async  remove(Id: number) {
   }
 
   // get all Album image
-  async FindAllAlbum(Id: number, AlbumTitle:string) {
+  async FindAlbum(Id: number, AlbumTitle:string) {
     const tourpackage = await this.TourpackageRepo.findOne({
       where: {
         Id
@@ -104,6 +104,28 @@ async  remove(Id: number) {
       );
     }
     return AlbumImage;
+  }
+
+  async FindAllAlbum(Id: number) {
+    const tourpackage = await this.TourpackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const AllAlbumImage = await this.AlbumImageRepo.find({})
+    if (!AllAlbumImage) {
+      throw new HttpException(
+        `Image not found with `,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return AllAlbumImage;
   }
 
 

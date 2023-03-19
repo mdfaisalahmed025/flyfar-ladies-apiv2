@@ -324,15 +324,27 @@ addTourPackageBookingPolicy(
   //End refund policy
 
 
-  @Get(':id/FindAllAlbum/:AlbumTitle')
-  async getAllCardeImage(
+  @Get(':id/FindAlbum/:AlbumTitle')
+  async getAllBumImage(
     @Param('id') id: number,
     @Param('AlbumTitle') AlbumTitle: string,
     @Req() req: Request,
     @Res() res: Response) {
-    const Albumimages = await this.tourpackageService.FindAllAlbum(id,AlbumTitle)
+    const Albumimages = await this.tourpackageService.FindAlbum(id,AlbumTitle)
     return res.status(HttpStatus.OK).json({
       Albumimages,
+    });
+  }
+
+  @Get(':id/FindAllAlbum/allalbumimage')
+  async getAllAlbumImage(
+    @Param('id') id: number,
+
+    @Req() req: Request,
+    @Res() res: Response) {
+    const AllAlbumimages = await this.tourpackageService.FindAllAlbum(id)
+    return res.status(HttpStatus.OK).json({
+      AllAlbumimages,
     });
   }
 
