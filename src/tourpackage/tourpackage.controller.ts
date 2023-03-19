@@ -236,8 +236,6 @@ addTourPackageBookingPolicy(
     const updaterefund = await this.tourpackageService.updateRefundolicy(id, RId, updateRefundlicyDto)
     return res.status(HttpStatus.OK).json({
       status:"success",
-      message: `refund policy has updated successfully`,
-      updaterefund,
     });
   }
 
@@ -302,6 +300,7 @@ addTourPackageBookingPolicy(
   ) {
     const updateInclsuions = await this.tourpackageService.updateInclusions(id, InId, updateInclusionsDto)
     return res.status(HttpStatus.OK).json({
+      status:"success",
       message: `Inclsuions with Id=${InId} has updated successfully`,
       updateInclsuions,
     });
