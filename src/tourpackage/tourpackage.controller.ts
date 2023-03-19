@@ -416,7 +416,7 @@ addTourPackageBookingPolicy(
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
         }),
     )
-    files: Express.Multer.File,
+    files: Express.Multer.File[],
     @Param('Id', ParseIntPipe) Id: number,
     @Req() req: Request,
     @Res() res: Response,
@@ -428,14 +428,16 @@ addTourPackageBookingPolicy(
         HttpStatus.BAD_REQUEST,
       );
     }
+
+    for (const file of files) {
       const newalbum = new VisitedPlace();
-      newalbum.VisitedImagePath = files.path
-      newalbum.destination = files.destination
-      newalbum.filename = files.filename
-      newalbum.fieldname = files.fieldname;
+      newalbum.VisitedImagePath = file.path
+      newalbum.destination = file.destination
+      newalbum.filename = file.filename
+      newalbum.fieldname = file.fieldname;
       newalbum.PlaceName = req.body.PlaceName;
       await this.visitedplaceRepo.save({ ...newalbum, tourpackage })
-    
+    }
     return res.status(HttpStatus.OK).send({ status:"success", message: "visited Image Added Successfully", Tourpackage })
   }
 
