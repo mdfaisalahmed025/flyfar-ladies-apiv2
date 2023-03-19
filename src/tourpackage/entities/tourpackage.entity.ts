@@ -1,6 +1,7 @@
 
 import { Transform } from "class-transformer";
 import { IsBoolean, IsBooleanString } from "class-validator";
+import { text } from "stream/consumers";
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
@@ -33,7 +34,7 @@ export class Tourpackage {
     TripType: string;
     @Column({ nullable: true })
     TotalDuration: string
-    @Column({ nullable: true })
+    @Column('text', { nullable: true})
     PackageOverview: string;
     @IsBoolean()
     @Column('bool', {nullable:true, default:true})
