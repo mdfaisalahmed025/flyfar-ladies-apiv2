@@ -84,7 +84,7 @@ async  remove(Id: number) {
   }
 
   // get all Album image
-  async FindAllAlbum(Id: number,) {
+  async FindAllAlbum(Id: number, AlbumTitle:string) {
     const tourpackage = await this.TourpackageRepo.findOne({
       where: {
         Id
@@ -96,7 +96,7 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const AlbumImage = await this.AlbumImageRepo.find({})
+    const AlbumImage = await this.AlbumImageRepo.find({where:{AlbumTitle}})
     if (!AlbumImage) {
       throw new HttpException(
         `Image not found with `,
