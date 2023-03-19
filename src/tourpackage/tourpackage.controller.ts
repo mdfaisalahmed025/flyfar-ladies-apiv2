@@ -364,7 +364,7 @@ addTourPackageBookingPolicy(
     @Param('Id', ParseIntPipe) Id: number,
     @Req() req: Request,
     @Res() res: Response,
-    @Body() Body,
+    @Body() body,
   ) {
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
     if (!tourpackage) {
