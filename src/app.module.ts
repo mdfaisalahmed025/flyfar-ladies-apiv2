@@ -27,10 +27,10 @@ import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'containers-us-west-114.railway.app',
-      port:6041,
+      host: 'containers-us-west-23.railway.app',
+      port: 5722,
       username: 'root',
-      password: 'pZab7E2VPS0PvY2XephU',
+      password: 'Kf6Ipor26EuHnyEJu11m',
       database: 'railway',
       entities: [User,
         Tourpackage,
