@@ -78,6 +78,10 @@ export class TourpackageController {
         tourpackage.TotalDuration =req.body.TotalDuration
         tourpackage.PackageOverview =req.body.PackageOverview
         tourpackage.Showpackage =req.body.Showpackage
+        tourpackage.Flight =req.body.Flight
+        tourpackage.Transport =req.body.Transport
+        tourpackage.Food =req.body.Food
+        tourpackage.Hotel =req.body.Hotel
         await this.TourpackageRepo.save({ ...tourpackage})
       }
     return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package added succesfully" })
