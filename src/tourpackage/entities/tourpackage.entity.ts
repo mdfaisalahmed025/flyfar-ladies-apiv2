@@ -36,17 +36,17 @@ export class Tourpackage {
     TotalDuration: string
     @Column('text', { nullable: true})
     PackageOverview: string;
-    @Column('bool',{nullable:true, default:false})
+    @Column({nullable:true, default:false})
     Availability: boolean
-    @Column('bool',{nullable:true,default:false})
+    @Column({nullable:true,default:false})
     Showpackage: boolean
-    @Column('bool',{nullable:true,default:false})
+    @Column({nullable:true,default:false})
     Flight:boolean
-    @Column('bool',{nullable:true,default:false})
+    @Column({nullable:true,default:false})
     Food: boolean
-    @Column('bool',{nullable:true,default:false})
+    @Column({nullable:true,default:false})
     Transport:boolean
-    @Column('bool',{nullable:true,default:false})
+    @Column({nullable:true,default:false})
     Hotel:boolean
     @Column({nullable:true})
     ImageUrl: string
