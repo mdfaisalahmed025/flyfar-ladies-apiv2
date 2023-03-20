@@ -26,10 +26,10 @@ import { MulterModule } from '@nestjs/platform-express';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'containers-us-west-130.railway.app',
-      port: 6409,
+      host: 'containers-us-west-114.railway.app',
+      port:6041,
       username: 'root',
-      password: 'EQI1O4V0pSGKCniOoGcT',
+      password: 'pZab7E2VPS0PvY2XephU',
       database: 'railway',
       entities: [User,
         Tourpackage,
@@ -45,7 +45,7 @@ import { MulterModule } from '@nestjs/platform-express';
         Userprofile,
         Traveller
       ],
-      synchronize: true,
+      synchronize:true,
     }),
     UserModule,
     TourpackageModule,
