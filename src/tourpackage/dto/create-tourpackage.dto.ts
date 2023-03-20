@@ -10,8 +10,11 @@ export class CreateTourpackageDto {
     TripType: string
     Availability:boolean
     Showpackage: boolean
+    Flight:boolean
+    Food: boolean
+    Transport:boolean
+    Hotel:boolean
     TotalDuration: string
     PackageOverview: string
- 
     ImageUrl:string
     }

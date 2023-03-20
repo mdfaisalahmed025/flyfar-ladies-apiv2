@@ -1,4 +1,4 @@
-import { Column, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm';
 import { Tourpackage } from './tourpackage.entity';
@@ -15,8 +15,7 @@ export class packageincluded {
    Food: boolean
    @Column({ default: true })
    Transport: boolean
-   @ManyToOne(() => Tourpackage, (tourpackages) => tourpackages.includes,)
-   @JoinColumn({ name: 'package_included' })
+   @OneToOne(() => Tourpackage, (tourpackages) => tourpackages.includes,)
    tourpackage: Tourpackage
 
 
