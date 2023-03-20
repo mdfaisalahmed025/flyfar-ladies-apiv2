@@ -10,6 +10,7 @@ import { packagehighlight } from "./packagehighlight.entity";
 import { packageincluded } from "./PackageInclude.entity";
 import { Packageinclusion } from "./packageInclusion.entitry";
 import { refundpolicy } from "./refundpolicy.entity";
+// import { refundpolicy } from "./refundpolicy.entity";
 import { tourpackageplan } from "./tourpackageplan.entity";
 import { VisitedPlace } from "./visitedplace.entity";
 
@@ -95,11 +96,12 @@ export class Tourpackage {
         eager: true, onDelete: "RESTRICT",
         onUpdate: "RESTRICT"
     })
-    refundpolicys: refundpolicy;
+    refundpolicys:refundpolicy;
 
     @OneToMany(() => tourpackageplan, (dayplans) => dayplans.tourpackage, {
         eager: true, onDelete: "RESTRICT",
         onUpdate: "RESTRICT"
     })
     tourpackageplans: tourpackageplan;
+
 }

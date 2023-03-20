@@ -7,9 +7,10 @@ import { Tourpackage } from './tourpackage.entity';
 export class refundpolicy {
     @PrimaryGeneratedColumn()
     RId: number
-    @Column({nullable:true})
+    @IsNotEmpty()
+    @Column()
     RefundPolicy:string
-    @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.refundpolicys)
+    @ManyToOne(()=>Tourpackage,(tourpackages)=>tourpackages.refundpolicys)
     @JoinColumn({name: 'Tour_package_refundpolicy'})
     tourpackage:Tourpackage;
 }
