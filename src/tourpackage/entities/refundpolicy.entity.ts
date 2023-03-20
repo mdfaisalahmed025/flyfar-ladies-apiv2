@@ -7,8 +7,7 @@ import { Tourpackage } from './tourpackage.entity';
 export class refundpolicy {
     @PrimaryGeneratedColumn()
     RId: number
-    @IsNotEmpty()
-    @Column()
+    @Column({nullable:true})
     RefundPolicy:string
     @ManyToOne(()=>Tourpackage, (tourpackages)=>tourpackages.refundpolicys)
     @JoinColumn({name: 'Tour_package_refundpolicy'})
