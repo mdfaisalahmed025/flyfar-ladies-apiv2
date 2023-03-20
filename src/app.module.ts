@@ -46,7 +46,7 @@ import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
         Userprofile,
         Traveller
       ],
-      synchronize:true,
+      synchronize:false,
     }),
     UserModule,
     TourpackageModule,

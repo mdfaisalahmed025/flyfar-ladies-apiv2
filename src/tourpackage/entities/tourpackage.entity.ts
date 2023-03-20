@@ -37,20 +37,22 @@ export class Tourpackage {
     TotalDuration: string
     @Column('text', { nullable: true})
     PackageOverview: string;
-    @Column()
+    @Column({default:false})
     Availability: boolean
-    @Column()
+    @Column({ default: false })
     Showpackage: boolean
-    @Column()
+    @Column({ default: false })
     Flight:boolean
-    @Column()
+    @Column({ default: false })
     Food: boolean
-    @Column()
+    @Column({ default: false })
     Transport:boolean
-    @Column()
+    @Column({ default: false })
     Hotel:boolean
     @Column({nullable:true})
     ImageUrl: string
+
+
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
         eager: true,
         onUpdate: "RESTRICT",
