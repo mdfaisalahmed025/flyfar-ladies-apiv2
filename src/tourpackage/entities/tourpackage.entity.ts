@@ -35,21 +35,21 @@ export class Tourpackage {
     TripType: string;
     @Column({ nullable: true })
     TotalDuration: string
-    @Column('text', { nullable: true})
+    @Column('text', { nullable: true })
     PackageOverview: string;
-    @Column('bool', {default:false,nullable:true})
+    @Column({ default: false, nullable: true })
     Availability: boolean
-    @Column('bool', { default: false, nullable: true })
+    @Column({ default: false, nullable: true })
     Showpackage: boolean
-    @Column('bool', { default: false, nullable: true })
-    Flight:boolean
-    @Column('bool', { default: false, nullable: true })
+    @Column({ default: false, nullable: true })
+    Flight: boolean
+    @Column({ default: false, nullable: true })
     Food: boolean
-    @Column('bool', { default: false, nullable: true })
-    Transport:boolean
-    @Column('bool',{ default: false, nullable: true })
-    Hotel:boolean
-    @Column({nullable:true})
+    @Column({ default: false, nullable: true })
+    Transport: boolean
+    @Column({ default: false, nullable: true })
+    Hotel: boolean
+    @Column({ nullable: true })
     ImageUrl: string
 
 
@@ -98,7 +98,7 @@ export class Tourpackage {
         eager: true, onDelete: "RESTRICT",
         onUpdate: "RESTRICT"
     })
-    refundpolicys:refundpolicy;
+    refundpolicys: refundpolicy;
 
     @OneToMany(() => tourpackageplan, (dayplans) => dayplans.tourpackage, {
         eager: true, onDelete: "RESTRICT",
