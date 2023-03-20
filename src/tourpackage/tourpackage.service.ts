@@ -260,7 +260,7 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const createrefundpolicy = this.refundPolicyRepo.create({ ...refundpolicydto, tourpackage });
+    const createrefundpolicy = this.refundPolicyRepo.create({...refundpolicydto,tourpackage });
     const newrefundpolicy = await this.refundPolicyRepo.save(
       createrefundpolicy,
     );

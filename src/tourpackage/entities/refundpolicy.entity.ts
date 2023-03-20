@@ -1,5 +1,5 @@
-import { IsNotEmpty } from '@nestjs/class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Column, Entity,JoinColumn,ManyToOne,PrimaryGeneratedColumn } from 'typeorm';
 import { Tourpackage } from './tourpackage.entity';
 
 
@@ -7,10 +7,9 @@ import { Tourpackage } from './tourpackage.entity';
 export class refundpolicy {
     @PrimaryGeneratedColumn()
     RId: number
-    @IsNotEmpty()
-    @Column()
+    @Column({nullable:true})
     RefundPolicy:string
     @ManyToOne(()=>Tourpackage,(tourpackages)=>tourpackages.refundpolicys)
-    @JoinColumn({name: 'Tour_package_refundpolicy'})
+    @JoinColumn({name:'Tour_package_refundpolicy'})
     tourpackage:Tourpackage;
 }

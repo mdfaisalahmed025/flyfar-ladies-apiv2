@@ -51,14 +51,12 @@ export class Tourpackage {
     Hotel: boolean
     @Column({ nullable: true })
     ImageUrl: string
-
-
+    
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
         eager: true,
         onUpdate: "RESTRICT",
         cascade: true,
     })
-    @JoinColumn({ name: 'album image' })
     albumImages: AlbumImage;
     @OneToMany(() => VisitedPlace, (visitedimage) => visitedimage.tourpackage, {
         eager: true, cascade: false, onDelete: "RESTRICT",

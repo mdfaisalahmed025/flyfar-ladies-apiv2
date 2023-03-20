@@ -15,7 +15,7 @@ export class packageincluded {
    Food: boolean
    @Column({ default: true })
    Transport: boolean
-   @OneToOne(() => Tourpackage, (tourpackages) => tourpackages.includes,)
+   @OneToOne(() => Tourpackage, (tourpackages) => tourpackages.includes)
    tourpackage: Tourpackage
 
 
