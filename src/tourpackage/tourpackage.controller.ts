@@ -146,9 +146,6 @@ addTourPackageBookingPolicy(
   });
 }
 
-
-
-
   @Get(':id/getpolicy/:BkId')
   async getsingleBookingPolicy(
     @Param('id') id: number,

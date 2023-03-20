@@ -27,9 +27,9 @@ import { MulterModule } from '@nestjs/platform-express';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'containers-us-west-130.railway.app',
-      port: 7301,
+      port: 6409,
       username: 'root',
-      password: 'gE6K4pa6q6oRogoznAHy',
+      password: 'EQI1O4V0pSGKCniOoGcT',
       database: 'railway',
       entities: [User,
         Tourpackage,
@@ -57,16 +57,3 @@ import { MulterModule } from '@nestjs/platform-express';
 })
 export class AppModule {}
 
-
-// host: 'containers-us-west-92.railway.app',
-// port: 6675,
-// username: 'root',
-// password: 'bat35GnjfyJNyPzIS3l6',
-// database: 'railway',
-
-
-// host: '127.0.0.1',
-// port: 3306,
-// username: 'root',
-// password: '',
-// database: 'flyfar-ladies',
