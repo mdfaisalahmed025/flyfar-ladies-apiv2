@@ -36,17 +36,17 @@ export class Tourpackage {
     TotalDuration: string
     @Column('text', { nullable: true})
     PackageOverview: string;
-    @Column("bool",{nullable:true, default:false})
+    @Column()
     Availability: boolean
-    @Column("bool",{nullable:true,default:false})
+    @Column()
     Showpackage: boolean
-    @Column("bool",{nullable:true,default:false})
+    @Column()
     Flight:boolean
-    @Column("bool",{nullable:true,default:false})
+    @Column()
     Food: boolean
-    @Column("bool",{nullable:true,default:false})
+    @Column()
     Transport:boolean
-    @Column("bool",{nullable:true,default:false})
+    @Column()
     Hotel:boolean
     @Column({nullable:true})
     ImageUrl: string
@@ -57,7 +57,6 @@ export class Tourpackage {
     })
     @JoinColumn({ name: 'album image' })
     albumImages: AlbumImage;
-
     @OneToMany(() => VisitedPlace, (visitedimage) => visitedimage.tourpackage, {
         eager: true, cascade: false, onDelete: "RESTRICT",
         onUpdate: "RESTRICT"
