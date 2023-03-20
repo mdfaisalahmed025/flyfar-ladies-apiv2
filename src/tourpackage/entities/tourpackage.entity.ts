@@ -36,25 +36,18 @@ export class Tourpackage {
     TotalDuration: string
     @Column('text', { nullable: true})
     PackageOverview: string;
-    @IsBoolean()
-    @Column({nullable:true, default:false})
+    @Column('bool',{nullable:true, default:false})
     Availability: boolean
-    @IsBoolean()
-    @Column({nullable:true,default:false})
+    @Column('bool',{nullable:true,default:false})
     Showpackage: boolean
-    @IsBoolean()
-    @Column({nullable:true,default:false})
+    @Column('bool',{nullable:true,default:false})
     Flight:boolean
-    @IsBoolean()
-    @Column({nullable:true,default:false})
+    @Column('bool',{nullable:true,default:false})
     Food: boolean
-    @IsBoolean()
-    @Column({nullable:true,default:false})
+    @Column('bool',{nullable:true,default:false})
     Transport:boolean
-    @IsBoolean()
-    @Column({nullable:true,default:false})
+    @Column('bool',{nullable:true,default:false})
     Hotel:boolean
-    @IsBoolean()
     @Column({nullable:true})
     ImageUrl: string
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
