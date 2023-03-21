@@ -55,14 +55,14 @@ async findAll() {
   }
 
 async  findOne(Id: number) {
-    const tourpackage=  this.TourpackageRepo.findOne({where:{Id}});
-    if (!tourpackage) {
+    const gettourpackage =  this.TourpackageRepo.findOne({where:{Id}});
+    if (!gettourpackage) {
       throw new HttpException(
         `TourPackage not found with this id=${Id}`,
         HttpStatus.BAD_REQUEST,
       );
     }
-    return tourpackage;
+    return gettourpackage;
   }
 
 async  updatePackage(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
