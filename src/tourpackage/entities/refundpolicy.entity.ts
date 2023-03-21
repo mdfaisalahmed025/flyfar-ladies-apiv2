@@ -1,5 +1,5 @@
 
-import { Column, Entity,JoinColumn,ManyToOne,PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity,ManyToOne,PrimaryGeneratedColumn } from 'typeorm';
 import { Tourpackage } from './tourpackage.entity';
 
 
@@ -10,6 +10,5 @@ export class refundpolicy {
     @Column({nullable:true})
     RefundPolicy:string
     @ManyToOne(()=>Tourpackage,(tourpackages)=>tourpackages.refundpolicys)
-    @JoinColumn({name:'Tour_package_refundpolicy'})
     tourpackage:Tourpackage;
 }

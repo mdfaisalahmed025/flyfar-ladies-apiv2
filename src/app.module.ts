@@ -8,11 +8,9 @@ import { AppService } from './app.service';
 import { TourpackageModule } from './tourpackage/tourpackage.module';
 import { AlbumImage } from './tourpackage/entities/albumimage.entity';
 import { packageexcluions } from './tourpackage/entities/packageexclsuions.entity';
-import { packageincluded } from './tourpackage/entities/PackageInclude.entity';
 import { Packageinclusion } from './tourpackage/entities/packageInclusion.entitry';
 import { tourpackageplan } from './tourpackage/entities/tourpackageplan.entity';
 import { packagehighlight } from './tourpackage/entities/packagehighlight.entity';
-// import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
 import { bookingpolicy } from './tourpackage/entities/bookingpolicy.entity';
 import { VisitedPlace } from './tourpackage/entities/visitedplace.entity';
 import { Traveller } from './Traveller/entities/traveller.entity';
@@ -36,15 +34,14 @@ import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
         Tourpackage,
         AlbumImage,
         packageexcluions,
-        packageincluded,
         Packageinclusion,
         tourpackageplan,
         packagehighlight,
-        refundpolicy,
         bookingpolicy,
         VisitedPlace,
         Userprofile,
-        Traveller
+        Traveller,
+        refundpolicy
       ],
       synchronize: true,
     }),
@@ -56,5 +53,12 @@ import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
+
+
+      // host: 'containers-us-west-205.railway.app',
+      // port: 6304,
+      // username: 'root',
+      // password: 'HE86nB4LtYgTDlhVsHQc',
+      // database: 'railway',
 

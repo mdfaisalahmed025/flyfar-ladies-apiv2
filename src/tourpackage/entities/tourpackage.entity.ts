@@ -1,16 +1,10 @@
-
-import { Transform } from "class-transformer";
-import { IsBoolean, IsBooleanString } from "class-validator";
-import { text } from "stream/consumers";
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
 import { packageexcluions } from "./packageexclsuions.entity";
 import { packagehighlight } from "./packagehighlight.entity";
-import { packageincluded } from "./PackageInclude.entity";
 import { Packageinclusion } from "./packageInclusion.entitry";
 import { refundpolicy } from "./refundpolicy.entity";
-// import { refundpolicy } from "./refundpolicy.entity";
 import { tourpackageplan } from "./tourpackageplan.entity";
 import { VisitedPlace } from "./visitedplace.entity";
 
@@ -37,17 +31,17 @@ export class Tourpackage {
     TotalDuration: string
     @Column('text', { nullable: true })
     PackageOverview: string;
-    @Column('boolean',{ default: false, nullable: true })
+    @Column({ default: false, nullable: true })
     Availability: boolean
-    @Column('boolean', { default: false, nullable: true })
+    @Column({ default: false, nullable: true })
     Showpackage: boolean
-    @Column('boolean', { default: false, nullable: true })
+    @Column({ default: false, nullable: true })
     Flight: boolean
-    @Column('boolean', { default: false, nullable: true })
+    @Column({ default: false, nullable: true })
     Food: boolean
-    @Column('boolean', { default: false, nullable: true })
+    @Column({ default: false, nullable: true })
     Transport: boolean
-    @Column('boolean', { default: false, nullable: true })
+    @Column({ default: false, nullable: true })
     Hotel: boolean
     @Column({ nullable: true })
     ImageUrl: string
@@ -86,11 +80,6 @@ export class Tourpackage {
     })
     highlights: packagehighlight;
 
-    @OneToMany(() => packageincluded, (includes) => includes.tourpackage, {
-        eager: true, onDelete: "RESTRICT",
-        onUpdate: "RESTRICT"
-    })
-    includes: packageincluded;
 
     @OneToMany(() => refundpolicy, (refundpolicy) => refundpolicy.tourpackage, {
         eager: true, onDelete: "RESTRICT",

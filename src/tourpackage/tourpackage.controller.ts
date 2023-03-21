@@ -193,9 +193,7 @@ addTourPackageBookingPolicy(
   }
 
   // booking policy end
-
-
-  //refund policy start
+  // refund policy start
 
   @Post(':id/AddrefundPolicy')
   async addrefundPolicy(
@@ -648,7 +646,6 @@ addTourPackageBookingPolicy(
     });
   }
 
-
   // delete Highlight
 
   @Delete(':id/DeleteHighlight/:HiId')
@@ -664,74 +661,4 @@ addTourPackageBookingPolicy(
   }
 
 
-
-  
-
-// start included item package 
-  @Post(':id/AddPackageIncluded')
-  addpackageIncluded(
-    @Param('id', ParseIntPipe) id: number,
-    @Body()
-    createpackageIncludeDto: createPackageIncludeDto,
-    @Req() req: Request,
-    @Res() res: Response,
-  ) {
-    const packageincluded = this.tourpackageService.AddpackageIncluded(
-      id,
-      createpackageIncludeDto,
-    );
-    return res.status(HttpStatus.OK).send({ status:"success",
-      message: 'travel package Inlcluded Iteam Added',
-    });
-  }
-
-
-
-  @Get(':id/getIncluded/:InId')
-  async getPackageIncluded(
-    @Param('id') id: number,
-    @Param('InId') InId: number,
-    @Req() req: Request,
-    @Res() res: Response) {
-    const Included = await this.tourpackageService.Findincluded(id, InId)
-    return res.status(HttpStatus.OK).json({
-      Included,
-    });
-  }
-
-  //update package Highlight
-
-
-
-  @Patch(':id/updateIncluded/:InId')
-  async updateIncluded(
-    @Param('id') id: number,
-    @Param('InId') InId: number,
-    @Body() updateIncludedDto: UpdateTourpackageIncludedDto,
-    req: Request,
-    @Res() res: Response,
-  ) {
-    const Included = await this.tourpackageService.updateincluded(id, InId, updateIncludedDto)
-    return res.status(HttpStatus.OK).json({
-      status:"success",
-      message: `Included with Id ${InId} has updated successfully`,
-      Included,
-    });
-  }
-
-
-  // delete Highlight
-
-  @Delete(':id/Deleteincluded/:InId')
-  async DeleteIncluded(
-    @Param('id') id: number,
-    @Param('InId') InId: number,
-    @Req() req: Request,
-    @Res() res: Response) {
-    await this.tourpackageService.Deleteincluded(id, InId)
-    return res.status(HttpStatus.OK).json({
-      status:"success",
-      message: `Included item Id ${InId} has deleted successfully`,
-    });
-  }
 }

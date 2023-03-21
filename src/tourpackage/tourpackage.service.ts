@@ -20,7 +20,6 @@ import { AlbumImage } from './entities/albumimage.entity';
 import { bookingpolicy } from './entities/bookingpolicy.entity';
 import { packageexcluions } from './entities/packageexclsuions.entity';
 import { packagehighlight } from './entities/packagehighlight.entity';
-import { packageincluded } from './entities/PackageInclude.entity';
 import { Packageinclusion } from './entities/packageInclusion.entitry';
 import { refundpolicy } from './entities/refundpolicy.entity';
 import { Tourpackage } from './entities/tourpackage.entity';
@@ -34,8 +33,6 @@ export class TourpackageService {
 constructor(
 @InjectRepository(Tourpackage)
 private TourpackageRepo:Repository<Tourpackage>,
-@InjectRepository(packageincluded)
-private packageIncludeRepo: Repository<packageincluded>,
 @InjectRepository(Packageinclusion)
 private packageInclusionRepo: Repository<Packageinclusion>,
 @InjectRepository(tourpackageplan)
@@ -341,9 +338,9 @@ async  remove(Id: number) {
     await this.refundPolicyRepo.delete(RId);
   }
 
-///End refund Policy
+// ///End refund Policy
 
-//  Add package inclusions
+// //  Add package inclusions
 
 
   async AddInclusions(
@@ -534,101 +531,6 @@ async  remove(Id: number) {
 
 
   //start  included
-
-
-
-  async AddpackageIncluded(
-    Id: number,
-    PackgeincludedDto: createPackageIncludeDto,
-  ) {
-    const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
-    if (!tourpackage) {
-      throw new HttpException(
-        "TourPackage not found, cann't add cover image",
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const Addincluded = await this.packageIncludeRepo.create({ ...PackgeincludedDto, tourpackage });
-    const saveincluded = await this.packageIncludeRepo.save(Addincluded);
-    return saveincluded;
-  }
-
-  
-
-
-
-  // find Exclusions
-  async Findincluded(Id: number, InId: number) {
-    const tourpackage = await this.TourpackageRepo.findOne({
-      where: {
-        Id
-      }
-    })
-    if (!tourpackage) {
-      throw new HttpException(
-        `TourPackage not found with this id=${Id}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    const included = await this.packageIncludeRepo.findOne({ where: { InId } })
-    if (!included) {
-      throw new HttpException(
-        `included not found with this id=${InId}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    return included;
-  }
-
-  // update inclusions
-  async updateincluded(Id: number, InId: number, updateincludedDto: UpdateTourpackageIncludedDto) {
-    const tourpackage = await this.TourpackageRepo.findOne({
-      where: {
-        Id
-      }
-    })
-    if (!tourpackage) {
-      throw new HttpException(
-        `TourPackage not found with this id=${Id}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const included = await this.packageIncludeRepo.findOne({ where: { InId } })
-    if (!included) {
-      throw new HttpException(
-        `included not found with this id=${InId}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const updateincluded = await this.packageIncludeRepo.update({ InId }, { ...updateincludedDto })
-    return updateincluded;
-  }
-
-
-  // Delete exclusions
-  async Deleteincluded(Id: number, InId: number) {
-    const tourpackage = await this.TourpackageRepo.findOne({
-      where: {
-        Id
-      }
-    })
-    if (!tourpackage) {
-      throw new HttpException(
-        `TourPackage not found with this id=${Id}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const included = await this.packageIncludeRepo.findOne({ where: { InId } })
-    if (!included) {
-      throw new HttpException(
-        `included not found with this id=${InId}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    await this.packageIncludeRepo.delete(InId);
-  }
-
 
 
   async AddTourpackagePlan(
