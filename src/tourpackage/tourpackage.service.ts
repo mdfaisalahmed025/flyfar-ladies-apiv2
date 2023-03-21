@@ -18,6 +18,7 @@ import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
 import { updateTourPackagePlanDto } from './dto/update-tourpackageplan.dto';
 import { AlbumImage } from './entities/albumimage.entity';
 import { bookingpolicy } from './entities/bookingpolicy.entity';
+import { MainImage } from './entities/mainimage.entity';
 import { packageexcluions } from './entities/packageexclsuions.entity';
 import { packagehighlight } from './entities/packagehighlight.entity';
 import { Packageinclusion } from './entities/packageInclusion.entitry';
@@ -47,6 +48,7 @@ private bookingPolicyRepo: Repository<bookingpolicy>,
 private refundPolicyRepo: Repository<refundpolicy>,
 @InjectRepository(AlbumImage)
 private AlbumImageRepo: Repository<AlbumImage>,
+@InjectRepository(MainImage) private MainImageRepo: Repository<MainImage>,
 @InjectRepository(VisitedPlace)
 private visitedImageRepo: Repository<VisitedPlace>){}
 
@@ -123,6 +125,29 @@ async  remove(Id: number) {
       );
     }
     return AllAlbumImage;
+  }
+  
+
+  async AllMainImage(Id: number) {
+    const tourpackage = await this.TourpackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const MainImage = await this.MainImageRepo.find({})
+    if (!MainImage) {
+      throw new HttpException(
+        `Image not found with `,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return MainImage;
   }
 
 

@@ -23,11 +23,13 @@ import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
 import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
 import { UpdateTourpackageIncludedDto } from './dto/update-packageInclude.dto';
+import { MainImage } from './entities/mainimage.entity';
 
 @Controller('tourpackage')
 export class TourpackageController {
   constructor(
     @InjectRepository(Tourpackage) private TourpackageRepo:Repository<Tourpackage>,
+    @InjectRepository(MainImage) private MainImageRepo: Repository<MainImage>,
     @InjectRepository(AlbumImage) private AlbumimageRepo: Repository<AlbumImage>,
     @InjectRepository(VisitedPlace) private visitedplaceRepo: Repository<VisitedPlace>,
      private readonly tourpackageService: TourpackageService) {}
@@ -128,6 +130,59 @@ export class TourpackageController {
   @Res() res: Response) {
     await this.tourpackageService.remove(+id);
     return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package deleted succesfully" })
+  }
+
+
+
+//add main image
+  @Post(':Id/AddmainImage')
+  @UseInterceptors(
+    FilesInterceptor('MainImageUrl',20,{
+      storage: diskStorage({
+        destination: './MainImage',
+        filename: (req, image, callback) => {
+          const filename = `${image.originalname}`;
+          callback(null, filename);
+        },
+      }),
+    }),
+  )
+  async AddmainImages(
+    @UploadedFiles(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: /(jpg|jpeg|png|gif)$/,
+        })
+        .addMaxSizeValidator({
+          maxSize: 1024 * 1024 * 6,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
+    files: Express.Multer.File[],
+    @Param('Id', ParseIntPipe) Id: number,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() body,
+  ) {
+    const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
+    if (!tourpackage) {
+      throw new HttpException(
+        "TourPackage not found, cann't add main image",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    for (const file of files) {
+      const mainimage = new MainImage();
+      mainimage.MainImageUrl = file.path
+      mainimage.MainImageTitle = req.body.MainImageTitle
+      await this.MainImageRepo.save({...mainimage, tourpackage })
+    }
+    return res.status(HttpStatus.OK).send({  
+      status:"success",
+      message: "main Image Added Successfully"})
   }
 
   
@@ -344,6 +399,18 @@ addTourPackageBookingPolicy(
     const AllAlbumimages = await this.tourpackageService.FindAllAlbum(id)
     return res.status(HttpStatus.OK).json({
       AllAlbumimages,
+    });
+  }
+
+  @Get(':id/Allmainimage')
+  async getAllmainImage(
+    @Param('id') id: number,
+
+    @Req() req: Request,
+    @Res() res: Response) {
+    const AllMainImage = await this.tourpackageService.AllMainImage(id)
+    return res.status(HttpStatus.OK).json({
+      AllMainImage,
     });
   }
 

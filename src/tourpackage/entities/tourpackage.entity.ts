@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
+import { MainImage } from "./mainimage.entity";
 import { packageexcluions } from "./packageexclsuions.entity";
 import { packagehighlight } from "./packagehighlight.entity";
 import { Packageinclusion } from "./packageInclusion.entitry";
@@ -46,12 +47,21 @@ export class Tourpackage {
     @Column({ nullable: true })
     ImageUrl: string
     
+
+    @OneToMany(() => MainImage, (mainimage) => mainimage.tourpackage, {
+        eager: true,
+        onUpdate: "RESTRICT",
+        cascade: true,
+    })
+    mainimage: MainImage;
+    
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
         eager: true,
         onUpdate: "RESTRICT",
         cascade: true,
     })
     albumImages: AlbumImage;
+
     @OneToMany(() => VisitedPlace, (visitedimage) => visitedimage.tourpackage, {
         eager: true, cascade: false, onDelete: "RESTRICT",
         onUpdate: "RESTRICT"

@@ -20,6 +20,7 @@ import { TravellerModule } from './Traveller/traveller.module';
 import { UsderProfileModule } from './userProfile/userprofile.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
+import { MainImage } from './tourpackage/entities/mainimage.entity';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
       database: 'railway',
       entities: [User,
         Tourpackage,
+        MainImage,
         AlbumImage,
         packageexcluions,
         Packageinclusion,

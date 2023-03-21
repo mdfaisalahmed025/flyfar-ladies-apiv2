@@ -11,11 +11,13 @@ import { packageexcluions } from './entities/packageexclsuions.entity';
 import { packagehighlight } from './entities/packagehighlight.entity';
 import { bookingpolicy } from './entities/bookingpolicy.entity';
 import { refundpolicy } from './entities/refundpolicy.entity';
+import { MainImage } from './entities/mainimage.entity';
 
 
 @Module({
   imports:[TypeOrmModule.forFeature([
     Tourpackage,
+    MainImage,
     AlbumImage,
     VisitedPlace,
     Packageinclusion,
@@ -24,7 +26,8 @@ import { refundpolicy } from './entities/refundpolicy.entity';
     packagehighlight,
     bookingpolicy,
     Tourpackage,
-    refundpolicy
+    refundpolicy,
+
   ])],
   controllers: [TourpackageController],
   providers: [TourpackageService]
