@@ -1,3 +1,4 @@
+import { S3Service } from './../s3/s3.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -50,7 +51,8 @@ private refundPolicyRepo: Repository<refundpolicy>,
 private AlbumImageRepo: Repository<AlbumImage>,
 @InjectRepository(MainImage) private MainImageRepo: Repository<MainImage>,
 @InjectRepository(VisitedPlace)
-private visitedImageRepo: Repository<VisitedPlace>){}
+private visitedImageRepo: Repository<VisitedPlace>,
+){}
 
 async findAll() {
     return this.TourpackageRepo.find();

@@ -18,19 +18,19 @@ import { User } from './Auth/entities/user.entity';
 import { UserModule } from './Auth/user.module';
 import { TravellerModule } from './Traveller/traveller.module';
 import { UsderProfileModule } from './userProfile/userprofile.module';
-import { MulterModule } from '@nestjs/platform-express';
 import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
 import { MainImage } from './tourpackage/entities/mainimage.entity';
+import { S3Module } from './s3/s3.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'containers-us-west-205.railway.app',
-      port: 6304,
-      username: 'root',
-      password: 'HE86nB4LtYgTDlhVsHQc',
-      database: 'railway',
+      host:'127.0.0.1',
+      port:3306,
+      username:'root',
+      password:'',
+      database:'fflv2',
       entities: [User,
         Tourpackage,
         MainImage,
@@ -50,7 +50,9 @@ import { MainImage } from './tourpackage/entities/mainimage.entity';
     UserModule,
     TourpackageModule,
     TravellerModule,
-    UsderProfileModule
+    UsderProfileModule,
+    S3Module,
+
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,12 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException } from '@nestjs/common';
+
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException, Logger } from '@nestjs/common';
 import { TourpackageService } from './tourpackage.service';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Request, Response } from 'express';
 import { Tourpackage } from './entities/tourpackage.entity';
 import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumImage } from './entities/albumimage.entity';
 import { VisitedPlace } from './entities/visitedplace.entity';
 import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
@@ -21,72 +21,85 @@ import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
-import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
-import { UpdateTourpackageIncludedDto } from './dto/update-packageInclude.dto';
+import { S3Client, PutObjectCommandInput, PutObjectAclCommandInput, PutObjectCommandOutput, PutObjectCommand } from '@aws-sdk/client-s3';
 import { MainImage } from './entities/mainimage.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { S3Service } from 'src/s3/s3.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('tourpackage')
 export class TourpackageController {
+  private logger = new Logger(S3Service.name)
+  private region:string;
+  private s3:S3Client;
   constructor(
     @InjectRepository(Tourpackage) private TourpackageRepo:Repository<Tourpackage>,
     @InjectRepository(MainImage) private MainImageRepo: Repository<MainImage>,
     @InjectRepository(AlbumImage) private AlbumimageRepo: Repository<AlbumImage>,
     @InjectRepository(VisitedPlace) private visitedplaceRepo: Repository<VisitedPlace>,
-     private readonly tourpackageService: TourpackageService) {}
+     private readonly tourpackageService: TourpackageService,
+     private ConfigService:ConfigService,
+     private s3service:S3Service
+     
+     ) {
+      this.region =this.ConfigService.get<string>('DO_REGION') || 'sgp1';
+      this.s3 = new S3Client({
+         region:this.region
+      });
+     }
 
   @Post('Addpackage')
   @UseInterceptors(
-    FilesInterceptor('ImageUrl',5,{
-      storage: diskStorage({
-        destination: './CoverImage',
-        filename: (req, image, callback) => {
-          // const uniqueSuffix = Date.now() + '-' +Math.round(Math.random()*1e9);
-          // const ext = extname(image.originalname)
-          const filename = `${image.originalname}`;
-          callback(null, filename);
-        },
-      }),
-    }),
+    FileInterceptor('ImageUrl')
   )
 
   async AddTravelPAckage(
     @UploadedFiles(
-      new ParseFilePipeBuilder()
-        .addFileTypeValidator({
-          fileType: /(jpg|jpeg|png|gif)$/,
-        })
-        .addMaxSizeValidator({
-          maxSize: 1024 * 1024 * 6,
-        })
-        .build({
-          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-        }),
     )
-    files: Express.Multer.File[],
+    file: Express.Multer.File,
     @Req() req: Request,
     @Body() body,
     @Res() res: Response) {
-      for (const file of files) {
-        const tourpackage = new Tourpackage();
-        tourpackage.ImageUrl = file.path
-        tourpackage.MainTitle = req.body.MainTitle
-        tourpackage.SubTitle =req.body.SubTitle
-        tourpackage.Price =req.body.Price
-        tourpackage.Location =req.body.Location
-        tourpackage.Availability = req.body.Availability
-        tourpackage.StartDate =req.body.StartDate
-        tourpackage.EndDate =req.body.EndDate
-        tourpackage.TripType =req.body.TripType
-        tourpackage.TotalDuration =req.body.TotalDuration
-        tourpackage.PackageOverview =req.body.PackageOverview
-        tourpackage.Showpackage =req.body.Showpackage
-        tourpackage.Flight =req.body.Flight
-        tourpackage.Transport =req.body.Transport
-        tourpackage.Food =req.body.Food
-        tourpackage.Hotel =req.body.Hotel
-        await this.TourpackageRepo.save({ ...tourpackage})
-      }
-    return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package added succesfully" })
+
+      const bucket = this.ConfigService.get<string>('ladiescdn');
+      const key = `${file.path}`
+      const params: PutObjectCommandInput={
+        Body:file.buffer,
+        Bucket: bucket,
+        Key: key,
+        ACL:'public-read',
+        };
+
+
+        try {
+          const response: PutObjectCommandOutput = await this.s3.send(new PutObjectCommand(params));
+          if(response.$metadata.httpStatusCode ===200){
+             return `https://${bucket}.s3.${this.region}.amazonaws.com/${key}`
+          }
+          throw new Error("image not save in amazxon s3")
+       }catch(err){
+          this.logger.error("cannot save file inside s3", err)
+       }
+  
+
+    const tourpackage = new Tourpackage();
+    tourpackage.MainTitle = req.body.MainTitle
+    tourpackage.SubTitle =req.body.SubTitle
+    tourpackage.Price =req.body.Price
+    tourpackage.Location =req.body.Location
+    tourpackage.Availability = req.body.Availability
+    tourpackage.StartDate =req.body.StartDate
+    tourpackage.EndDate =req.body.EndDate
+    tourpackage.TripType =req.body.TripType
+    tourpackage.TotalDuration =req.body.TotalDuration
+    tourpackage.PackageOverview =req.body.PackageOverview
+    tourpackage.Showpackage =req.body.Showpackage
+    tourpackage.Flight =req.body.Flight
+    tourpackage.Transport =req.body.Transport
+    tourpackage.Food =req.body.Food
+    tourpackage.Hotel =req.body.Hotel
+    await this.TourpackageRepo.save({...tourpackage})
+    return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package added succesfully",})
   }
 
   @Get('getall')

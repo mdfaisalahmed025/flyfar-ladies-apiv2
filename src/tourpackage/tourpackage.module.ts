@@ -1,3 +1,5 @@
+import { S3Module } from './../s3/s3.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { TourpackageService } from './tourpackage.service';
@@ -15,7 +17,10 @@ import { MainImage } from './entities/mainimage.entity';
 
 
 @Module({
-  imports:[TypeOrmModule.forFeature([
+  imports:[
+    ConfigModule,
+    S3Module,
+    TypeOrmModule.forFeature([
     Tourpackage,
     MainImage,
     AlbumImage,
@@ -27,9 +32,8 @@ import { MainImage } from './entities/mainimage.entity';
     bookingpolicy,
     Tourpackage,
     refundpolicy,
-
   ])],
   controllers: [TourpackageController],
-  providers: [TourpackageService]
+  providers: [TourpackageService],
 })
 export class TourpackageModule {}
