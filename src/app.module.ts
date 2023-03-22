@@ -1,3 +1,4 @@
+import { ConfigModule } from '@nestjs/config';
 
 import { Userprofile } from './userProfile/entitties/userprofile.entities';
 import { Tourpackage } from './tourpackage/entities/tourpackage.entity';
@@ -24,13 +25,14 @@ import { S3Module } from './s3/s3.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host:'127.0.0.1',
-      port:3306,
-      username:'root',
-      password:'',
-      database:'fflv2',
+      host: '127.0.0.1',
+      port: 3306,
+      username: 'root',
+      password: '',
+      database: 'fflv2',
       entities: [User,
         Tourpackage,
         MainImage,
@@ -52,12 +54,13 @@ import { S3Module } from './s3/s3.module';
     TravellerModule,
     UsderProfileModule,
     S3Module,
+    ConfigModule
 
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
 
 
       // host: 'containers-us-west-205.railway.app',

@@ -18,7 +18,9 @@ import { MainImage } from './entities/mainimage.entity';
 
 @Module({
   imports:[
-    ConfigModule,
+    ConfigModule.forRoot({
+      isGlobal:true
+    }),
     S3Module,
     TypeOrmModule.forFeature([
     Tourpackage,

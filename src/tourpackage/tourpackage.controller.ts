@@ -21,7 +21,7 @@ import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
-import { S3Client, PutObjectCommandInput, PutObjectAclCommandInput, PutObjectCommandOutput, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommandInput, PutObjectCommandOutput, GetObjectCommand } from '@aws-sdk/client-s3';
 import { MainImage } from './entities/mainimage.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { S3Service } from 'src/s3/s3.service';
@@ -30,76 +30,79 @@ import { ConfigService } from '@nestjs/config';
 @Controller('tourpackage')
 export class TourpackageController {
   private logger = new Logger(S3Service.name)
-  private region:string;
-  private s3:S3Client;
+  private region: string;
+  private s3: S3Client;
   constructor(
-    @InjectRepository(Tourpackage) private TourpackageRepo:Repository<Tourpackage>,
+    @InjectRepository(Tourpackage) private TourpackageRepo: Repository<Tourpackage>,
     @InjectRepository(MainImage) private MainImageRepo: Repository<MainImage>,
     @InjectRepository(AlbumImage) private AlbumimageRepo: Repository<AlbumImage>,
     @InjectRepository(VisitedPlace) private visitedplaceRepo: Repository<VisitedPlace>,
-     private readonly tourpackageService: TourpackageService,
-     private ConfigService:ConfigService,
-     private s3service:S3Service
-     
-     ) {
-      this.region =this.ConfigService.get<string>('DO_REGION') || 'sgp1';
-      this.s3 = new S3Client({
-         region:this.region
-      });
-     }
+    private readonly tourpackageService: TourpackageService,
+    private ConfigService: ConfigService,
+    private s3service: S3Service
+
+  ) {
+    this.region = this.ConfigService.get<string>('DO_REGION') || 'sgp1';
+    this.s3 = new S3Client({
+      region: this.region
+    });
+  }
 
   @Post('Addpackage')
   @UseInterceptors(
-    FileInterceptor('ImageUrl')
+    FilesInterceptor('ImageUrl', 20, {
+      storage: diskStorage({
+        destination: './MainImage',
+        filename: (req, image, callback) => {
+          const filename = `${image.originalname}`;
+          callback(null, filename);
+        },
+      }),
+    }),
   )
+
 
   async AddTravelPAckage(
     @UploadedFiles(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: /(jpg|jpeg|png|gif)$/,
+        })
+        .addMaxSizeValidator({
+          maxSize: 1024 * 1024 * 6,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
     )
     file: Express.Multer.File,
     @Req() req: Request,
     @Body() body,
     @Res() res: Response) {
 
-      const bucket = this.ConfigService.get<string>('ladiescdn');
-      const key = `${file.path}`
-      const params: PutObjectCommandInput={
-        Body:file.buffer,
-        Bucket: bucket,
-        Key: key,
-        ACL:'public-read',
-        };
 
-
-        try {
-          const response: PutObjectCommandOutput = await this.s3.send(new PutObjectCommand(params));
-          if(response.$metadata.httpStatusCode ===200){
-             return `https://${bucket}.s3.${this.region}.amazonaws.com/${key}`
-          }
-          throw new Error("image not save in amazxon s3")
-       }catch(err){
-          this.logger.error("cannot save file inside s3", err)
-       }
-  
+    const key  = `${file.path}`
+   const imageurl = await this.s3service.travelimage(file,key)
 
     const tourpackage = new Tourpackage();
+    tourpackage.ImageUrl = imageurl
     tourpackage.MainTitle = req.body.MainTitle
-    tourpackage.SubTitle =req.body.SubTitle
-    tourpackage.Price =req.body.Price
-    tourpackage.Location =req.body.Location
+    tourpackage.SubTitle = req.body.SubTitle
+    tourpackage.Price = req.body.Price
+    tourpackage.Location = req.body.Location
     tourpackage.Availability = req.body.Availability
-    tourpackage.StartDate =req.body.StartDate
-    tourpackage.EndDate =req.body.EndDate
-    tourpackage.TripType =req.body.TripType
-    tourpackage.TotalDuration =req.body.TotalDuration
-    tourpackage.PackageOverview =req.body.PackageOverview
-    tourpackage.Showpackage =req.body.Showpackage
-    tourpackage.Flight =req.body.Flight
-    tourpackage.Transport =req.body.Transport
-    tourpackage.Food =req.body.Food
-    tourpackage.Hotel =req.body.Hotel
-    await this.TourpackageRepo.save({...tourpackage})
-    return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package added succesfully",})
+    tourpackage.StartDate = req.body.StartDate
+    tourpackage.EndDate = req.body.EndDate
+    tourpackage.TripType = req.body.TripType
+    tourpackage.TotalDuration = req.body.TotalDuration
+    tourpackage.PackageOverview = req.body.PackageOverview
+    tourpackage.Showpackage = req.body.Showpackage
+    tourpackage.Flight = req.body.Flight
+    tourpackage.Transport = req.body.Transport
+    tourpackage.Food = req.body.Food
+    tourpackage.Hotel = req.body.Hotel
+    await this.TourpackageRepo.save({ ...tourpackage })
+    return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package added succesfully", })
   }
 
   @Get('getall')
@@ -113,12 +116,12 @@ export class TourpackageController {
   }
 
   @Patch(':id')
- async update( 
-  @Param('id') id: number,
-  @Req() req: Request,
-  @Res() res: Response,
-  @Body() body,
-   @Body() updateTourpackageDto:UpdateTourpackageDto){
+  async update(
+    @Param('id') id: number,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() body,
+    @Body() updateTourpackageDto: UpdateTourpackageDto) {
     const updatepackage = await this.tourpackageService.updatePackage(
       +id,
       updateTourpackageDto,
@@ -137,20 +140,20 @@ export class TourpackageController {
   }
 
   @Delete(':id')
- async remove(
-  @Param('id') id: string,
-  @Req() req: Request,
-  @Res() res: Response) {
+  async remove(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Res() res: Response) {
     await this.tourpackageService.remove(+id);
-    return res.status(HttpStatus.OK).send({ status:"success", message:"Travel package deleted succesfully" })
+    return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package deleted succesfully" })
   }
 
 
 
-//add main image
+  //add main image
   @Post(':Id/AddmainImage')
   @UseInterceptors(
-    FilesInterceptor('MainImageUrl',20,{
+    FilesInterceptor('MainImageUrl', 20, {
       storage: diskStorage({
         destination: './MainImage',
         filename: (req, image, callback) => {
@@ -191,32 +194,33 @@ export class TourpackageController {
       const mainimage = new MainImage();
       mainimage.MainImageUrl = file.path
       mainimage.MainImageTitle = req.body.MainImageTitle
-      await this.MainImageRepo.save({...mainimage, tourpackage })
+      await this.MainImageRepo.save({ ...mainimage, tourpackage })
     }
-    return res.status(HttpStatus.OK).send({  
-      status:"success",
-      message: "main Image Added Successfully"})
+    return res.status(HttpStatus.OK).send({
+      status: "success",
+      message: "main Image Added Successfully"
+    })
   }
 
-  
-// add booking policy
-@Post(':id/AddBookingPolicy')
-addTourPackageBookingPolicy(
-  @Param('id', ParseIntPipe) id: number,
-  @Body() bookingpolicydto: CreateBookingPolicyDto,
-  @Req() req: Request,
-  @Res() res: Response,
-) {
 
-  this.tourpackageService.createbookingPolicy(
-    id,
-    bookingpolicydto,
-  );
-  return res.status(HttpStatus.OK).json({
-    status:"success",
-    message: 'booking policy added',
-  });
-}
+  // add booking policy
+  @Post(':id/AddBookingPolicy')
+  addTourPackageBookingPolicy(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() bookingpolicydto: CreateBookingPolicyDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+
+    this.tourpackageService.createbookingPolicy(
+      id,
+      bookingpolicydto,
+    );
+    return res.status(HttpStatus.OK).json({
+      status: "success",
+      message: 'booking policy added',
+    });
+  }
 
   @Get(':id/getpolicy/:BkId')
   async getsingleBookingPolicy(
@@ -225,7 +229,8 @@ addTourPackageBookingPolicy(
     @Req() req: Request,
     @Res() res: Response) {
     const bookingpolicy = await this.tourpackageService.FindbookingPolicy(id, BkId)
-    return res.status(HttpStatus.OK).json({status:"success",bookingpolicy
+    return res.status(HttpStatus.OK).json({
+      status: "success", bookingpolicy
     });
   }
 
@@ -242,7 +247,7 @@ addTourPackageBookingPolicy(
   ) {
     const updatebooking = await this.tourpackageService.updateBookingolicy(id, BkId, updatebookingpolicyDto)
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
       message: `Booking policy updated successfully`,
     });
   }
@@ -255,7 +260,7 @@ addTourPackageBookingPolicy(
     @Res() res: Response) {
     await this.tourpackageService.DeletebookingPolicy(id, BkId)
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
       message: `booking policy deleted successfully`,
     });
   }
@@ -275,7 +280,7 @@ addTourPackageBookingPolicy(
       refundpolicydto,
     );
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
       message: 'refund policy added',
     });
   }
@@ -288,7 +293,7 @@ addTourPackageBookingPolicy(
     @Req() req: Request,
     @Res() res: Response) {
     const refundpolicy = await this.tourpackageService.FindRefundPolicy(id, RId)
-    return res.status(HttpStatus.OK).json({refundpolicy});
+    return res.status(HttpStatus.OK).json({ refundpolicy });
   }
 
   // update refund policy  
@@ -302,7 +307,7 @@ addTourPackageBookingPolicy(
   ) {
     const updaterefund = await this.tourpackageService.updateRefundolicy(id, RId, updateRefundlicyDto)
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
     });
   }
 
@@ -316,7 +321,7 @@ addTourPackageBookingPolicy(
     @Res() res: Response) {
     await this.tourpackageService.DeleterefundPolicy(id, RId)
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
       message: `refund policy Id=${RId} has deleted successfully`,
     });
   }
@@ -326,7 +331,7 @@ addTourPackageBookingPolicy(
 
   // add inclsuions
   @Post(':id/AddPackageInclusions')
- async addInclusion(
+  async addInclusion(
     @Param('id', ParseIntPipe) id: number,
     @Body() Inclusionsdto: createpackageincluionDto,
     @Req() req: Request,
@@ -337,7 +342,7 @@ addTourPackageBookingPolicy(
       Inclusionsdto,
     );
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
       message: 'travel package Inlclusions Iteam Added',
     });
   }
@@ -351,7 +356,8 @@ addTourPackageBookingPolicy(
     @Req() req: Request,
     @Res() res: Response) {
     const inclsuions = await this.tourpackageService.FindInclsuions(id, InId)
-    return res.status(HttpStatus.OK).json({inclsuions
+    return res.status(HttpStatus.OK).json({
+      inclsuions
     });
   }
 
@@ -367,7 +373,7 @@ addTourPackageBookingPolicy(
   ) {
     const updateInclsuions = await this.tourpackageService.updateInclusions(id, InId, updateInclusionsDto)
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
       message: `Inclsuions with Id=${InId} has updated successfully`,
       updateInclsuions,
     });
@@ -383,7 +389,7 @@ addTourPackageBookingPolicy(
     @Res() res: Response) {
     await this.tourpackageService.DeleteInclusion(id, InId)
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
       message: `Inclusion has deleted successfully`,
     });
   }
@@ -397,7 +403,7 @@ addTourPackageBookingPolicy(
     @Param('AlbumTitle') AlbumTitle: string,
     @Req() req: Request,
     @Res() res: Response) {
-    const Albumimages = await this.tourpackageService.FindAlbum(id,AlbumTitle)
+    const Albumimages = await this.tourpackageService.FindAlbum(id, AlbumTitle)
     return res.status(HttpStatus.OK).json({
       Albumimages,
     });
@@ -470,17 +476,18 @@ addTourPackageBookingPolicy(
       const newalbum = new AlbumImage();
       newalbum.albumImageUrl = file.path
       newalbum.AlbumTitle = req.body.AlbumTitle
-      await this.AlbumimageRepo.save({...newalbum, tourpackage })
+      await this.AlbumimageRepo.save({ ...newalbum, tourpackage })
     }
-    return res.status(HttpStatus.OK).send({  
-      status:"success", 
-      message: "album Image Added Successfully"})
+    return res.status(HttpStatus.OK).send({
+      status: "success",
+      message: "album Image Added Successfully"
+    })
   }
 
 
   @Post(':Id/AddvistitedImages')
   @UseInterceptors(
-    FilesInterceptor('VisitedImagePath',20,{
+    FilesInterceptor('VisitedImagePath', 20, {
       storage: diskStorage({
         destination: './vistitedplaceimages',
         filename: (req, image, callback) => {
@@ -510,7 +517,7 @@ addTourPackageBookingPolicy(
     @Req() req: Request,
     @Res() res: Response,
     @Body() body,
-    
+
   ) {
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
     if (!tourpackage) {
@@ -525,7 +532,7 @@ addTourPackageBookingPolicy(
       newalbum.PlaceName = req.body.PlaceName
       await this.visitedplaceRepo.save({ ...newalbum, tourpackage })
     }
-    return res.status(HttpStatus.OK).send({ status:"success", message: "visited Image Added Successfully", Tourpackage })
+    return res.status(HttpStatus.OK).send({ status: "success", message: "visited Image Added Successfully", Tourpackage })
   }
 
 
@@ -536,7 +543,7 @@ addTourPackageBookingPolicy(
     @Res() res: Response) {
     const visitedImage = await this.tourpackageService.FindAllvisitedImage(id)
     return res.status(HttpStatus.OK).json({
-    visitedImage
+      visitedImage
     });
   }
 
@@ -555,7 +562,7 @@ addTourPackageBookingPolicy(
       tourpackagePlandto,
     );
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
       message: 'travel package plan added Iteam Added',
     });
   }
@@ -568,7 +575,7 @@ addTourPackageBookingPolicy(
     @Req() req: Request,
     @Res() res: Response) {
     const tourplan = await this.tourpackageService.Finddayplan(id, dayId)
-    return res.status(HttpStatus.OK).json({tourplan});
+    return res.status(HttpStatus.OK).json({ tourplan });
   }
 
   //update package exclsuions
@@ -583,7 +590,7 @@ addTourPackageBookingPolicy(
   ) {
     const updatedayplan = await this.tourpackageService.updatedayplan(id, dayId, updatedayplanDto)
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
       message: `dayplan with Id=${dayId} has updated successfully`,
       updatedayplan,
     });
@@ -618,7 +625,8 @@ addTourPackageBookingPolicy(
       packageexcluionsdto,
     );
     return res.status(HttpStatus.OK).send({
-      status:"success", message: "exlusions  Added Successfully", exclsuions })
+      status: "success", message: "exlusions  Added Successfully", exclsuions
+    })
   }
 
   // get package exclsuions
@@ -688,7 +696,8 @@ addTourPackageBookingPolicy(
       id,
       packageHighlightdto,
     );
-    return res.status(HttpStatus.OK).json({ status:"success",
+    return res.status(HttpStatus.OK).json({
+      status: "success",
       message: 'travel package Highlight added'
     });
   }
@@ -703,7 +712,8 @@ addTourPackageBookingPolicy(
     @Req() req: Request,
     @Res() res: Response) {
     const Highlight = await this.tourpackageService.FindHighlight(id, HiId)
-    return res.status(HttpStatus.OK).json({Highlight
+    return res.status(HttpStatus.OK).json({
+      Highlight
     });
   }
 
@@ -721,7 +731,7 @@ addTourPackageBookingPolicy(
   ) {
     const updateHighlight = await this.tourpackageService.updateHighlight(id, HiId, updatehighlightDto)
     return res.status(HttpStatus.OK).json({
-      status:"success",
+      status: "success",
       message: `Highlight with Id ${HiId} has updated successfully`
     });
   }
