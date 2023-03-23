@@ -123,7 +123,7 @@ export class TourpackageController {
   //add main image
   @Post(':Id/AddmainImage')
   @UseInterceptors(
-    FilesInterceptor('MainImageUrl', 20)
+    FilesInterceptor('MainImageUrl',20)
   )
   async AddmainImages(
     @UploadedFiles(
@@ -153,8 +153,9 @@ export class TourpackageController {
     }
 
     for (const file of files) {
+      const coverimageurl = await this.s3service.travelimage(file)
       const mainimage = new MainImage();
-      mainimage.MainImageUrl = file.path
+      mainimage.MainImageUrl = coverimageurl
       mainimage.MainImageTitle = req.body.MainImageTitle
       await this.MainImageRepo.save({ ...mainimage, tourpackage })
     }

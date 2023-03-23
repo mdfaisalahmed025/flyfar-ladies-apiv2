@@ -1,4 +1,3 @@
-import { createReadStream } from 'fs';
 
 import { PutObjectCommand, PutObjectCommandInput, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
 import { Body, Injectable, Logger, Req } from '@nestjs/common';
@@ -25,11 +24,11 @@ export class S3Service {
     }
     async travelimage(file:Express.Multer.File) {
         const bucket = this.ConfigService.get<string>('DO_BUCKET_NAME');
-        const key = file.fieldname
+        const key = file.originalname
         const input: PutObjectCommandInput = {
             Body: file.buffer,
             Bucket: bucket,
-            Key: key,
+            Key: 'Coverimage/'+key,
             ACL: 'public-read',
             ContentType: file.mimetype
         }
@@ -38,13 +37,43 @@ export class S3Service {
                 new PutObjectCommand(input),
              );
              if (response.$metadata.httpStatusCode === 200) {
-                return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}`
+                return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/Coverimages/${key}`
             }
-            throw new Error("image not save in amazxon s3")
+            throw new Error("image not save in digital ocean s3")
         } catch (err) {
-            this.logger.error("cannot save file inside s3", err);
+            this.logger.error("cannot save file inside s3 spacebucket", err);
             throw err;
         }
+
+    }
+    async MainIMage(files:Express.Multer.File[]) {
+        const bucket = this.ConfigService.get<string>('DO_BUCKET_NAME');
+        for(const file of files){
+            const key =file.filename
+            
+             const input: PutObjectCommandInput = {
+                Body: file.buffer,
+                Bucket: bucket,
+                Key: 'Coverimage/'+key,
+                ACL: 'public-read',
+                ContentType: file.mimetype
+            }
+               
+        try {
+            const response: PutObjectCommandOutput = await this.s3.send(
+                new PutObjectCommand(input),
+             );
+             if (response.$metadata.httpStatusCode === 200) {
+                return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/Coverimages/${key}`
+            }
+            throw new Error("image not save in digital ocean s3")
+        } catch (err) {
+            this.logger.error("cannot save file inside s3 spacebucket", err);
+            throw err;
+        }
+        }
+      
+   
 
     }
 }
