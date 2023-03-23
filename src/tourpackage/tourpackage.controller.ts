@@ -1,5 +1,5 @@
 
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException, Logger } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException, Logger, UploadedFile } from '@nestjs/common';
 import { TourpackageService } from './tourpackage.service';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
@@ -21,7 +21,7 @@ import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
-import { S3Client, PutObjectCommandInput, PutObjectCommandOutput, GetObjectCommand } from '@aws-sdk/client-s3';
+
 import { MainImage } from './entities/mainimage.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { S3Service } from 'src/s3/s3.service';
@@ -29,9 +29,6 @@ import { ConfigService } from '@nestjs/config';
 
 @Controller('tourpackage')
 export class TourpackageController {
-  private logger = new Logger(S3Service.name)
-  private region: string;
-  private s3: S3Client;
   constructor(
     @InjectRepository(Tourpackage) private TourpackageRepo: Repository<Tourpackage>,
     @InjectRepository(MainImage) private MainImageRepo: Repository<MainImage>,
@@ -42,50 +39,23 @@ export class TourpackageController {
     private s3service: S3Service
 
   ) {
-    this.region = this.ConfigService.get<string>('DO_REGION') || 'sgp1';
-    this.s3 = new S3Client({
-      region: this.region
-    });
   }
 
   @Post('Addpackage')
   @UseInterceptors(
-    FilesInterceptor('ImageUrl', 20, {
-      storage: diskStorage({
-        destination: './MainImage',
-        filename: (req, image, callback) => {
-          const filename = `${image.originalname}`;
-          callback(null, filename);
-        },
-      }),
-    }),
+    FileInterceptor('coverimageurl'),
   )
 
-
   async AddTravelPAckage(
-    @UploadedFiles(
-      new ParseFilePipeBuilder()
-        .addFileTypeValidator({
-          fileType: /(jpg|jpeg|png|gif)$/,
-        })
-        .addMaxSizeValidator({
-          maxSize: 1024 * 1024 * 6,
-        })
-        .build({
-          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-        }),
+    @UploadedFile(
     )
     file: Express.Multer.File,
     @Req() req: Request,
     @Body() body,
     @Res() res: Response) {
-
-
-    const key  = `${file.path}`
-   const imageurl = await this.s3service.travelimage(file,key)
-
+    const coverimageurl = await this.s3service.travelimage(file)
     const tourpackage = new Tourpackage();
-    tourpackage.ImageUrl = imageurl
+    tourpackage.coverimageurl = coverimageurl
     tourpackage.MainTitle = req.body.MainTitle
     tourpackage.SubTitle = req.body.SubTitle
     tourpackage.Price = req.body.Price
@@ -101,7 +71,7 @@ export class TourpackageController {
     tourpackage.Transport = req.body.Transport
     tourpackage.Food = req.body.Food
     tourpackage.Hotel = req.body.Hotel
-    await this.TourpackageRepo.save({ ...tourpackage })
+    await this.TourpackageRepo.save(tourpackage)
     return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package added succesfully", })
   }
 
@@ -153,15 +123,7 @@ export class TourpackageController {
   //add main image
   @Post(':Id/AddmainImage')
   @UseInterceptors(
-    FilesInterceptor('MainImageUrl', 20, {
-      storage: diskStorage({
-        destination: './MainImage',
-        filename: (req, image, callback) => {
-          const filename = `${image.originalname}`;
-          callback(null, filename);
-        },
-      }),
-    }),
+    FilesInterceptor('MainImageUrl', 20)
   )
   async AddmainImages(
     @UploadedFiles(

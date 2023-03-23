@@ -32,7 +32,7 @@ import { S3Module } from './s3/s3.module';
       port: 3306,
       username: 'root',
       password: '',
-      database: 'fflv2',
+      database: 'flyfar-ladies',
       entities: [User,
         Tourpackage,
         MainImage,

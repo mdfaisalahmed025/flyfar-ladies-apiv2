@@ -45,7 +45,7 @@ export class Tourpackage {
     @Column('bool',{ default: false, nullable: true })
     Hotel: boolean
     @Column({ nullable: true })
-    ImageUrl: string
+    coverimageurl: string
     
 
     @OneToMany(() => MainImage, (mainimage) => mainimage.tourpackage, {
