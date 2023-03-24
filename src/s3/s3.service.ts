@@ -17,27 +17,28 @@ export class S3Service {
             endpoint: "https://sgp1.digitaloceanspaces.com",
             region: 'sgp1',
             credentials: {
-                accessKeyId:'DO007KE3UW4VALKKWU4G',
-                secretAccessKey:'gJ9x9vxAlZr8BQbNqpw0eUpcUqTDzipaTZb4UQ5oI0Q'
+                accessKeyId: 'DO007KE3UW4VALKKWU4G',
+                secretAccessKey: 'gJ9x9vxAlZr8BQbNqpw0eUpcUqTDzipaTZb4UQ5oI0Q'
             }
         });
     }
-    async travelimage(file:Express.Multer.File) {
+
+    async travelimage(file: Express.Multer.File) {
         const bucket = this.ConfigService.get<string>('DO_BUCKET_NAME');
         const key = file.originalname
         const input: PutObjectCommandInput = {
             Body: file.buffer,
             Bucket: bucket,
-            Key: 'Coverimage/'+key,
+            Key: key,
             ACL: 'public-read',
             ContentType: file.mimetype
         }
         try {
             const response: PutObjectCommandOutput = await this.s3.send(
                 new PutObjectCommand(input),
-             );
-             if (response.$metadata.httpStatusCode === 200) {
-                return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/Coverimages/${key}`
+            );
+            if (response.$metadata.httpStatusCode === 200) {
+                return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}`
             }
             throw new Error("image not save in digital ocean s3")
         } catch (err) {
@@ -46,34 +47,36 @@ export class S3Service {
         }
 
     }
-    async MainIMage(files:Express.Multer.File[]) {
-        const bucket = this.ConfigService.get<string>('DO_BUCKET_NAME');
-        for(const file of files){
-            const key =file.filename
-            
-             const input: PutObjectCommandInput = {
-                Body: file.buffer,
-                Bucket: bucket,
-                Key: 'Coverimage/'+key,
-                ACL: 'public-read',
-                ContentType: file.mimetype
-            }
-               
-        try {
-            const response: PutObjectCommandOutput = await this.s3.send(
-                new PutObjectCommand(input),
-             );
-             if (response.$metadata.httpStatusCode === 200) {
-                return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/Coverimages/${key}`
-            }
-            throw new Error("image not save in digital ocean s3")
-        } catch (err) {
-            this.logger.error("cannot save file inside s3 spacebucket", err);
-            throw err;
-        }
-        }
-      
-   
 
-    }
+
+    // async MainIMage(files: Express.Multer.File[]) {
+    //     const bucket = this.ConfigService.get<string>('DO_BUCKET_NAME');
+    //     for (const file of files) {
+    //         const key = file.filename
+
+    //         const input: PutObjectCommandInput = {
+    //             Body: file.buffer,
+    //             Bucket: bucket,
+    //             Key: 'Coverimage/' + key,
+    //             ACL: 'public-read',
+    //             ContentType: file.mimetype
+    //         }
+
+    //         try {
+    //             const response: PutObjectCommandOutput = await this.s3.send(
+    //                 new PutObjectCommand(input),
+    //             );
+    //             if (response.$metadata.httpStatusCode === 200) {
+    //                 return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/Coverimages/${key}`
+    //             }
+    //             throw new Error("image not save in digital ocean s3")
+    //         } catch (err) {
+    //             this.logger.error("cannot save file inside s3 spacebucket", err);
+    //             throw err;
+    //         }
+    //     }
+
+
+
+    // }
 }

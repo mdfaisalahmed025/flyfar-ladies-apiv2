@@ -123,7 +123,7 @@ export class TourpackageController {
   //add main image
   @Post(':Id/AddmainImage')
   @UseInterceptors(
-    FilesInterceptor('MainImageUrl',20)
+    FilesInterceptor('MainImageUrl', 20)
   )
   async AddmainImages(
     @UploadedFiles(
@@ -398,15 +398,7 @@ export class TourpackageController {
 
   @Post(':Id/AddalbumImage')
   @UseInterceptors(
-    FilesInterceptor('albumImageUrl', 20, {
-      storage: diskStorage({
-        destination: './AlbumImages',
-        filename: (req, image, callback) => {
-          const filename = `${image.originalname}`;
-          callback(null, filename);
-        },
-      }),
-    }),
+    FilesInterceptor('albumImageUrl', 20,),
   )
   async AddalbumImages(
     @UploadedFiles(
@@ -436,8 +428,9 @@ export class TourpackageController {
     }
 
     for (const file of files) {
+      const albumImageUrl = await this.s3service.travelimage(file)
       const newalbum = new AlbumImage();
-      newalbum.albumImageUrl = file.path
+      newalbum.albumImageUrl = albumImageUrl
       newalbum.AlbumTitle = req.body.AlbumTitle
       await this.AlbumimageRepo.save({ ...newalbum, tourpackage })
     }
@@ -450,17 +443,7 @@ export class TourpackageController {
 
   @Post(':Id/AddvistitedImages')
   @UseInterceptors(
-    FilesInterceptor('VisitedImagePath', 20, {
-      storage: diskStorage({
-        destination: './vistitedplaceimages',
-        filename: (req, image, callback) => {
-          // const uniqueSuffix = Date.now() + '-' +Math.round(Math.random()*1e9);
-          // const ext = extname(image.originalname)
-          const filename = `${image.originalname}`;
-          callback(null, filename);
-        },
-      }),
-    }),
+    FilesInterceptor('VisitedImagePath', 20)
   )
   async AddvistitedImages(
     @UploadedFiles(
@@ -490,8 +473,9 @@ export class TourpackageController {
       );
     }
     for (const file of files) {
+      const VisitedImagePath = await this.s3service.travelimage(file)
       const newalbum = new VisitedPlace();
-      newalbum.VisitedImagePath = file.path
+      newalbum.VisitedImagePath = VisitedImagePath
       newalbum.PlaceName = req.body.PlaceName
       await this.visitedplaceRepo.save({ ...newalbum, tourpackage })
     }
