@@ -3,7 +3,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Upl
 import { TourpackageService } from './tourpackage.service';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 import { Request, Response } from 'express';
 import { Tourpackage } from './entities/tourpackage.entity';
 import { Repository } from 'typeorm';
@@ -21,7 +20,6 @@ import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
-
 import { MainImage } from './entities/mainimage.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { S3Service } from 'src/s3/s3.service';
