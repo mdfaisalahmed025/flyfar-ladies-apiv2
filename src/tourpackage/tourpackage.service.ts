@@ -69,7 +69,7 @@ async  findOne(Id: number) {
     return gettourpackage;
   }
 
-  async  findOneByLocation(Location: string) {
+  async findOneByLocation(Location: string) {
     const location =  this.TourpackageRepo.find({where:{Location}});
     if (!location) {
       throw new HttpException(
@@ -79,6 +79,20 @@ async  findOne(Id: number) {
     }
     return location;
   }
+
+
+  async findOnebyTriptype(TripType:string,Location: string) {
+    const tripType =  this.TourpackageRepo.find({where:{TripType}});
+    if (!tripType) {
+      throw new HttpException(
+        `${tripType} Tour package not availabe with` ,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return [Location];
+  }
+
+
 
 async  updatePackage(Id: number, updateTourpackageDto: UpdateTourpackageDto) {
     return await this.TourpackageRepo.update({Id}, {...updateTourpackageDto});
