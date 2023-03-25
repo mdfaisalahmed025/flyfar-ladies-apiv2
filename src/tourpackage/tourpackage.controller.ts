@@ -80,12 +80,12 @@ export class TourpackageController {
 
   @Get(':Location')
   findOne(@Param('Location') Location: string) {
-    return this.tourpackageService.findOne(+Location);
+    return this.tourpackageService.findOneByLocation(Location);
   }
 
   @Get(':id')
   findOneByLocation(@Param('id') id: string) {
-    return this.tourpackageService.findOneByLocation(+id);
+    return this.tourpackageService.findOne(+id);
   }
 
   @Patch(':id')
