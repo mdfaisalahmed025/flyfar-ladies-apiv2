@@ -28,10 +28,10 @@ import { S3Module } from './s3/s3.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'containers-us-west-205.railway.app',
-      port: 6304,
+      host: 'containers-us-west-99.railway.app',
+      port: 7444,
       username: 'root',
-      password: 'HE86nB4LtYgTDlhVsHQc',
+      password: 'xUFlxTq7jKQkDw2BINQK',
       database: 'railway',
       entities: [User,
         Tourpackage,
@@ -62,9 +62,4 @@ import { S3Module } from './s3/s3.module';
 export class AppModule { }
 
 
-      // host: 'containers-us-west-205.railway.app',
-      // port: 6304,
-      // username: 'root',
-      // password: 'HE86nB4LtYgTDlhVsHQc',
-      // database: 'railway',
-
+     
