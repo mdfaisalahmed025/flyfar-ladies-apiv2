@@ -81,17 +81,17 @@ async  findOne(Id: number) {
   // }
 
 
-  async GetlocationByTriptype(TripType:string,Location: string):Promise<any> {
-    const tripType =  this.TourpackageRepo.find({where:{TripType}});
+  async GetlocationByTriptype(TripType:string):Promise<any> {
+    const tripType =  this.TourpackageRepo.find({where:{TripType}, select:['Location']});
     if (!tripType) {
       throw new HttpException(
         `${tripType} Tour package not availabe with` ,
         HttpStatus.BAD_REQUEST,
       );
     }
-    return {
-      Location,
-    }
+    return tripType
+    
+    
   }
 
 
