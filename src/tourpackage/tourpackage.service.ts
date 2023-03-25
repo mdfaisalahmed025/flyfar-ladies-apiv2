@@ -69,21 +69,21 @@ async  findOne(Id: number) {
     return gettourpackage;
   }
 
-  // async findOneByLocation(Location: string) {
-  //   const location =  this.TourpackageRepo.find({where:{Location}});
-  //   if (!location) {
-  //     throw new HttpException(
-  //       `Tour package not availabe with ${Location}`,
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  //   }
-  //   return location;
-  // }
+  async findOneByLocation(Location: string) {
+    const location =  this.TourpackageRepo.find({where:{Location}});
+    if (!location) {
+      throw new HttpException(
+        `Tour package not availabe with ${Location}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return location;
+  }
 
 
   async GetlocationByTriptype(TripType:string):Promise<any> {
-    const tripType =  this.TourpackageRepo.find({where:{TripType}, select:['Location']});
-    if (!tripType) {
+    const tripType =  this.TourpackageRepo.find({where:{TripType:"domestic"}, select:['Location',]});
+    if ( Tourpackage) {
       throw new HttpException(
         `${tripType} Tour package not availabe with` ,
         HttpStatus.BAD_REQUEST,
