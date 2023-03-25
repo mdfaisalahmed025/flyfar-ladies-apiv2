@@ -29,6 +29,8 @@ export class Tourpackage {
     @Column({ nullable: true })
     TripType: string;
     @Column({ nullable: true })
+    Code:string
+    @Column({ nullable: true })
     TotalDuration: string
     @Column('text', { nullable: true })
     PackageOverview: string;

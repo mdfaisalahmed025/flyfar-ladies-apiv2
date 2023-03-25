@@ -78,14 +78,14 @@ export class TourpackageController {
     return this.tourpackageService.findAll();
   }
 
-  @Get(':/getbylocation/Location')
-  findOneByLocation(@Param('Location') Location: string) {
-    return this.tourpackageService.findOneByLocation(Location);
-  }
+  // @Get(':getbylocation/:Location')
+  // findOneByLocation(@Param('Location') Location: string) {
+  //   return this.tourpackageService.findOneByLocation(Location);
+  // }
 
-  @Get(':/getbytriptype/TripType')
+  @Get(':/getbytriptype/:Location')
   findOneBytriptype(@Param('TripType') TripType: string,@Param('Location') Location: string) {
-    return this.tourpackageService.findOnebyTriptype(TripType, Location);
+    return this.tourpackageService.GetlocationByTriptype(TripType, Location);
   }
 
   @Get(':id')
