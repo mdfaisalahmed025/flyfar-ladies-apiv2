@@ -1,7 +1,7 @@
 import { S3Service } from './../s3/s3.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Entity } from 'typeorm';
 import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
@@ -89,7 +89,9 @@ async  findOne(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    return tripType[Location];
+    return {
+      Location,
+    }
   }
 
 
