@@ -81,17 +81,15 @@ async  findOne(Id: number) {
   }
 
 
-  async GetlocationByTriptype(TripType:string):Promise<any> {
-    const tripType =  this.TourpackageRepo.find({where:{TripType:"domestic"}, select:['Location',]});
-    if ( Tourpackage) {
+  async GetlocationByTriptype(TripType:string, ):Promise<any> {
+    const tripType =  this.TourpackageRepo.findOne({where:{TripType},})
+    if (tripType) {
       throw new HttpException(
         `${tripType} Tour package not availabe with` ,
         HttpStatus.BAD_REQUEST,
       );
     }
-    return tripType
-    
-    
+    return TripType.toLowerCase() === 'domestic'?(await tripType).Location:(await tripType).Location
   }
 
 
