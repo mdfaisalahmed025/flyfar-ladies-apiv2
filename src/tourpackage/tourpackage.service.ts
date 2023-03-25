@@ -81,7 +81,7 @@ async  findOne(Id: number) {
   }
 
 
-  async findOnebyTriptype(TripType:string,Location: string) {
+  async findOnebyTriptype(TripType:string,Location: string):Promise<any> {
     const tripType =  this.TourpackageRepo.find({where:{TripType}});
     if (!tripType) {
       throw new HttpException(
@@ -89,7 +89,7 @@ async  findOne(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    return [Location];
+    return tripType[Location];
   }
 
 
