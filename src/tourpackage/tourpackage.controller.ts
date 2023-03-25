@@ -78,9 +78,14 @@ export class TourpackageController {
     return this.tourpackageService.findAll();
   }
 
+  @Get(':Location')
+  findOne(@Param('Location') Location: string) {
+    return this.tourpackageService.findOne(+Location);
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tourpackageService.findOne(+id);
+  findOneByLocation(@Param('id') id: string) {
+    return this.tourpackageService.findOneByLocation(+id);
   }
 
   @Patch(':id')
@@ -370,7 +375,7 @@ export class TourpackageController {
     });
   }
 
-  @Get(':id/FindAllAlbum/allalbumimage')
+  @Get(':id/allalbumimage')
   async getAllAlbumImage(
     @Param('id') id: number,
 
