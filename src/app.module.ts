@@ -28,11 +28,11 @@ import { S3Module } from './s3/s3.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'containers-us-west-99.railway.app',
-      port: 7444,
+      host: '127.0.0.1',
+      port: 3306,
       username: 'root',
-      password: 'xUFlxTq7jKQkDw2BINQK',
-      database: 'railway',
+      password: '',
+      database: 'flyfar-ladies',
       entities: [User,
         Tourpackage,
         MainImage,
@@ -47,7 +47,7 @@ import { S3Module } from './s3/s3.module';
         Traveller,
         refundpolicy
       ],
-      synchronize: false,
+      synchronize: true,
     }),
     UserModule,
     TourpackageModule,
@@ -62,4 +62,9 @@ import { S3Module } from './s3/s3.module';
 export class AppModule { }
 
 
-     
+
+// host: 'containers-us-west-99.railway.app',
+//   port: 7444,
+//     username: 'root',
+//       password: 'xUFlxTq7jKQkDw2BINQK',
+//         database: 'railway',

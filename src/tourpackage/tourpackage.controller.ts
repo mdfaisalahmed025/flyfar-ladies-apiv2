@@ -83,9 +83,9 @@ export class TourpackageController {
   //   return this.tourpackageService.findOneByLocation(Location);
   // }
 
-  @Get('/getbytriptype/:TripType')
-  findOneBytriptype(@Param('TripType') TripType: string) {
-    return this.tourpackageService.GetlocationByTriptype(TripType);
+  @Get('/location/:TripType')
+  findOneBytriptype(@Param('TripType') TripType: string): Promise<string[]> {
+    return this.tourpackageService.getLocationsByTripType(TripType);
   }
 
   @Get(':id')
