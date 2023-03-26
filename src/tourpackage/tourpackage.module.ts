@@ -1,7 +1,7 @@
 import { S3Module } from './../s3/s3.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TourpackageService } from './tourpackage.service';
 import { TourpackageController } from './tourpackage.controller';
 import { Tourpackage } from './entities/tourpackage.entity';
@@ -36,6 +36,6 @@ import { MainImage } from './entities/mainimage.entity';
     refundpolicy,
   ])],
   controllers: [TourpackageController],
-  providers: [TourpackageService],
+  providers: [TourpackageService]
 })
 export class TourpackageModule {}

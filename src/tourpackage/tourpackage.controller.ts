@@ -51,7 +51,7 @@ export class TourpackageController {
     @Req() req: Request,
     @Body() body,
     @Res() res: Response) {
-    const coverimageurl = await this.s3service.travelimage(file)
+    const coverimageurl = await this.s3service.Addimage(file)
     const tourpackage = new Tourpackage();
     tourpackage.coverimageurl = coverimageurl
     tourpackage.MainTitle = req.body.MainTitle
@@ -117,6 +117,23 @@ export class TourpackageController {
     });
   }
 
+
+
+  @Patch(':Id/replaceimage')
+  @UseInterceptors(
+    FileInterceptor('coverimageurl'),
+  )
+  async replaceImage(
+    @UploadedFile(
+    )
+    file: Express.Multer.File,
+    @Param('Id') Id: number,
+    @Body() body,
+    @Res() res: Response) {
+    await this.s3service.ReplaceImage(Id, file)
+    return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package coverimage replace succesfully", })
+  }
+
   @Delete(':id')
   async remove(
     @Param('id') id: string,
@@ -161,7 +178,7 @@ export class TourpackageController {
     }
 
     for (const file of files) {
-      const coverimageurl = await this.s3service.travelimage(file)
+      const coverimageurl = await this.s3service.Addimage(file)
       const mainimage = new MainImage();
       mainimage.MainImageUrl = coverimageurl
       mainimage.MainImageTitle = req.body.MainImageTitle
@@ -436,7 +453,7 @@ export class TourpackageController {
     }
 
     for (const file of files) {
-      const albumImageUrl = await this.s3service.travelimage(file)
+      const albumImageUrl = await this.s3service.Addimage(file)
       const newalbum = new AlbumImage();
       newalbum.albumImageUrl = albumImageUrl
       newalbum.AlbumTitle = req.body.AlbumTitle
@@ -481,7 +498,7 @@ export class TourpackageController {
       );
     }
     for (const file of files) {
-      const VisitedImagePath = await this.s3service.travelimage(file)
+      const VisitedImagePath = await this.s3service.Addimage(file)
       const newalbum = new VisitedPlace();
       newalbum.VisitedImagePath = VisitedImagePath
       newalbum.PlaceName = req.body.PlaceName
