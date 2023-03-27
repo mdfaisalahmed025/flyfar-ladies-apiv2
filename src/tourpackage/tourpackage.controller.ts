@@ -95,7 +95,7 @@ export class TourpackageController {
     @Query('TripType') TripType: string,
     @Query('City') City: string,
     @Query('StartDate') StartDate: string,
-  ): Promise<{ City: string, StartDate: string, TripType: string }[]> {
+  ): Promise<Tourpackage[]>{
     return this.tourpackageService.GetTourpackageByDiffirentfield(TripType, City, StartDate);
   }
 

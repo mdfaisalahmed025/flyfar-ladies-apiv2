@@ -69,13 +69,19 @@ async  findOne(Id: number) {
     return gettourpackage;
   }
 
-  async GetTourpackageByDiffirentfield(TripType:string, City:string,StartDate:string):Promise<{TripType:string, City:string,StartDate:string}[]>{
+  async GetTourpackageByDiffirentfield(TripType:string, City:string,StartDate:string):Promise<Tourpackage[]>{
     const [month, year] = StartDate.split(" ");
     const startOfMonth = new Date(`${month} 1, ${year}`);
     const endOfMonth = new Date(startOfMonth.getFullYear(), startOfMonth.getMonth() + 1, 0);
-
-
     const queryBuilder = this.TourpackageRepo.createQueryBuilder('tourPackage');
+    queryBuilder.leftJoinAndSelect('tourPackage.mainimage', 'mainimage')
+    queryBuilder.leftJoinAndSelect('tourPackage.albumImages', 'albumImages')
+    queryBuilder.leftJoinAndSelect('tourPackage.vistitedImages', 'vistitedImages')
+    queryBuilder.leftJoinAndSelect('tourPackage.PackageInclusions', 'PackageInclusions')
+    queryBuilder.leftJoinAndSelect('tourPackage.BookingPolicys', 'BookingPolicys')
+    queryBuilder.leftJoinAndSelect('tourPackage.highlights', 'highlights')
+    queryBuilder.leftJoinAndSelect('tourPackage.tourpackageplans', 'tourpackageplans')
+    queryBuilder.leftJoinAndSelect('tourPackage.refundpolicys', 'refundpolicys')
     queryBuilder.where('tourPackage.TripType = :TripType', { TripType });
     queryBuilder.andWhere('tourPackage.City = :City', { City });
     queryBuilder.andWhere('tourPackage.StartDate >= :startOfMonth', { startOfMonth });
