@@ -1,7 +1,7 @@
 import { S3Service } from './../s3/s3.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Entity } from 'typeorm';
+import { Repository, Entity, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
@@ -69,14 +69,15 @@ async  findOne(Id: number) {
     return gettourpackage;
   }
 
-  async GetTourpackageByDiffirentfield(TripType:string, City:string,StartDate:string):Promise<{TripType:string, City:string,StartDate:string}[]>{
+  async GetTourpackageByDiffirentfield(TripType:string, City:string,StartDate:string,EndDate:string):Promise<{TripType:string, City:string,StartDate:string,EndDate:string}[]>{
     return this.TourpackageRepo.find({
       where:{
         TripType:TripType,
         City:City,
-        StartDate:StartDate
+        StartDate:MoreThanOrEqual(StartDate),
+        EndDate:LessThanOrEqual(EndDate)
       },
-      select:['TripType','City','StartDate']
+      select:['TripType','City','StartDate','EndDate']
     
     });
   
