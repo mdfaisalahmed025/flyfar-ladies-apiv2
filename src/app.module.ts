@@ -22,6 +22,7 @@ import { UsderProfileModule } from './userProfile/userprofile.module';
 import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
 import { MainImage } from './tourpackage/entities/mainimage.entity';
 import { S3Module } from './s3/s3.module';
+import { Installment } from './tourpackage/entities/installment.entity';
 
 @Module({
   imports: [
@@ -46,7 +47,8 @@ import { S3Module } from './s3/s3.module';
         VisitedPlace,
         Userprofile,
         Traveller,
-        refundpolicy
+        refundpolicy,
+        Installment
       ],
       synchronize: true,
     }),

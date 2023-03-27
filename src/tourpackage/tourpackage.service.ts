@@ -27,6 +27,8 @@ import { refundpolicy } from './entities/refundpolicy.entity';
 import { Tourpackage } from './entities/tourpackage.entity';
 import { tourpackageplan } from './entities/tourpackageplan.entity';
 import { VisitedPlace } from './entities/visitedplace.entity';
+import { CreateInstallmentDto } from './dto/create-installment.dto';
+import { Installment } from './entities/installment.entity';
 
 // tour package ser
 @Injectable()
@@ -47,6 +49,8 @@ private packageHighlightRepo: Repository<packagehighlight>,
 private bookingPolicyRepo: Repository<bookingpolicy>,
 @InjectRepository(refundpolicy)
 private refundPolicyRepo: Repository<refundpolicy>,
+@InjectRepository(Installment)
+private InstallmentRepo: Repository<Installment>,
 @InjectRepository(AlbumImage)
 private AlbumImageRepo: Repository<AlbumImage>,
 @InjectRepository(MainImage) private MainImageRepo: Repository<MainImage>,
@@ -226,6 +230,22 @@ async  remove(Id: number) {
     return createdpolicy
 
   }
+
+  // async AddInstallment(Id: number, creatinstallmentdto:CreateInstallmentDto ):Promise<Installment[]> {
+  //   const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
+  //   if (!tourpackage) {
+  //     throw new HttpException(
+  //       "TourPackage not found",
+  //       HttpStatus.BAD_REQUEST,
+  //     );
+  //   }
+  //   // const installment = await this.InstallmentRepo.create(creatinstallmentdto);
+
+  //   installment.tourPackage =tourpackage
+  //   const saveinstallment = await this.InstallmentRepo.save(installment)
+  //   return saveinstallment;
+
+  // }
 
 
 

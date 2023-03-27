@@ -14,6 +14,7 @@ import { packagehighlight } from './entities/packagehighlight.entity';
 import { bookingpolicy } from './entities/bookingpolicy.entity';
 import { refundpolicy } from './entities/refundpolicy.entity';
 import { MainImage } from './entities/mainimage.entity';
+import { Installment } from './entities/installment.entity';
 
 
 @Module({
@@ -34,6 +35,7 @@ import { MainImage } from './entities/mainimage.entity';
     bookingpolicy,
     Tourpackage,
     refundpolicy,
+    Installment
   ])],
   controllers: [TourpackageController],
   providers: [TourpackageService]

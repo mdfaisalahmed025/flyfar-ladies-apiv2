@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
+import { Installment } from "./installment.entity";
 import { MainImage } from "./mainimage.entity";
 import { packageexcluions } from "./packageexclsuions.entity";
 import { packagehighlight } from "./packagehighlight.entity";
@@ -109,5 +110,7 @@ export class Tourpackage {
         onUpdate: "RESTRICT"
     })
     tourpackageplans: tourpackageplan;
+    @OneToMany(() => Installment, installment => installment.tourPackage)
+    installments: Installment[];
 
 }
