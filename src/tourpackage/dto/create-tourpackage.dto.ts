@@ -4,6 +4,8 @@ export class CreateTourpackageDto {
     MainTitle: string
     SubTitle: string
     Price: string
+    City:string
+    Discount:number
     Location: string
     StartDate: string
     EndDate: string

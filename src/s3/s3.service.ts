@@ -75,10 +75,8 @@ export class S3Service {
                 }),   
             );
             if (response.$metadata.httpStatusCode === 200) {
-                const imageurl = `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}`
-                const tourpackages = new Tourpackage();
-                tourpackages.coverimageurl = imageurl
-                await this.TourpackageRepo.save(tourpackages) 
+                 return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}`
+             
             }
             throw new Error("image not update in digital ocean s3")
             

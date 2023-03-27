@@ -57,6 +57,8 @@ export class TourpackageController {
     tourpackage.MainTitle = req.body.MainTitle
     tourpackage.SubTitle = req.body.SubTitle
     tourpackage.Price = req.body.Price
+    tourpackage.City = req.body.City
+    tourpackage.Discount =req.body.Discount
     tourpackage.Location = req.body.Location
     tourpackage.Availability = req.body.Availability
     tourpackage.StartDate = req.body.StartDate
@@ -84,7 +86,7 @@ export class TourpackageController {
   // }
 
   @Get('/location/:TripType')
-  findOneBytriptype(@Param('TripType') TripType: string): Promise<string[]> {
+  findOneBytriptype(@Param('TripType') TripType: string): Promise<{name:string}[]> {
     return this.tourpackageService.getLocationsByTripType(TripType);
   }
 
@@ -130,7 +132,10 @@ export class TourpackageController {
     @Param('Id') Id: number,
     @Body() body,
     @Res() res: Response) {
-    await this.s3service.ReplaceImage(Id, file)
+   const imageurl=  await this.s3service.ReplaceImage(Id, file)
+   const tourpackages = new Tourpackage();
+   tourpackages.coverimageurl = imageurl
+   await this.TourpackageRepo.save(tourpackages) 
     return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package coverimage replace succesfully", })
   }
 

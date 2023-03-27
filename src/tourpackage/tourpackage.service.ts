@@ -69,37 +69,17 @@ async  findOne(Id: number) {
     return gettourpackage;
   }
 
-  async findOneByLocation(Location: string) {
-    const location =  this.TourpackageRepo.find({where:{Location}});
-    if (!location) {
-      throw new HttpException(
-        `Tour package not availabe with ${Location}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    return location;
-  }
 
 
-  // async GetlocationByTriptype(TripType:string, ):Promise<any> {
-  //   const tripType =  this.TourpackageRepo.findOne({where:{TripType},})
-  //   if (tripType) {
-  //     throw new HttpException(
-  //       `${tripType} Tour package not availabe with` ,
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  //   }
-  //   return TripType.toLowerCase() === 'domestic'?(await tripType).Location:(await tripType).Location
-  // }
 
-  async getLocationsByTripType(TripType: string): Promise<string[]> {
-    const locations = await this.TourpackageRepo
+  async getLocationsByTripType(TripType: string): Promise<{name:string}[]> {
+    const city = await this.TourpackageRepo
       .createQueryBuilder('tourpackage')
-      .select('DISTINCT tourpackage.Location')
-      .where('tourpackage.Triptype = :TripType', { TripType })
+      .select('DISTINCT tourpackage.City')
+      .where('tourpackage.Triptype = :TripType',{ TripType })
       .getRawMany();
 
-    return locations.map(Location => Location.Location);
+    return city.map((City) => ({name:City.City}));
   }
 
 async  updatePackage(Id: number, updateTourpackageDto: UpdateTourpackageDto) {

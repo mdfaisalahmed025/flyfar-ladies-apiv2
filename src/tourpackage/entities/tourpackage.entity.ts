@@ -23,6 +23,10 @@ export class Tourpackage {
     @Column({ nullable: true })
     Location: string;
     @Column({ nullable: true })
+    City:string
+    @Column({ nullable: true })
+    Discount:number
+    @Column({ nullable: true })
     StartDate: string;
     @Column({ nullable: true })
     EndDate: string;
