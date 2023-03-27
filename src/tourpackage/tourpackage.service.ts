@@ -1,7 +1,7 @@
 import { S3Service } from './../s3/s3.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Entity, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
+import { Repository, Entity, MoreThanOrEqual, LessThanOrEqual, Between } from 'typeorm';
 import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
@@ -70,16 +70,21 @@ async  findOne(Id: number) {
   }
 
   async GetTourpackageByDiffirentfield(TripType:string, City:string,StartDate:string,EndDate:string):Promise<{TripType:string, City:string,StartDate:string,EndDate:string}[]>{
-    return this.TourpackageRepo.find({
-      where:{
-        TripType:TripType,
-        City:City,
-        StartDate:MoreThanOrEqual(StartDate),
-        EndDate:LessThanOrEqual(EndDate)
-      },
-      select:['TripType','City','StartDate','EndDate']
-    
-    });
+    const startDateOfMonth = new Date(StartDate);
+    const endDateOfMonth = new Date(EndDate);
+    startDateOfMonth.setDate(1);
+    endDateOfMonth.setDate(1);
+    endDateOfMonth.setMonth(endDateOfMonth.getMonth() + 1);
+    endDateOfMonth.setDate(0);
+
+    const queryBuilder = this.TourpackageRepo.createQueryBuilder('tourPackage');
+    queryBuilder.where('tourPackage.TripType = :TripType', { TripType });
+    queryBuilder.andWhere('tourPackage.City = :City', { City });
+    queryBuilder.andWhere('tourPackage.StartDate >= :startDateOfMonth', { startDateOfMonth });
+    queryBuilder.andWhere('tourPackage.EndDate <= :endDateOfMonth', { endDateOfMonth });
+    const tourPackages = await queryBuilder.getMany();
+    return tourPackages;
+
   
   }
 

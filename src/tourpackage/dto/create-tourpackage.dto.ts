@@ -20,4 +20,6 @@ export class CreateTourpackageDto {
     TotalDuration: string
     PackageOverview: string
     ImageUrl:string
+   
+
     }

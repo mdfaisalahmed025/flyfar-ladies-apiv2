@@ -53,7 +53,7 @@ export class Tourpackage {
     @Column({ nullable: true })
     coverimageurl: string
     
-    
+
     @OneToMany(() => MainImage, (mainimage) => mainimage.tourpackage, {
         eager: true,
         onUpdate: "RESTRICT",
