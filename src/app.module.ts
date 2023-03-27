@@ -65,7 +65,7 @@ export class AppModule { }
 
 
 // host: 'containers-us-west-99.railway.app',
-//   port: 7444,
-//     username: 'root',
-//       password: 'xUFlxTq7jKQkDw2BINQK',
-//         database: 'railway',
+// port: 7444,
+// username: 'root',
+// password: 'xUFlxTq7jKQkDw2BINQK',
+// database: 'railway',

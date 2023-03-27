@@ -69,22 +69,19 @@ async  findOne(Id: number) {
     return gettourpackage;
   }
 
-  async GetTourpackageByDiffirentfield(TripType:string, City:string,StartDate:string,EndDate:string):Promise<{TripType:string, City:string,StartDate:string,EndDate:string}[]>{
-    const startDateOfMonth = new Date(StartDate);
-    const endDateOfMonth = new Date(EndDate);
-    startDateOfMonth.setDate(1);
-    endDateOfMonth.setDate(1);
-    endDateOfMonth.setMonth(endDateOfMonth.getMonth() + 1);
-    endDateOfMonth.setDate(0);
+  async GetTourpackageByDiffirentfield(TripType:string, City:string,StartDate:string):Promise<{TripType:string, City:string,StartDate:string}[]>{
+    const [month, year] = StartDate.split(" ");
+    const startOfMonth = new Date(`${month} 1, ${year}`);
+    const endOfMonth = new Date(startOfMonth.getFullYear(), startOfMonth.getMonth() + 1, 0);
+
 
     const queryBuilder = this.TourpackageRepo.createQueryBuilder('tourPackage');
     queryBuilder.where('tourPackage.TripType = :TripType', { TripType });
     queryBuilder.andWhere('tourPackage.City = :City', { City });
-    queryBuilder.andWhere('tourPackage.StartDate >= :startDateOfMonth', { startDateOfMonth });
-    queryBuilder.andWhere('tourPackage.EndDate <= :endDateOfMonth', { endDateOfMonth });
+    queryBuilder.andWhere('tourPackage.StartDate >= :startOfMonth', { startOfMonth });
+    queryBuilder.andWhere('tourPackage.StartDate <= :endOfMonth', { endOfMonth });
     const tourPackages = await queryBuilder.getMany();
     return tourPackages;
-
   
   }
 
