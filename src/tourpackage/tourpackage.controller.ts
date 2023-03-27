@@ -1,5 +1,5 @@
 
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException, Logger, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException, Logger, UploadedFile, Query } from '@nestjs/common';
 import { TourpackageService } from './tourpackage.service';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
@@ -87,7 +87,16 @@ export class TourpackageController {
 
   @Get('/location/:TripType')
   findOneBytriptype(@Param('TripType') TripType: string): Promise<{name:string}[]> {
-    return this.tourpackageService.getLocationsByTripType(TripType);
+    return this.tourpackageService.getCityByTripType(TripType);
+  }
+
+  @Get('/')
+  async getTourPackages(
+    @Query('TripType') TripType: string,
+    @Query('City') City: string,
+    @Query('StartDate') StartDate: string,
+  ): Promise<{ City: string, StartDate: string, TripType: string }[]> {
+    return this.tourpackageService.GetTourpackageByDiffirentfield(TripType, City, StartDate);
   }
 
   @Get(':id')

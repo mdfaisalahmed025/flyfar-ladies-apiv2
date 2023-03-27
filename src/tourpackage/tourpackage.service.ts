@@ -69,10 +69,20 @@ async  findOne(Id: number) {
     return gettourpackage;
   }
 
+  async GetTourpackageByDiffirentfield(TripType:string, City:string,StartDate:string):Promise<{TripType:string, City:string,StartDate:string}[]>{
+    return this.TourpackageRepo.find({
+      where:{
+        TripType:TripType,
+        City:City,
+        StartDate:StartDate
+      },
+      select:['TripType','City','StartDate']
+    
+    });
+  
+  }
 
-
-
-  async getLocationsByTripType(TripType: string): Promise<{name:string}[]> {
+  async getCityByTripType(TripType: string): Promise<{name:string}[]> {
     const city = await this.TourpackageRepo
       .createQueryBuilder('tourpackage')
       .select('DISTINCT tourpackage.City')
