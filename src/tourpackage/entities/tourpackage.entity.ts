@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity,OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
 import { Installment } from "./installment.entity";
@@ -110,7 +110,11 @@ export class Tourpackage {
         onUpdate: "RESTRICT"
     })
     tourpackageplans: tourpackageplan;
-    @OneToMany(() => Installment, installment => installment.tourPackage)
-    installments: Installment[];
+
+    @OneToMany(() => Installment, (installment) => installment.tourpackage,{
+        eager: true, cascade: false, onDelete: "RESTRICT",
+        onUpdate: "RESTRICT"
+    })
+    installments: Installment;
 
 }

@@ -1,14 +1,13 @@
-import { S3Service } from './../s3/s3.service';
+
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Entity, MoreThanOrEqual, LessThanOrEqual, Between } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateBookingPolicyDto } from './dto/creat-bookingpolicy.dto';
 import { CreatepackageExclsuionsDto } from './dto/create-packageexclusions.dto';
 import { CreatePackageHighlightDto } from './dto/create-packagehighlights.dto';
 import { createpackageincluionDto } from './dto/create-packageInclusion.dto';
 import { CreateTourPackagePlanDto } from './dto/create-packagetourplan.dto';
 import { createRefundPolicyDto } from './dto/create-refundpolicy.dto';
-import { createPackageIncludeDto } from './dto/crteate-packageInlcude.dto';
 import { updateBookingPolicyDto } from './dto/update-bookingpolicy.dto';
 import { updatepackageExclusionsDto } from './dto/update-packageexclsuions.dto';
 import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
@@ -217,11 +216,11 @@ async  remove(Id: number) {
   // booking policy start.........................
 
   //add booking policy
-  async createbookingPolicy(Id: number, CreateBookingPolicyDto:CreateBookingPolicyDto ) {
+  async createbookingPolicy(Id: number, CreateBookingPolicyDto:CreateBookingPolicyDto) {
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
     if (!tourpackage) {
       throw new HttpException(
-        "TourPackage not found, cann't add cover image",
+        "TourPackage not found, cann't add booking policy",
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -231,21 +230,18 @@ async  remove(Id: number) {
 
   }
 
-  // async AddInstallment(Id: number, creatinstallmentdto:CreateInstallmentDto ):Promise<Installment[]> {
-  //   const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
-  //   if (!tourpackage) {
-  //     throw new HttpException(
-  //       "TourPackage not found",
-  //       HttpStatus.BAD_REQUEST,
-  //     );
-  //   }
-  //   // const installment = await this.InstallmentRepo.create(creatinstallmentdto);
-
-  //   installment.tourPackage =tourpackage
-  //   const saveinstallment = await this.InstallmentRepo.save(installment)
-  //   return saveinstallment;
-
-  // }
+  async AddInstallment(Id: number, createinstallmentDto:CreateInstallmentDto){
+    const tourpackage = await this.TourpackageRepo.findOneBy({Id})
+    if (!tourpackage) {
+      throw new HttpException(
+        "TourPackage not found",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const createinstallment = await this.InstallmentRepo.create({...createinstallmentDto,tourpackage})
+    await this.InstallmentRepo.save(createinstallment)
+  
+  }
 
 
 

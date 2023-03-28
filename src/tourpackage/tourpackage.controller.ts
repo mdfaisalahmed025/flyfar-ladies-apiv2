@@ -1,3 +1,4 @@
+import { Installment } from './entities/installment.entity';
 import { CreateInstallmentDto } from './dto/create-installment.dto';
 
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException, Logger, UploadedFile, Query } from '@nestjs/common';
@@ -128,13 +129,16 @@ export class TourpackageController {
 
     });
   }
-  // @Post(':id/installment')
-  // async createInstallment(
-  //   @Param('id') id: number,
-  //   @Body() installmentDto: CreateInstallmentDto,
-  // ) {
-  //   return this.tourpackageService.AddInstallment(id, installmentDto);
-  // }
+
+  @Post(':Id/addinstallment')
+  async createInstallment(
+    @Param('Id') Id: number,
+    @Res() res: Response,
+    @Body() installmentDto:CreateInstallmentDto
+  ) {
+    await this.tourpackageService.AddInstallment(Id, installmentDto);
+    return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package installment added succesfully", })
+  }
 
 
   @Patch(':Id/replaceimage')

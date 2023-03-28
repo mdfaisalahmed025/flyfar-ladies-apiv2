@@ -30,11 +30,12 @@ import { Installment } from './tourpackage/entities/installment.entity';
     TypeOrmModule.forRoot({
       type: 'mysql',
 
-     host: 'containers-us-west-99.railway.app',
-     port: 7444,
-     username: 'root',
-     password: 'xUFlxTq7jKQkDw2BINQK',
-     database: 'railway',
+  
+host: 'containers-us-west-99.railway.app',
+  port: 7444,
+    username: 'root',
+      password: 'xUFlxTq7jKQkDw2BINQK',
+        database: 'railway',
       entities: [User,
         Tourpackage,
         MainImage,
