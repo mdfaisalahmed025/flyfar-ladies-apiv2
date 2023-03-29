@@ -28,6 +28,7 @@ import { tourpackageplan } from './entities/tourpackageplan.entity';
 import { VisitedPlace } from './entities/visitedplace.entity';
 import { CreateInstallmentDto } from './dto/create-installment.dto';
 import { Installment } from './entities/installment.entity';
+import { Traveller } from 'src/Traveller/entities/traveller.entity';
 
 // tour package ser
 @Injectable()
@@ -55,6 +56,7 @@ private AlbumImageRepo: Repository<AlbumImage>,
 @InjectRepository(MainImage) private MainImageRepo: Repository<MainImage>,
 @InjectRepository(VisitedPlace)
 private visitedImageRepo: Repository<VisitedPlace>,
+@InjectRepository(Traveller) private tarvellerRepository: Repository<Traveller>
 ){}
 
 async findAll() {
@@ -64,6 +66,25 @@ async findAll() {
 async  findOne(Id: number) {
     const gettourpackage =  this.TourpackageRepo.findOne({where:{Id}});
     if (!gettourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return gettourpackage;
+  }
+
+
+  async  Addtraveller(TravellerId: string, Id:number) {
+    const gettourpackage =  this.TourpackageRepo.findOne({where:{Id}});
+    if (!gettourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const gettraveller =  this.tarvellerRepository.findOne({where:{TravellerId}});
+    if (!gettraveller) {
       throw new HttpException(
         `TourPackage not found with this id=${Id}`,
         HttpStatus.BAD_REQUEST,
@@ -85,11 +106,18 @@ async  findOne(Id: number) {
     queryBuilder.leftJoinAndSelect('tourPackage.highlights', 'highlights')
     queryBuilder.leftJoinAndSelect('tourPackage.tourpackageplans', 'tourpackageplans')
     queryBuilder.leftJoinAndSelect('tourPackage.refundpolicys', 'refundpolicys')
+    queryBuilder.leftJoinAndSelect('tourPackage.installments', 'installments')
     queryBuilder.where('tourPackage.TripType = :TripType', { TripType });
     queryBuilder.andWhere('tourPackage.City = :City', { City });
     queryBuilder.andWhere('tourPackage.StartDate >= :startOfMonth', { startOfMonth });
     queryBuilder.andWhere('tourPackage.StartDate <= :endOfMonth', { endOfMonth });
     const tourPackages = await queryBuilder.getMany();
+    if (!tourPackages) {
+      throw new HttpException(
+        `TourPackage not found`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return tourPackages;
   
   }
@@ -242,7 +270,6 @@ async  remove(Id: number) {
     await this.InstallmentRepo.save(createinstallment)
   
   }
-
 
 
   // find booking policy

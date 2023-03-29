@@ -15,6 +15,8 @@ import { bookingpolicy } from './entities/bookingpolicy.entity';
 import { refundpolicy } from './entities/refundpolicy.entity';
 import { MainImage } from './entities/mainimage.entity';
 import { Installment } from './entities/installment.entity';
+import { Traveller } from 'src/Traveller/entities/traveller.entity';
+import { TravellerModule } from 'src/Traveller/traveller.module';
 
 
 @Module({
@@ -23,7 +25,9 @@ import { Installment } from './entities/installment.entity';
       isGlobal:true
     }),
     S3Module,
+    TravellerModule,
     TypeOrmModule.forFeature([
+    Traveller,
     Tourpackage,
     MainImage,
     AlbumImage,
@@ -38,6 +42,7 @@ import { Installment } from './entities/installment.entity';
     Installment
   ])],
   controllers: [TourpackageController],
-  providers: [TourpackageService]
+  providers: [TourpackageService],
+  exports:[TourpackageService]
 })
 export class TourpackageModule {}

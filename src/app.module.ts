@@ -1,3 +1,4 @@
+import { Booking } from './booking/entity/booking.entity';
 import { ConfigModule } from '@nestjs/config';
 
 import { Userprofile } from './userProfile/entitties/userprofile.entities';
@@ -23,19 +24,20 @@ import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
 import { MainImage } from './tourpackage/entities/mainimage.entity';
 import { S3Module } from './s3/s3.module';
 import { Installment } from './tourpackage/entities/installment.entity';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-
   
-host: 'containers-us-west-99.railway.app',
-  port: 7444,
-    username: 'root',
-      password: 'xUFlxTq7jKQkDw2BINQK',
-        database: 'railway',
+      host: '127.0.0.1',
+      port: 3306,
+      username: 'root',
+      password: '',
+      database: 'flyfar-ladies',
+
       entities: [User,
         Tourpackage,
         MainImage,
@@ -49,16 +51,19 @@ host: 'containers-us-west-99.railway.app',
         Userprofile,
         Traveller,
         refundpolicy,
-        Installment
+        Installment,
+        Booking
       ],
       synchronize: true,
     }),
+
     UserModule,
     TourpackageModule,
     TravellerModule,
     UsderProfileModule,
     S3Module,
-    ConfigModule
+    ConfigModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

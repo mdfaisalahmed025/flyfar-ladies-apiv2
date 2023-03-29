@@ -1,11 +1,13 @@
 import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity()
 export class Installment {
   @PrimaryGeneratedColumn()
   Id: number;
+  @Column({nullable:true})
+  Name: string;
   @Column({type:'date', nullable:true})
   Date: string;
   @Column({nullable:true})

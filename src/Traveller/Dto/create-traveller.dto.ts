@@ -1,6 +1,7 @@
+import { Traveller } from './../entities/traveller.entity';
 
 export class CreateTravellerDto{
-   Id:number
+   TravellerId:string
    FirstName:string
    LastName:string
    DOB:string

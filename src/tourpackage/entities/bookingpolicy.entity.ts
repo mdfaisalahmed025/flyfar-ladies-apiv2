@@ -1,8 +1,6 @@
-
 import { IsNotEmpty } from '@nestjs/class-validator';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Tourpackage } from './tourpackage.entity';
-
 
 
 @Entity()

@@ -1,10 +1,9 @@
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { S3Service } from './s3.service';
 import { S3Controller } from './s3.controller';
-import { TourpackageModule } from 'src/tourpackage/tourpackage.module';
 import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
 
 @Module({

@@ -35,7 +35,6 @@ export class TourpackageController {
     @InjectRepository(AlbumImage) private AlbumimageRepo: Repository<AlbumImage>,
     @InjectRepository(VisitedPlace) private visitedplaceRepo: Repository<VisitedPlace>,
     private readonly tourpackageService: TourpackageService,
-    private ConfigService: ConfigService,
     private s3service: S3Service
 
   ) {
@@ -77,6 +76,12 @@ export class TourpackageController {
     return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package added succesfully", })
   }
 
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.tourpackageService.findOne(+id);
+  }
+
   @Get('getall')
   findAll() {
     return this.tourpackageService.findAll();
@@ -101,9 +106,12 @@ export class TourpackageController {
     return this.tourpackageService.GetTourpackageByDiffirentfield(TripType, City, StartDate);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tourpackageService.findOne(+id);
+  @Get(':id/addtraveler/:TravellerId')
+  AddTraveller(
+    @Param('id') id: string,
+    @Param('TravellerId') TravellerId: string) {
+    return this.tourpackageService.Addtraveller(TravellerId,+id);
+   
   }
 
   @Patch(':id')

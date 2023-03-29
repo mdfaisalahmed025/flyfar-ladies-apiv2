@@ -1,34 +1,30 @@
+import { Booking } from './../../booking/entity/booking.entity';
 
-import { IsEmail, IsNotEmpty } from 'class-validator';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class Traveller {
-   @PrimaryGeneratedColumn()
-   Id:number
-   @IsNotEmpty()
+   @PrimaryGeneratedColumn('uuid')
+   TravellerId:string
    @Column()   
    FirstName:string
-   @IsNotEmpty()
    @Column()
    LastName:string
-   @IsNotEmpty()
    @Column()
    DOB:string
-   @IsNotEmpty()
    @Column()
    Gender:string
-   @IsNotEmpty()
    @Column()
    PassportNumber:string
-   @IsNotEmpty()
    @Column()
    PassportExpireDate:string
-   @IsNotEmpty()
    @Column()
    PassportCopyURL:string
    @CreateDateColumn()
    CreatedAt:Date
    @UpdateDateColumn()
    UpdatedAt:Date
+   @ManyToOne(()=>Booking,(booking)=>booking.travellers)
+   bookings:Tourpackage;
 }

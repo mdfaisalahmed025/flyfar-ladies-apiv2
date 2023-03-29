@@ -1,4 +1,6 @@
-import { Column, Entity,OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Booking } from './../../booking/entity/booking.entity';
+import { Traveller } from 'src/Traveller/entities/traveller.entity';
+import { Column, Entity,JoinColumn,ManyToOne,OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
 import { Installment } from "./installment.entity";
@@ -54,7 +56,6 @@ export class Tourpackage {
     @Column({ nullable: true })
     coverimageurl: string
     
-
     @OneToMany(() => MainImage, (mainimage) => mainimage.tourpackage, {
         eager: true,
         onUpdate: "RESTRICT",
@@ -116,5 +117,15 @@ export class Tourpackage {
         onUpdate: "RESTRICT"
     })
     installments: Installment;
+
+    // @OneToMany(() => Traveller, (traveller) => traveller.tourpackage,{
+    //     eager: true, cascade: true, onDelete: "RESTRICT",
+    //     onUpdate: "RESTRICT"
+    // })
+    // travellers: Installment;
+
+    @ManyToOne(()=>Booking, (booking)=>booking.tourPackage)
+    @JoinColumn({name:'bookingId'})
+    bookings:Booking
 
 }
