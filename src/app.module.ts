@@ -23,17 +23,18 @@ import { refundpolicy } from './tourpackage/entities/refundpolicy.entity';
 import { MainImage } from './tourpackage/entities/mainimage.entity';
 import { S3Module } from './s3/s3.module';
 import { Installment } from './tourpackage/entities/installment.entity';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal:true }),
     TypeOrmModule.forRoot({
     type:'mysql',
-    host: 'containers-us-west-132.railway.app',
-    port: 7228,
+    host: '127.0.0.1',
+    port: 3306,
     username: 'root',
-    password: 'ukN92K5xnZ1eeV4OVzgc',
-    database: 'railway',
+    password: '',
+    database: 'flyfar-ladies',
       entities: [User,
         Tourpackage,
         MainImage,
@@ -58,6 +59,7 @@ import { Installment } from './tourpackage/entities/installment.entity';
     UsderProfileModule,
     S3Module,
     ConfigModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -65,8 +67,7 @@ import { Installment } from './tourpackage/entities/installment.entity';
 export class AppModule { }
 
 
-// host: 'containers-us-west-158.railway.app',
-// port: 6425,
+// host: 'containers-us-west-132.railway.app',
+// port: 7228,
 // username: 'root',
-// password: 'm43N0uy4VkYM941mmeYc',
-// database: 'railway',
+// password: 'ukN92K5xnZ1eeV4OVzgc',

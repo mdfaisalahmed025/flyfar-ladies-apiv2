@@ -1,4 +1,5 @@
 
+import { Booking } from "src/booking/entity/booking.entity";
 import { Column, Entity,JoinColumn,ManyToOne,OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
@@ -114,6 +115,8 @@ export class Tourpackage {
         onUpdate: "RESTRICT"
     })
     installments: Installment;
+    @OneToMany(()=>Booking,(booking)=>booking.tourPackage)
+    bookings:Booking;
 
 
 }
