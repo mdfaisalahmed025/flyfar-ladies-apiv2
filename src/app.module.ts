@@ -30,14 +30,11 @@ import { BookingModule } from './booking/booking.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
-      type: 'mysql',
-  
-      host: '127.0.0.1',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'flyfar-ladies',
-
+    host: 'containers-us-west-99.railway.app',
+    port: 7444,
+    username: 'root',
+    password: 'xUFlxTq7jKQkDw2BINQK',
+    database: 'railway',
       entities: [User,
         Tourpackage,
         MainImage,

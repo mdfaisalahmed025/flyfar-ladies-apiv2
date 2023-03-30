@@ -7,14 +7,14 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "ty
 export class Booking{
    @PrimaryGeneratedColumn('uuid')
    id:string
-   @OneToMany(() => Tourpackage, (tourpackage)=>tourpackage.bookings)
-   tourPackage:Tourpackage
-   @OneToMany(() => Traveller, (traveller)=>traveller.bookings)
-   travellers: Traveller;
    @Column()
    startDate: Date;
    @Column()
    endDate: Date;
    @Column()
    totalPrice: number;
+   @OneToMany(() => Tourpackage, (tourpackage)=>tourpackage.bookings, {eager:true})
+   tourPackage:Tourpackage
+   @OneToMany(() => Traveller, (traveller)=>traveller.bookings, {eager:true})
+   travellers: Traveller;
 }

@@ -125,7 +125,6 @@ export class Tourpackage {
     // travellers: Installment;
 
     @ManyToOne(()=>Booking, (booking)=>booking.tourPackage)
-    @JoinColumn({name:'bookingId'})
     bookings:Booking
 
 }
