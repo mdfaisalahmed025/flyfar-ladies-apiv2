@@ -46,8 +46,7 @@ export class TourpackageController {
   )
 
   async AddTravelPAckage(
-    @UploadedFile(
-    )
+    @UploadedFile()
     file: Express.Multer.File,
     @Req() req: Request,
     @Body() body,
@@ -76,21 +75,23 @@ export class TourpackageController {
     return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package added succesfully", })
   }
 
-
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tourpackageService.findOne(+id);
+  const gettourpackage =  this.tourpackageService.findOne(+id);
+    if (!gettourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return gettourpackage
   }
 
-  @Get('getall')
-  findAll() {
-    return this.tourpackageService.findAll();
+ @Get('/findall')
+  async FindAll() {
+  const gettourpackage = await this.tourpackageService.FindAll();
+  return gettourpackage
   }
-
-  // @Get(':getbylocation/:Location')
-  // findOneByLocation(@Param('Location') Location: string) {
-  //   return this.tourpackageService.findOneByLocation(Location);
-  // }
 
   @Get('/location/:TripType')
   findOneBytriptype(@Param('TripType') TripType: string): Promise<{name:string}[]> {

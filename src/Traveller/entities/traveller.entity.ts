@@ -1,5 +1,3 @@
-import { Booking } from './../../booking/entity/booking.entity';
-
 import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 

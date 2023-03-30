@@ -33,7 +33,6 @@ import { Traveller } from 'src/Traveller/entities/traveller.entity';
 // tour package ser
 @Injectable()
 export class TourpackageService {
-
 constructor(
 @InjectRepository(Tourpackage)
 private TourpackageRepo:Repository<Tourpackage>,
@@ -59,18 +58,13 @@ private visitedImageRepo: Repository<VisitedPlace>,
 @InjectRepository(Traveller) private tarvellerRepository: Repository<Traveller>
 ){}
 
-async findAll() {
-    return await this.TourpackageRepo.find();
-  }
+
+async FindAll(){
+ return await this.TourpackageRepo.find({})
+}
 
 async  findOne(Id: number) {
     const gettourpackage =  this.TourpackageRepo.findOne({where:{Id}});
-    if (!gettourpackage) {
-      throw new HttpException(
-        `TourPackage not found with this id=${Id}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
     return gettourpackage;
   }
 
@@ -112,12 +106,6 @@ async  findOne(Id: number) {
     queryBuilder.andWhere('tourPackage.StartDate >= :startOfMonth', { startOfMonth });
     queryBuilder.andWhere('tourPackage.StartDate <= :endOfMonth', { endOfMonth });
     const tourPackages = await queryBuilder.getMany();
-    if (!tourPackages) {
-      throw new HttpException(
-        `TourPackage not found`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
     return tourPackages;
   
   }

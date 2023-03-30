@@ -37,9 +37,6 @@ export class TravellerServices {
       const updatedtraveller = await this.tarvellerRepository.update({ TravellerId },{ ...updatetravellerdto})
       return updatedtraveller;
    }
-
-
-
    // Delte User
    async DeleteTraveller(TravellerId: string) {
       const traveller = await this.tarvellerRepository.findOne({ where: { TravellerId } });

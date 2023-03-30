@@ -1,4 +1,4 @@
-import { Booking } from './../../booking/entity/booking.entity';
+
 import { Traveller } from 'src/Traveller/entities/traveller.entity';
 import { Column, Entity,JoinColumn,ManyToOne,OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
@@ -98,8 +98,6 @@ export class Tourpackage {
     })
     highlights: packagehighlight;
 
-
-
     @OneToMany(() => refundpolicy, (refundpolicy) => refundpolicy.tourpackage, {
         eager: true, onDelete: "RESTRICT",
         onUpdate: "RESTRICT"
@@ -117,15 +115,6 @@ export class Tourpackage {
         onUpdate: "RESTRICT"
     })
     installments: Installment;
-
-    // @OneToMany(() => Traveller, (traveller) => traveller.tourpackage,{
-    //     eager: true, cascade: true, onDelete: "RESTRICT",
-    //     onUpdate: "RESTRICT"
-    // })
-    // travellers: Installment;
-
-    // @ManyToOne(()=>Booking, (booking)=>booking.tourPackage)
-    // bookings:Booking
 
 
 }
