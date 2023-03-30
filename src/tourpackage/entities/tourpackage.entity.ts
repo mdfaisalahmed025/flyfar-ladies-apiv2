@@ -1,5 +1,4 @@
 
-import { Traveller } from 'src/Traveller/entities/traveller.entity';
 import { Column, Entity,JoinColumn,ManyToOne,OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";

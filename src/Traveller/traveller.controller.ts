@@ -1,6 +1,5 @@
 
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseFilePipeBuilder, Patch, Post, Req, Res, UploadedFiles, UseInterceptors } from "@nestjs/common";
-import { CreateTravellerDto } from "./Dto/create-traveller.dto";
 import { TravellerServices } from './traveller.services';
 import { Request, Response } from 'express';
 import { updateTravellerDto } from "./Dto/update-traveller.dto";

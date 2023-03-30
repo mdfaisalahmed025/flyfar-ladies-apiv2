@@ -1,6 +1,5 @@
-import { Installment } from './entities/installment.entity';
-import { CreateInstallmentDto } from './dto/create-installment.dto';
 
+import { CreateInstallmentDto } from './dto/create-installment.dto';
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException, Logger, UploadedFile, Query } from '@nestjs/common';
 import { TourpackageService } from './tourpackage.service';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
@@ -25,7 +24,6 @@ import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
 import { MainImage } from './entities/mainimage.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { S3Service } from 'src/s3/s3.service';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('tourpackage')
 export class TourpackageController {
@@ -75,6 +73,15 @@ export class TourpackageController {
     return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package added succesfully", })
   }
 
+
+  @Get('AllPackage')
+  async FindAll(   
+  @Req() req: Request,
+  @Res() res: Response) {
+  const gettourpackage = await this.tourpackageService.FindAllPackages();
+  return res.status(HttpStatus.OK).json({ gettourpackage });
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
   const gettourpackage =  this.tourpackageService.findOne(+id);
@@ -87,11 +94,7 @@ export class TourpackageController {
     return gettourpackage
   }
 
- @Get('/findall')
-  async FindAll() {
-  const gettourpackage = await this.tourpackageService.FindAll();
-  return gettourpackage
-  }
+
 
   @Get('/location/:TripType')
   findOneBytriptype(@Param('TripType') TripType: string): Promise<{name:string}[]> {
@@ -105,14 +108,6 @@ export class TourpackageController {
     @Query('StartDate') StartDate: string,
   ): Promise<Tourpackage[]>{
     return this.tourpackageService.GetTourpackageByDiffirentfield(TripType, City, StartDate);
-  }
-
-  @Get(':id/addtraveler/:TravellerId')
-  AddTraveller(
-    @Param('id') id: string,
-    @Param('TravellerId') TravellerId: string) {
-    return this.tourpackageService.Addtraveller(TravellerId,+id);
-   
   }
 
   @Patch(':id')

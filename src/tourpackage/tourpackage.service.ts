@@ -58,34 +58,15 @@ private visitedImageRepo: Repository<VisitedPlace>,
 @InjectRepository(Traveller) private tarvellerRepository: Repository<Traveller>
 ){}
 
-
-async FindAll(){
- return await this.TourpackageRepo.find({})
-}
-
 async  findOne(Id: number) {
     const gettourpackage =  this.TourpackageRepo.findOne({where:{Id}});
     return gettourpackage;
   }
 
-
-  async  Addtraveller(TravellerId: string, Id:number) {
-    const gettourpackage =  this.TourpackageRepo.findOne({where:{Id}});
-    if (!gettourpackage) {
-      throw new HttpException(
-        `TourPackage not found with this id=${Id}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const gettraveller =  this.tarvellerRepository.findOne({where:{TravellerId}});
-    if (!gettraveller) {
-      throw new HttpException(
-        `TourPackage not found with this id=${Id}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    return gettourpackage;
-  }
+  async FindAllPackages(){
+    const packages= await this.TourpackageRepo.find({})
+    return packages;
+   }
 
   async GetTourpackageByDiffirentfield(TripType:string, City:string,StartDate:string):Promise<Tourpackage[]>{
     const [month, year] = StartDate.split(" ");
