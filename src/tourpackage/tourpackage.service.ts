@@ -60,7 +60,7 @@ private visitedImageRepo: Repository<VisitedPlace>,
 ){}
 
 async findAll() {
-    return this.TourpackageRepo.find();
+    return await this.TourpackageRepo.find();
   }
 
 async  findOne(Id: number) {

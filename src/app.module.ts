@@ -53,7 +53,7 @@ import settings from 'ormconfig.json'
         Installment,
         Booking
       ],
-      synchronize: false,
+      synchronize: true,
     }),
 
     UserModule,

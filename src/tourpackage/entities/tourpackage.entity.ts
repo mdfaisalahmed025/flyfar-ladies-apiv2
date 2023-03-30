@@ -127,4 +127,5 @@ export class Tourpackage {
     // @ManyToOne(()=>Booking, (booking)=>booking.tourPackage)
     // bookings:Booking
 
+
 }
