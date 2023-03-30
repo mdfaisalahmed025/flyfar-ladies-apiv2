@@ -40,6 +40,7 @@
     "multer-s3": "^3.0.1",
     "mysql2": "^3.2.0",
     "node-fetch": "^3.3.1",
+    "ormconfig.json": "^1.0.2",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",

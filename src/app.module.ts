@@ -25,15 +25,17 @@ import { MainImage } from './tourpackage/entities/mainimage.entity';
 import { S3Module } from './s3/s3.module';
 import { Installment } from './tourpackage/entities/installment.entity';
 import { BookingModule } from './booking/booking.module';
+import settings from 'ormconfig.json'
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal:true }),
     TypeOrmModule.forRoot({
-    host: 'containers-us-west-99.railway.app',
-    port: 7444,
+    type:'mysql',
+    host: 'containers-us-west-158.railway.app',
+    port: 6425,
     username: 'root',
-    password: 'xUFlxTq7jKQkDw2BINQK',
+    password: 'm43N0uy4VkYM941mmeYc',
     database: 'railway',
       entities: [User,
         Tourpackage,
@@ -51,7 +53,7 @@ import { BookingModule } from './booking/booking.module';
         Installment,
         Booking
       ],
-      synchronize: true,
+      synchronize: false,
     }),
 
     UserModule,

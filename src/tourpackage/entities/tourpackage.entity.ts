@@ -124,7 +124,7 @@ export class Tourpackage {
     // })
     // travellers: Installment;
 
-    @ManyToOne(()=>Booking, (booking)=>booking.tourPackage)
-    bookings:Booking
+    // @ManyToOne(()=>Booking, (booking)=>booking.tourPackage)
+    // bookings:Booking
 
 }

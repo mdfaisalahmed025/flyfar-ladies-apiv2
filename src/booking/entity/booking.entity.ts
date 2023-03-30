@@ -13,8 +13,8 @@ export class Booking{
    endDate: Date;
    @Column()
    totalPrice: number;
-   @OneToMany(() => Tourpackage, (tourpackage)=>tourpackage.bookings, {eager:true})
-   tourPackage:Tourpackage
-   @OneToMany(() => Traveller, (traveller)=>traveller.bookings, {eager:true})
-   travellers: Traveller;
+   // @OneToMany(() => Tourpackage, (tourpackage)=>tourpackage.bookings, {eager:true})
+   // tourPackage:Tourpackage
+   // @OneToMany(() => Traveller, (traveller)=>traveller.bookings, {eager:true})
+   // travellers: Traveller;
 }

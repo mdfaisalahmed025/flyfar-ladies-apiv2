@@ -25,6 +25,6 @@ export class Traveller {
    CreatedAt:Date
    @UpdateDateColumn()
    UpdatedAt:Date
-   @ManyToOne(()=>Booking,(booking)=>booking.travellers)
-   bookings:Tourpackage;
+   // @ManyToOne(()=>Booking,(booking)=>booking.travellers)
+   // bookings:Tourpackage;
 }
