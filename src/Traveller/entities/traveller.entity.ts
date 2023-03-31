@@ -1,5 +1,4 @@
 import { OneToMany } from 'typeorm';
-import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Booking } from 'src/booking/entity/booking.entity';
 
@@ -14,6 +13,8 @@ export class Traveller {
    @Column()
    DOB:string
    @Column()
+   Email: string
+   @Column()
    Gender:string
    @Column()
    PassportNumber:string
@@ -25,6 +26,6 @@ export class Traveller {
    CreatedAt:Date
    @UpdateDateColumn()
    UpdatedAt:Date
-   @OneToMany(()=>Booking,(booking)=>booking.travelers)
+   @OneToMany(()=>Booking,(booking)=>booking.travelers, {eager:true})
    bookings:Booking;
 }

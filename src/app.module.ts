@@ -24,6 +24,7 @@ import { MainImage } from './tourpackage/entities/mainimage.entity';
 import { S3Module } from './s3/s3.module';
 import { Installment } from './tourpackage/entities/installment.entity';
 import { BookingModule } from './booking/booking.module';
+import { Booking } from './booking/entity/booking.entity';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { BookingModule } from './booking/booking.module';
         Traveller,
         refundpolicy,
         Installment,
+        Booking
       ],
       synchronize: true,
     }),

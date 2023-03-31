@@ -9,26 +9,35 @@ import { Booking } from './entity/booking.entity';
 export class BookingService {
    constructor(@InjectRepository(Tourpackage)
    private tourPackageRepository: Repository<Tourpackage>,
-   @InjectRepository(Traveller)
-   private travelerRepository:Repository<Traveller>,
-   @InjectRepository(Booking)
-   private bookingRepository: Repository<Booking>
-   ){}
+      @InjectRepository(Traveller)
+      private travelerRepository: Repository<Traveller>,
+      @InjectRepository(Booking)
+      private bookingRepository: Repository<Booking>
+   ) { }
 
-   async BookTravelpackage(Id:number, TravellerId:string){
-      const tourPackage = await this.tourPackageRepository.findOne({where:{Id}})
-      const travelers = await this.travelerRepository.findOne({where:{TravellerId}});
+   async BookTravelpackage(Id: number, TravellerId: string) {
+      const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } })
+      const travelers = await this.travelerRepository.findOne({ where: { TravellerId } });
       if (!tourPackage) {
          throw new NotFoundException('Tour package not found');
-       }
-       if (!travelers) {
+      }
+      if (!travelers) {
          throw new NotFoundException('Traveler not found');
-       }
+      }
+      const booking = new Booking();
+      booking.tourPackage = tourPackage;
+      booking.travelers = travelers;
+      await this.bookingRepository.save(booking)
 
-       const booking = new Booking();
-       booking.tourPackage = tourPackage;
-       booking.travelers = travelers;
-       await this.bookingRepository.save(booking)
-
+      return {
+         tourPackage, travelers, booking
+      }
    }
+
+
+   async getBooking(Bookingid:string){
+      const bookedpackage = await this.bookingRepository.find({ where: { Bookingid }, relations: ['tourPackage','travelers']})
+      return bookedpackage;
+   }
+
 }

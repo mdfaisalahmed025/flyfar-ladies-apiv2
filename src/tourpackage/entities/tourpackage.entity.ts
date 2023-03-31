@@ -1,6 +1,6 @@
 
 import { Booking } from "src/booking/entity/booking.entity";
-import { Column, Entity,JoinColumn,ManyToOne,OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
 import { Installment } from "./installment.entity";
@@ -26,43 +26,43 @@ export class Tourpackage {
     @Column({ nullable: true })
     Location: string;
     @Column({ nullable: true })
-    City:string
+    City: string
     @Column({ nullable: true })
-    Discount:number
+    Discount: number
     @Column({ nullable: true })
     StartDate: string;
     @Column({ nullable: true })
     EndDate: string;
     @Column({ nullable: true })
     TripType: string;
-    @Column({ nullable: true, type:'text' })
-    Code:string
+    @Column({ nullable: true, type: 'text' })
+    Code: string
     @Column({ nullable: true })
     TotalDuration: string
     @Column('text', { nullable: true })
     PackageOverview: string;
-    @Column('bool',{ default: false, nullable: true })
+    @Column('bool', { default: false, nullable: true })
     Availability: boolean
-    @Column('bool',{ default: false, nullable: true })
+    @Column('bool', { default: false, nullable: true })
     Showpackage: boolean
-    @Column('bool',{ default: false, nullable: true })
+    @Column('bool', { default: false, nullable: true })
     Flight: boolean
-    @Column('bool',{ default: false, nullable: true })
+    @Column('bool', { default: false, nullable: true })
     Food: boolean
-    @Column('bool',{ default: false, nullable: true })
+    @Column('bool', { default: false, nullable: true })
     Transport: boolean
-    @Column('bool',{ default: false, nullable: true })
+    @Column('bool', { default: false, nullable: true })
     Hotel: boolean
     @Column({ nullable: true })
     coverimageurl: string
-    
+
     @OneToMany(() => MainImage, (mainimage) => mainimage.tourpackage, {
         eager: true,
         onUpdate: "RESTRICT",
         cascade: true,
     })
     mainimage: MainImage;
-    
+
     @OneToMany(() => AlbumImage, (albumImage) => albumImage.tourpackage, {
         eager: true,
         onUpdate: "RESTRICT",
@@ -110,13 +110,13 @@ export class Tourpackage {
     })
     tourpackageplans: tourpackageplan;
 
-    @OneToMany(() => Installment, (installment) => installment.tourpackage,{
+    @OneToMany(() => Installment, (installment) => installment.tourpackage, {
         eager: true, cascade: false, onDelete: "RESTRICT",
         onUpdate: "RESTRICT"
     })
     installments: Installment;
-    @OneToMany(()=>Booking,(booking)=>booking.tourPackage)
-    bookings:Booking;
+    @OneToMany(() => Booking, (booking) => booking.tourPackage, { eager: true, cascade:true })
+    bookings: Booking;
 
 
 }
