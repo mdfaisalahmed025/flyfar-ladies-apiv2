@@ -18,12 +18,10 @@ export class BookingService {
    async BookTravelpackage(Id: number, TravellerId: string) {
       const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } })
       const travelers = await this.travelerRepository.findOne({ where: { TravellerId } });
-      if (!tourPackage) {
-         throw new NotFoundException('Tour package not found');
+      if (!tourPackage || !travelers) {
+         throw new NotFoundException('Tour package or travellers not found');
       }
-      if (!travelers) {
-         throw new NotFoundException('Traveler not found');
-      }
+    
       const booking = new Booking();
       booking.tourPackage = tourPackage;
       booking.travelers = travelers;

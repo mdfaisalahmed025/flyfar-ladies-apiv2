@@ -14,12 +14,13 @@ export class BookingController {
     return await this.bookingService.getBooking(Bookingid)
   }
 
-  @Post(':id/addbooking')
-  async addbooking(Id: number, TravellerId: string,
-    @Body() body,
+  @Post('addbooking')
+  async addbooking(
+    @Body('Id') Id: number, 
+    @Body('TravellerId') TravellerId: string,
     @Req() req: Request,
     @Res() res: Response) {
-    await this.bookingService.BookTravelpackage(Id, TravellerId)
+    await this.bookingService.BookTravelpackage(Id,TravellerId)
     return res.status(HttpStatus.OK).send({ status: "success", message: "Booking Confirmed" })
   }
 }
