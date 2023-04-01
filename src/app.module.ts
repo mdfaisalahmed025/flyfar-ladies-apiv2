@@ -68,7 +68,8 @@ import { Booking } from './booking/entity/booking.entity';
 })
 export class AppModule {}
 
-// host: 'containers-us-west-132.railway.app',
-// port: 7228,
-// username: 'root',
-// password: 'ukN92K5xnZ1eeV4OVzgc',
+// host: '192.241.145.76',
+// port: 3306,
+// username: 'flyfarladies',
+// password: 'F3r2r28AsiFzW8Ke',
+// database: 'flyfarladies',

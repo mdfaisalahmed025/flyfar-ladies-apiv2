@@ -12,7 +12,7 @@ export class Traveller {
    LastName:string
    @Column()
    DOB:string
-   @Column()
+   @Column({nullable:true})
    Email: string
    @Column()
    Gender:string
