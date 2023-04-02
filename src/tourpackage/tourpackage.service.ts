@@ -29,6 +29,7 @@ import { VisitedPlace } from './entities/visitedplace.entity';
 import { CreateInstallmentDto } from './dto/create-installment.dto';
 import { Installment } from './entities/installment.entity';
 import { Traveller } from 'src/Traveller/entities/traveller.entity';
+import { updateinstallmentdto } from './dto/update-installmentDto';
 
 // tour package ser
 @Injectable()
@@ -59,12 +60,14 @@ private visitedImageRepo: Repository<VisitedPlace>,
 ){}
 
 async  findOne(Id: number) {
-    const gettourpackage =  this.TourpackageRepo.findOne({where:{Id}});
+    const gettourpackage =  this.TourpackageRepo.findOne({where:{Id}, relations:{
+      bookings:true
+    }});
     return gettourpackage;
   }
 
   async FindAllPackages(){
-    const packages= await this.TourpackageRepo.find({})
+    const packages= await this.TourpackageRepo.find({relations:{bookings:true}})
     return packages;
    }
 
@@ -241,6 +244,76 @@ async  remove(Id: number) {
   }
 
 
+
+  async FindInstallment(Id: number, InstallmentId: number) {
+    const tourpackage = await this.TourpackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const installment = await this.InstallmentRepo.findOne({ where: { InstallmentId } })
+    if (!installment) {
+      throw new HttpException(
+        `installment not found with this id=${InstallmentId}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return installment;
+  }
+
+
+  async updateInstallment(Id: number, InstallmentId: number, updateinstall: updateinstallmentdto) {
+    const tourpackage = await this.TourpackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const bookingpolicy = await this.InstallmentRepo.findOne({ where: { InstallmentId } })
+    if (!bookingpolicy) {
+      throw new HttpException(
+        `installment not found with this id=${InstallmentId}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const updatepolicy = await this.InstallmentRepo.update({ InstallmentId }, { ...updateinstall })
+    return updatepolicy;
+  }
+
+
+  async DeleteInstallment(Id: number, InstallmentId: number) {
+    const tourpackage = await this.TourpackageRepo.findOne({
+      where: {
+        Id
+      }
+    })
+    if (!tourpackage) {
+      throw new HttpException(
+        `TourPackage not found with this id=${Id}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const bookingpolicy = await this.InstallmentRepo.findOne({ where: { InstallmentId } })
+    if (!bookingpolicy) {
+      throw new HttpException(
+        `Installment not found with this id=${InstallmentId}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    await this.InstallmentRepo.delete(InstallmentId);
+  }
+
   // find booking policy
   async FindbookingPolicy(Id: number, BkId: number) {
     const tourpackage = await this.TourpackageRepo.findOne({
@@ -287,6 +360,10 @@ async  remove(Id: number) {
     const updatepolicy = await this.bookingPolicyRepo.update({ BkId }, { ...updateBOokingPolicy })
     return updatepolicy;
   }
+
+
+  
+
 
 
   //Delete booking policy

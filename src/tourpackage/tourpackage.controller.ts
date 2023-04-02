@@ -24,6 +24,7 @@ import { UpdatepackageHighlightDto } from './dto/update-packagehighlightdto';
 import { MainImage } from './entities/mainimage.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { S3Service } from 'src/s3/s3.service';
+import { updateinstallmentdto } from './dto/update-installmentDto';
 
 @Controller('tourpackage')
 export class TourpackageController {
@@ -144,6 +145,49 @@ export class TourpackageController {
     return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package installment added succesfully", })
   }
 
+
+  @Get(':id/getinstallment/:InstallmentId')
+  async GetInstallment(
+    @Param('id') id: number,
+    @Param('InstallmentId') InstallmentId: number,
+    @Req() req: Request,
+    @Res() res: Response) {
+    const installment = await this.tourpackageService.FindInstallment(id, InstallmentId)
+    return res.status(HttpStatus.OK).json({
+      status: "success", installment
+    });
+  }
+
+
+    // update booking policy  
+    @Patch(':id/updateinstallment/:InstallmentId')
+    async updateInstallment(
+      @Param('id') id: number,
+      @Param('InstallmentId') InstallmentId: number,
+      @Body() updateinstall: updateinstallmentdto,
+      @Req() req: Request,
+      @Res() res: Response,
+    ) {
+      await this.tourpackageService.updateInstallment(id, InstallmentId, updateinstall)
+      return res.status(HttpStatus.OK).json({
+        status: "success",
+        message: `installment updated successfully`,
+      });
+    }
+  
+
+    @Delete(':id/Installment/:InstallmentId')
+  async DeleteInstallment(
+    @Param('id') id: number,
+    @Param('InstallmentId') InstallmentId: number,
+    @Req() req: Request,
+    @Res() res: Response) {
+    await this.tourpackageService.DeleteInstallment(id, InstallmentId)
+    return res.status(HttpStatus.OK).json({
+      status: "success",
+      message: `Installment has deleted successfully`,
+    });
+  }
 
   @Patch(':Id/replaceimage')
   @UseInterceptors(

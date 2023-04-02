@@ -115,7 +115,7 @@ export class Tourpackage {
         onUpdate: "RESTRICT"
     })
     installments: Installment;
-    @OneToMany(() => Booking, (booking) => booking.tourPackage, { eager: true })
+    @OneToMany(() => Booking, (booking) => booking.tourPackage)
     bookings: Booking;
 
 

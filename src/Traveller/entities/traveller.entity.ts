@@ -26,6 +26,6 @@ export class Traveller {
    CreatedAt:Date
    @UpdateDateColumn()
    UpdatedAt:Date
-   @OneToMany(()=>Booking,(booking)=>booking.travelers, {eager:true})
+   @OneToMany(()=>Booking,(booking)=>booking.travelers)
    bookings:Booking;
 }

@@ -32,12 +32,14 @@ export class BookingService {
       }
    }
    async getBooking(Bookingid:string){
-      const bookedpackage = await this.bookingRepository.find({ where: { Bookingid }})
+      const bookedpackage = await this.bookingRepository.find({ where: { Bookingid }, relations:['tourPackage','travelers']})
       return bookedpackage;
    }
 
-   async getallbooking(){
-      return await this.bookingRepository.find({})
+   async FindAll():Promise<Booking[]>{
+     const bookings= await this.bookingRepository.find({relations:[ 'tourPackage',
+      'travelers']})
+     return bookings;
    }
 
 }

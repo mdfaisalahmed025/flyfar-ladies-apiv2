@@ -1,6 +1,6 @@
 
 export class CreateInstallmentDto{
-   Id:number
+   InstallmentId:number
    Date:string
    Name: string;
    Amount:number

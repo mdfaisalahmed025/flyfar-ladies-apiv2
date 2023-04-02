@@ -5,7 +5,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class Installment {
   @PrimaryGeneratedColumn()
-  Id: number;
+  InstallmentId: number;
   @Column({nullable:true})
   Name: string;
   @Column({type:'date', nullable:true})

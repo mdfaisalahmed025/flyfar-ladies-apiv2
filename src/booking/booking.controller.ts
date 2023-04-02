@@ -6,9 +6,7 @@ import { Request, Response } from 'express';
 
 @Controller('booking')
 export class BookingController {
-  constructor(private readonly bookingService: BookingService) { }
-
-
+  constructor(private readonly bookingService: BookingService) {}
   @Post('addbooking')
   async addbooking(
     @Body('Id') Id: number, 
@@ -25,9 +23,11 @@ export class BookingController {
     return await this.bookingService.getBooking(Bookingid)
   }
 
-  @Get('allbooking')
-  async getALlBooking() {
-    return await this.bookingService.getallbooking()
+  @Get()
+  async getALlBooking(@Res() res: Response) {
+    const bookings= await this.bookingService.FindAll()
+    return res.status(HttpStatus.OK).json({ bookings });
+    
   }
 
 }
