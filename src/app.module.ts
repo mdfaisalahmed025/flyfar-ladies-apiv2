@@ -25,18 +25,23 @@ import { S3Module } from './s3/s3.module';
 import { Installment } from './tourpackage/entities/installment.entity';
 import { BookingModule } from './booking/booking.module';
 import { Booking } from './booking/entity/booking.entity';
+import { DepositModule } from './deposit_request/deposit.module';
+import { Cheque } from './deposit_request/Entity/cheq.entity';
+import { Cash } from './deposit_request/Entity/cash.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal:true }),
     TypeOrmModule.forRoot({
     type:'mysql',
-    host: '192.241.145.76',
+    host: '127.0.0.1',
     port: 3306,
-    username: 'flyfarladies',
-    password: 'F3r2r28AsiFzW8Ke',
-    database: 'flyfarladies',
+    username: 'root',
+    password: '',
+    database: 'flyfar-ladies',
       entities: [User,
+        Cheque,
+        Cash,
         Tourpackage,
         MainImage,
         AlbumImage,
@@ -54,7 +59,6 @@ import { Booking } from './booking/entity/booking.entity';
       ],
       synchronize: true,
     }),
-
     UserModule,
     TourpackageModule,
     TravellerModule,
@@ -62,6 +66,7 @@ import { Booking } from './booking/entity/booking.entity';
     S3Module,
     ConfigModule,
     BookingModule,
+    DepositModule,
   ],
   controllers: [AppController],
   providers: [AppService],
