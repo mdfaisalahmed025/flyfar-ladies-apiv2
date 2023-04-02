@@ -8,11 +8,6 @@ import { Request, Response } from 'express';
 export class BookingController {
   constructor(private readonly bookingService: BookingService) { }
 
-  @Get(':Bookingid')
-  async getBooking(
-    @Param('Bookingid') Bookingid: string,) {
-    return await this.bookingService.getBooking(Bookingid)
-  }
 
   @Post('addbooking')
   async addbooking(
@@ -23,4 +18,16 @@ export class BookingController {
     await this.bookingService.BookTravelpackage(Id,TravellerId)
     return res.status(HttpStatus.OK).send({ status: "success", message: "Booking Confirmed" })
   }
+
+  @Get(':Bookingid')
+  async getBooking(
+    @Param('Bookingid') Bookingid: string,) {
+    return await this.bookingService.getBooking(Bookingid)
+  }
+
+  @Get('allbooking')
+  async getALlBooking() {
+    return await this.bookingService.getallbooking()
+  }
+
 }

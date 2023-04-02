@@ -31,11 +31,13 @@ export class BookingService {
          tourPackage, travelers, booking
       }
    }
-
-
    async getBooking(Bookingid:string){
-      const bookedpackage = await this.bookingRepository.find({ where: { Bookingid }, relations: ['tourPackage','travelers']})
+      const bookedpackage = await this.bookingRepository.find({ where: { Bookingid }})
       return bookedpackage;
+   }
+
+   async getallbooking(){
+      return await this.bookingRepository.find({})
    }
 
 }
