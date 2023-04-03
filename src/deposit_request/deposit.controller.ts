@@ -243,6 +243,9 @@ export class DepositController {
 
        
   @Post('MobileBankdeposit')
+  @UseInterceptors(
+    FileInterceptor('MobBankattachmenturl'),
+  )
   async MobileBankdeposit(
     @UploadedFile()
     file: Express.Multer.File,
