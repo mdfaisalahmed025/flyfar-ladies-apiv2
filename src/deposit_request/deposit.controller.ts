@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Param, Post, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param, Post, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { DepositService } from './deposit.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { S3Service } from 'src/s3/s3.service';
@@ -8,6 +8,8 @@ import { Repository } from 'typeorm';
 import { Request, Response } from 'express';
 import { Cash } from './Entity/cash.entity';
 import { BankTransfer } from './Entity/BankTransfer.entity';
+import { CardPayment } from './Entity/Cardpayment.entity';
+import { Bkash } from './Entity/Bkash.entity';
 
 @Controller('depositrequest')
 export class DepositController {
@@ -15,6 +17,8 @@ export class DepositController {
   @InjectRepository(Cheque) private chequeRepository:Repository<Cheque>,
   @InjectRepository(Cash) private CashRepository:Repository<Cash>,
   @InjectRepository(BankTransfer) private BankTransferRepository:Repository<BankTransfer>,
+  @InjectRepository(CardPayment) private CardPaymentRepository:Repository<CardPayment>,
+  @InjectRepository(Bkash) private BkashPaymentRepository:Repository<Bkash>,
   private readonly depositService: DepositService,
   private s3service: S3Service) {}
   
@@ -22,7 +26,7 @@ export class DepositController {
   @UseInterceptors(
     FileInterceptor('chequeattachmenturl'),
   )
-  async AddChequeDeposit(
+  async ChequeDeposit(
     @UploadedFile()
     file: Express.Multer.File,
     @Req() req: Request,
@@ -64,7 +68,7 @@ export class DepositController {
   @UseInterceptors(
     FileInterceptor('cashattachmenturl'),
   )
-  async Addcashdeposit(
+  async cashdeposit(
     @UploadedFile()
     file: Express.Multer.File,
     @Req() req: Request,
@@ -105,7 +109,7 @@ export class DepositController {
   @UseInterceptors(
     FileInterceptor('Bankattachmenturl'),
   )
-  async AddBankDeposit(
+  async BankDeposit(
     @UploadedFile()
     file: Express.Multer.File,
     @Req() req: Request,
@@ -140,6 +144,99 @@ export class DepositController {
     const Allcashdeposit= await this.depositService.FindAllbankdeposit()
     return res.status(HttpStatus.OK).json({Allcashdeposit})
   }
+
+  //Card Paymemnt
+
+  @Post('carddeposit')
+  async CardPaymentDeposit(
+    @Req() req: Request,
+    @Res() res: Response) {
+    const Cardpayment = new CardPayment();
+    Cardpayment.Amount =req.body.Amount
+    const amount = Cardpayment.Amount
+    if(amount<100){
+      throw new HttpException(
+        `Minimum deposit 100TK`,
+        HttpStatus.BAD_REQUEST,
+      );    
+    }
+    Cardpayment.Amount =amount
+    const fee = amount*2.2/100
+    Cardpayment.GatewayFee =fee
+    const depositedAmount=amount-fee
+    Cardpayment.DepositedAmount =depositedAmount
+    await this.CardPaymentRepository.save(Cardpayment)
+    return res.status(HttpStatus.OK).send({ status: "success", message: " Card  Deposit Request Successfull", })
+    }
+
+
+
+
+    @Get('getcarddeposit/:id')
+    async getcarddeposit(
+      @Param('id') id:string,
+      @Req() req: Request,
+      @Res() res: Response
+      ){
+      const getcarddeposit= await this.depositService.FindCarddeposit(id)
+      return res.status(HttpStatus.OK).json({getcarddeposit})
+    }
+  
+    @Get('allcarddeposit')
+    async allcarddeposit(
+      @Req() req: Request,
+      @Res() res: Response
+      ){
+      const allcarddeposit= await this.depositService.FindAllCarddeposit()
+      return res.status(HttpStatus.OK).json({allcarddeposit})
+    }
+
+
+    
+  @Post('bkashdeposit')
+  async bkashdeposit(
+    @Req() req: Request,
+    @Res() res: Response) {
+    const Bkashdeposit = new Bkash();
+    Bkashdeposit.Amount =req.body.Amount
+    const amount = Bkashdeposit.Amount
+    if(amount<20){
+      throw new HttpException(
+        `Minimum deposit 20TK`,
+        HttpStatus.BAD_REQUEST,
+      );    
+    }
+    Bkashdeposit.Amount =amount
+    const fee = amount*1.5/100
+    Bkashdeposit.GatewayFee =fee
+    const depositedAmount=amount-fee
+    Bkashdeposit.DepositedAmount =depositedAmount
+    await this.BkashPaymentRepository.save(Bkashdeposit)
+    return res.status(HttpStatus.OK).send({ status: "success", message: " Bkash Deposit Request Successfull", })
+    }
+
+
+
+
+    @Get('getBkashdeposit/:id')
+    async getBkashdeposit(
+      @Param('id') id:string,
+      @Req() req: Request,
+      @Res() res: Response
+      ){
+      const Bkash= await this.depositService.FindBkashdeposit(id)
+      return res.status(HttpStatus.OK).json({Bkash})
+    }
+  
+    @Get('allcarddeposit')
+    async allBkashdeposit(
+      @Req() req: Request,
+      @Res() res: Response
+      ){
+      const allBkashdeposit= await this.depositService.FindAllBkashdeposit()
+      return res.status(HttpStatus.OK).json({allBkashdeposit})
+    }
+
 
 
 
