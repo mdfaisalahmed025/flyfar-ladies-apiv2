@@ -8,9 +8,10 @@ import { Cash } from './Entity/cash.entity';
 import { BankTransfer } from './Entity/BankTransfer.entity';
 import { CardPayment } from './Entity/Cardpayment.entity';
 import { Bkash } from './Entity/Bkash.entity';
+import { MobileBanking } from './Entity/MobileBanking.entity';
 
 @Module({
-  imports:[S3Module,TypeOrmModule.forFeature([Cheque,Cash, BankTransfer, CardPayment, Bkash])],
+  imports:[S3Module,TypeOrmModule.forFeature([Cheque,Cash, BankTransfer, CardPayment, Bkash, MobileBanking])],
   controllers: [DepositController],
   providers: [DepositService]
 })

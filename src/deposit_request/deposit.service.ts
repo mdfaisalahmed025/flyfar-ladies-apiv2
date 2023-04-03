@@ -6,6 +6,7 @@ import { Cash } from './Entity/cash.entity';
 import { BankTransfer } from './Entity/BankTransfer.entity';
 import { CardPayment } from './Entity/Cardpayment.entity';
 import { Bkash } from './Entity/Bkash.entity';
+import { MobileBanking } from './Entity/MobileBanking.entity';
 
 @Injectable()
 export class DepositService {
@@ -14,7 +15,8 @@ export class DepositService {
       @InjectRepository(Cash) private CashRepository:Repository<Cash>,
       @InjectRepository(BankTransfer) private BankTransferRepository:Repository<BankTransfer>,
       @InjectRepository(CardPayment) private CardPaymentRepository:Repository<CardPayment>,
-      @InjectRepository(Bkash) private BkashPaymentRepository:Repository<Bkash>,){}
+      @InjectRepository(Bkash) private BkashPaymentRepository:Repository<Bkash>,
+      @InjectRepository(MobileBanking) private MobileBankingRepository:Repository<MobileBanking>,){}
 
    async Findchequedeposit(id:string){
       const cheque= await this.chequeRepository.findOne({where:{id}})
@@ -97,6 +99,23 @@ export class DepositService {
    async FindAllBkashdeposit(){
       const Bkash= await this.BkashPaymentRepository.find({})
       return Bkash;
+   }
+
+   
+   async FindMobBankdeposit(id:string){
+      const MobBank= await this.MobileBankingRepository.findOne({where:{id}})
+      if (!MobBank) {
+         throw new HttpException(
+           `No Mobile Bank deposit found with this =${id}`,
+           HttpStatus.BAD_REQUEST,
+         );
+       }
+       return MobBank;
+   }
+
+   async FindAllmobilebankhdeposit(){
+      const mobilebank= await this.MobileBankingRepository.find({})
+      return mobilebank;
    }
 
 

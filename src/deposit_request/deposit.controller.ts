@@ -10,6 +10,7 @@ import { Cash } from './Entity/cash.entity';
 import { BankTransfer } from './Entity/BankTransfer.entity';
 import { CardPayment } from './Entity/Cardpayment.entity';
 import { Bkash } from './Entity/Bkash.entity';
+import { MobileBanking } from './Entity/MobileBanking.entity';
 
 @Controller('depositrequest')
 export class DepositController {
@@ -19,6 +20,7 @@ export class DepositController {
   @InjectRepository(BankTransfer) private BankTransferRepository:Repository<BankTransfer>,
   @InjectRepository(CardPayment) private CardPaymentRepository:Repository<CardPayment>,
   @InjectRepository(Bkash) private BkashPaymentRepository:Repository<Bkash>,
+  @InjectRepository(MobileBanking) private MobileBankingRepository:Repository<MobileBanking>,
   private readonly depositService: DepositService,
   private s3service: S3Service) {}
   
@@ -194,6 +196,9 @@ export class DepositController {
 
     
   @Post('bkashdeposit')
+  @UseInterceptors(
+    FileInterceptor('chequeattachmenturl'),
+  )
   async bkashdeposit(
     @Req() req: Request,
     @Res() res: Response) {
@@ -216,8 +221,6 @@ export class DepositController {
     }
 
 
-
-
     @Get('getBkashdeposit/:id')
     async getBkashdeposit(
       @Param('id') id:string,
@@ -228,7 +231,7 @@ export class DepositController {
       return res.status(HttpStatus.OK).json({Bkash})
     }
   
-    @Get('allcarddeposit')
+    @Get('allbkashdeposit')
     async allBkashdeposit(
       @Req() req: Request,
       @Res() res: Response
@@ -236,6 +239,53 @@ export class DepositController {
       const allBkashdeposit= await this.depositService.FindAllBkashdeposit()
       return res.status(HttpStatus.OK).json({allBkashdeposit})
     }
+
+
+       
+  @Post('MobileBankdeposit')
+  async MobileBankdeposit(
+    @UploadedFile()
+    file: Express.Multer.File,
+    @Req() req: Request,
+    @Res() res: Response) {
+    const MobBankattachmenturl = await this.s3service.Addimage(file)
+    const MobileBank = new MobileBanking();
+    MobileBank.MobBankattachmenturl =MobBankattachmenturl
+    MobileBank.AgentType =req.body.AgentType
+    MobileBank.AccountNumber =req.body.AccountNumber
+    MobileBank.Reference =req.body.Reference
+    MobileBank.TransactionId =req.body.TransactionId
+    MobileBank.Amount =req.body.Amount
+    const amount = MobileBank.Amount
+    MobileBank.Amount =amount
+    const fee = amount*1.5/100
+    MobileBank.GatewayFee =fee
+    const depositedAmount=amount-fee
+    MobileBank.DepositedAmount =depositedAmount
+    await this.MobileBankingRepository.save(MobileBank)
+    return res.status(HttpStatus.OK).send({ status: "success", message: " Mobile Banking Deposit Request Successfull", })
+    }
+
+
+    @Get('MobileBankdeposit/:id')
+    async getMobileBankdeposit(
+      @Param('id') id:string,
+      @Req() req: Request,
+      @Res() res: Response
+      ){
+      const mobilebanking= await this.depositService.FindMobBankdeposit(id)
+      return res.status(HttpStatus.OK).json({mobilebanking})
+    }
+  
+    @Get('allmobilebankingdeposit')
+    async allmobilebankingdeposit(
+      @Req() req: Request,
+      @Res() res: Response
+      ){
+      const mobilebanking= await this.depositService.FindAllmobilebankhdeposit()
+      return res.status(HttpStatus.OK).json({mobilebanking})
+    }
+
 
 
 

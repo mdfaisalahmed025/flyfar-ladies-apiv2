@@ -31,6 +31,7 @@ import { Cash } from './deposit_request/Entity/cash.entity';
 import { BankTransfer } from './deposit_request/Entity/BankTransfer.entity';
 import { CardPayment } from './deposit_request/Entity/Cardpayment.entity';
 import { Bkash } from './deposit_request/Entity/Bkash.entity';
+import { MobileBanking } from './deposit_request/Entity/MobileBanking.entity';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { Bkash } from './deposit_request/Entity/Bkash.entity';
         BankTransfer,
         CardPayment,
         Bkash,
+        MobileBanking,
         Tourpackage,
         MainImage,
         AlbumImage,
