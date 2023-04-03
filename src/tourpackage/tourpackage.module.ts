@@ -17,6 +17,7 @@ import { MainImage } from './entities/mainimage.entity';
 import { Installment } from './entities/installment.entity';
 import { Traveller } from 'src/Traveller/entities/traveller.entity';
 import { TravellerModule } from 'src/Traveller/traveller.module';
+import { DepositModule } from 'src/deposit_request/deposit.module';
 
 
 @Module({

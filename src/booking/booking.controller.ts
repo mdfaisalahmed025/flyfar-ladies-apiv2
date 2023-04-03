@@ -16,14 +16,13 @@ export class BookingController {
     await this.bookingService.BookTravelpackage(Id,TravellerId)
     return res.status(HttpStatus.OK).send({ status: "success", message: "Booking Confirmed" })
   }
-
   @Get(':Bookingid')
   async getBooking(
     @Param('Bookingid') Bookingid: string,) {
     return await this.bookingService.getBooking(Bookingid)
   }
 
-  @Get()
+  @Get('getall/booking')
   async getALlBooking(@Res() res: Response) {
     const bookings= await this.bookingService.FindAll()
     return res.status(HttpStatus.OK).json({ bookings });

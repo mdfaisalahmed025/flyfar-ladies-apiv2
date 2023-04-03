@@ -28,20 +28,22 @@ import { Booking } from './booking/entity/booking.entity';
 import { DepositModule } from './deposit_request/deposit.module';
 import { Cheque } from './deposit_request/Entity/cheq.entity';
 import { Cash } from './deposit_request/Entity/cash.entity';
+import { BankTransfer } from './deposit_request/Entity/BankTransfer.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal:true }),
     TypeOrmModule.forRoot({
     type:'mysql',
-    host: '192.241.145.76',
+    host: '127.0.0.1',
     port: 3306,
-    username: 'flyfarladies',
-    password: 'F3r2r28AsiFzW8Ke',
-    database: 'flyfarladies',
+    username: 'root',
+    password: '',
+    database: 'flyfar-ladies',
       entities: [User,
         Cheque,
         Cash,
+        BankTransfer,
         Tourpackage,
         MainImage,
         AlbumImage,
