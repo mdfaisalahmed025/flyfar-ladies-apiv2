@@ -135,25 +135,24 @@ export class TourpackageController {
     });
   }
 
-  @Patch('updateimage/:Id')
-  @UseInterceptors( FileInterceptor('coverimageurl'))
-  async updateImageUrl(
-    @UploadedFile()
-    file:Express.Multer.File,
-    @Param('Id') Id: number,
-    @Req() req: Request,
-    @Res() res: Response
-  ) {
-    const tourpackage = await this.TourpackageRepo.findOne({ where: { Id } })
-    const imageurl = await this.s3service.ReplaceImage(Id,file)
-    tourpackage.coverimageurl =imageurl
-    await this.TourpackageRepo.save(tourpackage)
-    return res.status(HttpStatus.OK).json({
-      status: "success",
-      message: `Tour Package  has updated successfully`,
+  // @Patch('updateimage/:id')
+  // @UseInterceptors( FileInterceptor('coverimageurl'))
+  // async updateImageUrl(
+  //   @UploadedFile()
+  //   file:Express.Multer.File,
+  //   @Param('id') id: number,
+  //   @Req() req: Request,
+  //   @Res() res: Response,
+  
+  // ) {
 
-    });
-  }
+  //  const imageurl = await this.s3service.ReplaceImage(id,file)
+  //   return res.status(HttpStatus.OK).json({
+  //     status: "success",
+  //     message: `Tour Package  has updated successfully`,
+
+  //   });
+  // }
 
   @Post(':Id/addinstallment')
   async createInstallment(
@@ -207,24 +206,6 @@ export class TourpackageController {
       status: "success",
       message: `Installment has deleted successfully`,
     });
-  }
-
-  @Patch(':Id/replaceimage')
-  @UseInterceptors(
-    FileInterceptor('coverimageurl'),
-  )
-  async replaceImage(
-    @UploadedFile(
-    )
-    file: Express.Multer.File,
-    @Param('Id') Id: number,
-    @Body() body,
-    @Res() res: Response) {
-   const imageurl=  await this.s3service.ReplaceImage(Id, file)
-   const tourpackages = new Tourpackage();
-   tourpackages.coverimageurl = imageurl
-   await this.TourpackageRepo.save(tourpackages) 
-    return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package coverimage replace succesfully", })
   }
 
   @Delete(':id')

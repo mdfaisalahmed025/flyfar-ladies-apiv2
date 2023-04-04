@@ -52,12 +52,8 @@ export class S3Service {
 
     }
 
-
-
-
-
     async ReplaceImage(Id: number,file: Express.Multer.File ) {
-        const tourpackage = await this.TourpackageRepo.findOne({ where: { Id } })
+        const tourpackage = await this.TourpackageRepo.findOneBy({Id})
         const bucket = this.ConfigService.get<string>('DO_BUCKET_NAME')
         if (tourpackage.coverimageurl) {
             const coverimageurl = tourpackage.coverimageurl.split('/').pop();
@@ -78,7 +74,7 @@ export class S3Service {
                 }),   
             );
             if (response.$metadata.httpStatusCode === 200) {
-                 return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}`
+                 return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}` 
              
             }
             throw new Error("image not update in digital ocean s3")
