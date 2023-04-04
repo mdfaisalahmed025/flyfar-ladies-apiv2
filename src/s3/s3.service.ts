@@ -1,4 +1,3 @@
-import { Tourpackage } from './../tourpackage/entities/tourpackage.entity';
 
 import { DeleteObjectCommand, PutObjectCommand, PutObjectCommandInput, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
 import { Body, Injectable, Logger, Req, HttpStatus } from '@nestjs/common';
@@ -6,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Express } from 'express';
 import { Request, Response } from 'express';
+import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -51,6 +51,9 @@ export class S3Service {
         }
 
     }
+
+
+
 
 
     async ReplaceImage(Id: number,file: Express.Multer.File ) {

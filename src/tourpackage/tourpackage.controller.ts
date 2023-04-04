@@ -74,7 +74,7 @@ export class TourpackageController {
     return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package added succesfully", })
   }
 
-
+  
   @Get('AllPackage')
   async FindAll(   
   @Req() req: Request,
@@ -95,12 +95,12 @@ export class TourpackageController {
     return gettourpackage
   }
 
-
-
   @Get('/location/:TripType')
   findOneBytriptype(@Param('TripType') TripType: string): Promise<{name:string}[]> {
     return this.tourpackageService.getCityByTripType(TripType);
   }
+
+
 
   @Get('/')
   async getTourPackages(
@@ -128,6 +128,26 @@ export class TourpackageController {
         HttpStatus.BAD_REQUEST,
       );
     }
+    return res.status(HttpStatus.OK).json({
+      status: "success",
+      message: `Tour Package  has updated successfully`,
+
+    });
+  }
+
+  @Patch('updateimage/:Id')
+  @UseInterceptors( FileInterceptor('coverimageurl'))
+  async updateImageUrl(
+    @UploadedFile()
+    file:Express.Multer.File,
+    @Param('Id') Id: number,
+    @Req() req: Request,
+    @Res() res: Response
+  ) {
+    const tourpackage = await this.TourpackageRepo.findOne({ where: { Id } })
+    const imageurl = await this.s3service.ReplaceImage(Id,file)
+    tourpackage.coverimageurl =imageurl
+    await this.TourpackageRepo.save(tourpackage)
     return res.status(HttpStatus.OK).json({
       status: "success",
       message: `Tour Package  has updated successfully`,
