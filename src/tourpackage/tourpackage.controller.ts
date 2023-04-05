@@ -147,13 +147,16 @@ export class TourpackageController {
     @Res() res: Response,
   
   ) {
-  const imageurl = await this.s3service.ReplaceImage(Id,file)
+  const imageurl = await this.s3service.updateImage(Id,file)
   const  tourpackage = new Tourpackage()
   tourpackage.coverimageurl = imageurl
-  const x = await this.TourpackageRepo.update(Id,tourpackage)
+  // this is necessary when only one object is passed
+  // await this.TourpackageRepo.update(Id,tourpackage)
+  //for multiple object but both will work
+  await this.TourpackageRepo.update({Id},{...tourpackage})
   return res.status(HttpStatus.OK).json({ 
       status: "success",
-      message: `Tour Package  has updated successfully`,
+      message: `Cover image  has updated successfully`,
 
     });
   }
@@ -475,10 +478,99 @@ export class TourpackageController {
     });
   }
 
+  @Patch(':Id/albumimage/:AlbumId')
+  @UseInterceptors(FilesInterceptor('albumImageUrl',20))
+  async updateAlbumImageUrl(
+    @UploadedFiles()
+    files:Express.Multer.File[],
+    @Param('Id') Id: number,
+    @Param('AlbumId') AlbumId:number,
+    @Body() bodyParser,
+    @Req() req: Request,
+    @Res() res: Response,
+  
+  ) {
+    for(const file of files){
+      const albumImageUrl = await this.s3service.updateAlbumImage(Id,AlbumId,file)
+      const  albumImage = new AlbumImage()
+      albumImage.albumImageUrl = albumImageUrl
+      // this is necessary when only one object is passed
+      // await this.TourpackageRepo.update(Id,tourpackage)
+      //for multiple object but both will work
+      await this.AlbumimageRepo.update(AlbumId,albumImage)
+    }
+
+  return res.status(HttpStatus.OK).json({
+      status: "success",
+      message: `Album Image has updated successfully`,
+
+    });
+  }
+
+  
+  @Patch(':Id/mainimage/:mainimgId')
+  @UseInterceptors(FilesInterceptor('MainImageUrl',20))
+  async updateMainImageUrl(
+    @UploadedFiles()
+    files:Express.Multer.File[],
+    @Param('Id') Id: number,
+    @Param('mainimgId') mainimgId:number,
+    @Body() bodyParser,
+    @Req() req: Request,
+    @Res() res: Response,
+  
+  ) {
+    for(const file of files){
+      const mainImageUrl = await this.s3service.updateAlbumImage(Id,mainimgId,file)
+      const  mainImage = new MainImage()
+      mainImage.MainImageUrl = mainImageUrl
+      // this is necessary when only one object is passed
+      // await this.TourpackageRepo.update(Id,tourpackage)
+      //for multiple object but both will work
+      await this.MainImageRepo.update(mainimgId,mainImage)
+    }
+
+  return res.status(HttpStatus.OK).json({
+      status: "success",
+      message: `mainImage has updated successfully`,
+
+    });
+  }
+
+
+  
+  @Patch(':Id/visitedimage/:VimageId')
+  @UseInterceptors(FilesInterceptor('VisitedImagePath',20))
+  async updateVistedImageUrl(
+    @UploadedFiles()
+    files:Express.Multer.File[],
+    @Param('Id') Id: number,
+    @Param('VimageId') VimageId:number,
+    @Body() bodyParser,
+    @Req() req: Request,
+    @Res() res: Response,
+  
+  ) {
+    for(const file of files){
+      const ImageUrl = await this.s3service.updatevisitedImage(Id,VimageId,file)
+      const  visitedimage = new VisitedPlace()
+      visitedimage.VisitedImagePath = ImageUrl
+      // this is necessary when only one object is passed
+      // await this.TourpackageRepo.update(Id,tourpackage)
+      //for multiple object but both will work
+      await this.visitedplaceRepo.update(VimageId,visitedimage)
+    }
+
+  return res.status(HttpStatus.OK).json({
+      status: "success",
+      message: `visitedimage has updated successfully`,
+
+    });
+  }
+
   @Get(':id/allalbumimage')
   async getAllAlbumImage(
     @Param('id') id: number,
-
     @Req() req: Request,
     @Res() res: Response) {
     const AllAlbumimages = await this.tourpackageService.FindAllAlbum(id)

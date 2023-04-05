@@ -6,7 +6,7 @@ import { Tourpackage } from './tourpackage.entity';
 @Entity()
 export class VisitedPlace{
    @PrimaryGeneratedColumn()
-   Id:number
+   VimageId:number
    @Column({default:true})
    PlaceName:string
    @Column({default:true})
