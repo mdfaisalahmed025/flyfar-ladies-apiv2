@@ -1,6 +1,7 @@
+import { tourpackageplan } from './entities/tourpackageplan.entity';
 
 import { CreateInstallmentDto } from './dto/create-installment.dto';
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException, Logger, UploadedFile, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException, Logger, UploadedFile, Query, Put } from '@nestjs/common';
 import { TourpackageService } from './tourpackage.service';
 import { UpdateTourpackageDto } from './dto/update-tourpackage.dto';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
@@ -135,24 +136,27 @@ export class TourpackageController {
     });
   }
 
-  // @Patch('updateimage/:id')
-  // @UseInterceptors( FileInterceptor('coverimageurl'))
-  // async updateImageUrl(
-  //   @UploadedFile()
-  //   file:Express.Multer.File,
-  //   @Param('id') id: number,
-  //   @Req() req: Request,
-  //   @Res() res: Response,
+  @Patch('updateimage/:Id')
+  @UseInterceptors( FileInterceptor('coverimageurl'))
+  async updateImageUrl(
+    @UploadedFile()
+    file:Express.Multer.File,
+    @Param('Id') Id: number,
+    @Body() bodyParser,
+    @Req() req: Request,
+    @Res() res: Response,
   
-  // ) {
+  ) {
+  const imageurl = await this.s3service.ReplaceImage(Id,file)
+  const  tourpackage = new Tourpackage()
+  tourpackage.coverimageurl = imageurl
+  const x = await this.TourpackageRepo.update(Id,tourpackage)
+  return res.status(HttpStatus.OK).json({ 
+      status: "success",
+      message: `Tour Package  has updated successfully`,
 
-  //  const imageurl = await this.s3service.ReplaceImage(id,file)
-  //   return res.status(HttpStatus.OK).json({
-  //     status: "success",
-  //     message: `Tour Package  has updated successfully`,
-
-  //   });
-  // }
+    });
+  }
 
   @Post(':Id/addinstallment')
   async createInstallment(

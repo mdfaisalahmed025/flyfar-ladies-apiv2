@@ -85,6 +85,7 @@ async  findOne(Id: number) {
     queryBuilder.leftJoinAndSelect('tourPackage.tourpackageplans', 'tourpackageplans')
     queryBuilder.leftJoinAndSelect('tourPackage.refundpolicys', 'refundpolicys')
     queryBuilder.leftJoinAndSelect('tourPackage.installments', 'installments')
+    queryBuilder.leftJoinAndSelect('tourPackage.exclusions', 'exclusions')
     queryBuilder.where('tourPackage.TripType = :TripType', { TripType });
     queryBuilder.andWhere('tourPackage.City = :City', { City });
     queryBuilder.andWhere('tourPackage.StartDate >= :startOfMonth', { startOfMonth });

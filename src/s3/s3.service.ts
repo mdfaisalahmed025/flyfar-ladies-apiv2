@@ -1,10 +1,9 @@
 
 import { DeleteObjectCommand, PutObjectCommand, PutObjectCommandInput, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
-import { Body, Injectable, Logger, Req, HttpStatus } from '@nestjs/common';
+import { Injectable, Logger} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Express } from 'express';
-import { Request, Response } from 'express';
 import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
 import { Repository } from 'typeorm';
 
@@ -13,7 +12,6 @@ export class S3Service {
     private logger = new Logger(S3Service.name)
     private region: string;
     private s3: S3Client;
-
     constructor(@InjectRepository(Tourpackage) private TourpackageRepo: Repository<Tourpackage>,
         private ConfigService: ConfigService) {
         this.region = this.ConfigService.get<string>('DO_REGION') || 'sgp1';
