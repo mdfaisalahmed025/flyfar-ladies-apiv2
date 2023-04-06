@@ -13,7 +13,7 @@ export class BookingService {
       private travelerRepository: Repository<Traveller>,
       @InjectRepository(Booking)
       private bookingRepository: Repository<Booking>
-   ) { }
+   ) {}
 
    async BookTravelpackage(Id: number, TravellerId: string) {
       const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } })
@@ -21,7 +21,6 @@ export class BookingService {
       if (!tourPackage || !travelers) {
          throw new NotFoundException('Tour package or travellers not found');
       }
-    
       const booking = new Booking();
       booking.tourPackage = tourPackage;
       booking.travelers = travelers;

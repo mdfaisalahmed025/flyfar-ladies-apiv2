@@ -19,7 +19,7 @@ export class TravellerController {
    //Add Traveller
    @Post('addnewtraveller')
    @UseInterceptors(
-      FilesInterceptor('passportimage', 5
+      FilesInterceptor('passportimage',5
    ))
    async AddTraveller(
       @UploadedFiles(
@@ -37,7 +37,7 @@ export class TravellerController {
       files: Express.Multer.File[],
       @Body() body,
       @Req() req: Request,
-      @Res() res: Response) {
+      @Res() res: Response) { 
       for (const file of files) {
          const passportCopyurl  = await this.s3service.Addimage(file)
          const traveller = new Traveller();

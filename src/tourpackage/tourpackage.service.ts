@@ -217,7 +217,7 @@ async  remove(Id: number) {
   // booking policy start.........................
 
   //add booking policy
-  async createbookingPolicy(Id: number, CreateBookingPolicyDto:CreateBookingPolicyDto) {
+  async createbookingPolicy(Id: number, CreateBookingPolicyDto:CreateBookingPolicyDto[]) {
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
     if (!tourpackage) {
       throw new HttpException(
@@ -225,13 +225,18 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const creatpolicy = await this.bookingPolicyRepo.create({ ...CreateBookingPolicyDto, tourpackage });
-    const createdpolicy = await this.bookingPolicyRepo.save(creatpolicy)
-    return createdpolicy
+    const createdPolicies: bookingpolicy[] = [];
+    for(const CreatebookingPolicydto of CreateBookingPolicyDto){
+      const creatpolicy = await this.bookingPolicyRepo.create({ ...CreatebookingPolicydto, tourpackage });
+      const createdpolicy = await this.bookingPolicyRepo.save(creatpolicy)
+      createdPolicies.push(createdpolicy);
+    }
+    return createdPolicies;
+   
 
   }
 
-  async AddInstallment(Id: number, createinstallmentDto:CreateInstallmentDto){
+  async AddInstallment(Id: number, CreateInstallmentDto:CreateInstallmentDto[]){
     const tourpackage = await this.TourpackageRepo.findOneBy({Id})
     if (!tourpackage) {
       throw new HttpException(
@@ -239,8 +244,13 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const createinstallment = await this.InstallmentRepo.create({...createinstallmentDto,tourpackage})
-    await this.InstallmentRepo.save(createinstallment)
+    const createinstallment: Installment[] =[];
+    for(const createinstallmentdto of CreateInstallmentDto){
+    const installment = await this.InstallmentRepo.create({...createinstallmentdto,tourpackage})
+    const createdinstallment =await this.InstallmentRepo.save(installment)
+    createinstallment.push(createdinstallment);
+    }
+    return createinstallment
   
   }
 
@@ -397,7 +407,7 @@ async  remove(Id: number) {
   // start refund policy
   async AddRefundPolicy(
     Id: number,
-    refundpolicydto: createRefundPolicyDto,
+    RefundpolicyDto: createRefundPolicyDto[],
   ) {
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
     if (!tourpackage) {
@@ -406,11 +416,13 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const createrefundpolicy = this.refundPolicyRepo.create({...refundpolicydto,tourpackage });
-    const newrefundpolicy = await this.refundPolicyRepo.save(
-      createrefundpolicy,
-    );
-    return newrefundpolicy;
+    const refundpolic:refundpolicy []=[]
+    for(const refundpolicydto of RefundpolicyDto){
+      const createrefundpolicy = this.refundPolicyRepo.create({...refundpolicydto,tourpackage });
+      const createdrefundpolicy = await this.refundPolicyRepo.save(createrefundpolicy)
+      refundpolic.push(createdrefundpolicy);
+    }
+    return refundpolic;
 
   }
 
@@ -487,14 +499,14 @@ async  remove(Id: number) {
     await this.refundPolicyRepo.delete(RId);
   }
 
-// ///End refund Policy
+//End refund Policy
 
-// //  Add package inclusions
+// Add package inclusions
 
 
   async AddInclusions(
     Id: number,
-    inclusionsDto: createpackageincluionDto,
+    inclusionsDto: createpackageincluionDto[],
   ) {
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
     if (!tourpackage) {
@@ -503,9 +515,13 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const newInclusions = await this.packageInclusionRepo.create({ ...inclusionsDto, tourpackage });
-    const saveinclsuions = await this.packageInclusionRepo.save(newInclusions)
-    return saveinclsuions;
+    const inclsuinsarray: Packageinclusion[]= []
+    for(const inclusionsdto of inclusionsDto){
+      const newInclusions = await this.packageInclusionRepo.create({...inclusionsdto, tourpackage });
+      const saveinclusions = await this.packageInclusionRepo.save(newInclusions)
+      inclsuinsarray.push(saveinclusions);
+    }
+    return inclsuinsarray;
   }
 
   // find inclusions
@@ -589,7 +605,7 @@ async  remove(Id: number) {
 
   async AddpackageExclsuions(
     Id: number,
-    exclusiondto: CreatepackageExclsuionsDto,
+    exclusionDto: CreatepackageExclsuionsDto[],
   ) {
 
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
@@ -599,8 +615,15 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const exclusion = await this.packageexcluionsRepo.create({ ...exclusiondto, tourpackage });
-    await this.packageexcluionsRepo.save(exclusion);
+
+    const exclsuinsarray: packageexcluions[]= []
+    for(const exclusiondto of exclusionDto){
+      const newExclsuions = await this.packageexcluionsRepo.create({...exclusiondto, tourpackage });
+      const saveexclsuions = await this.packageexcluionsRepo.save(newExclsuions)
+      exclsuinsarray.push(saveexclsuions);
+    }
+    return exclsuinsarray;
+  
 
   }
 
@@ -684,7 +707,7 @@ async  remove(Id: number) {
 
   async AddTourpackagePlan(
     Id: number,
-    tourpackageplandto: CreateTourPackagePlanDto,
+    tourPackageplanDto: CreateTourPackagePlanDto[],
   ) {
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
     if (!tourpackage) {
@@ -693,12 +716,13 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const createpackageplan =
-      this.tourpackagePlanRepo.create({ ...tourpackageplandto,tourpackage });
-    const savenewpackageplan = await this.tourpackagePlanRepo.save(
-      createpackageplan,
-    );
-    return savenewpackageplan;
+    const createtourplan: tourpackageplan[]=[]
+    for(const tourpackageplandto of tourPackageplanDto){
+      const newTourplan = await this.tourpackagePlanRepo.create({...tourpackageplandto, tourpackage });
+      const savetourplan = await this.tourpackagePlanRepo.save(newTourplan)
+      createtourplan.push(savetourplan);
+    }
+    return createtourplan;
 
   }
   
@@ -785,7 +809,7 @@ async  remove(Id: number) {
 
   async AddPackageHighlight(
     Id: number,
-    packagehighlightdto: CreatePackageHighlightDto,
+    packageHighlightDto: CreatePackageHighlightDto[],
   ) {
     const tourpackage = await this.TourpackageRepo.findOneBy({ Id });
     if (!tourpackage) {
@@ -794,12 +818,13 @@ async  remove(Id: number) {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const createHightlight =
-      this.packageHighlightRepo.create({ ...packagehighlightdto, tourpackage });
-    const saveHighlight = await this.packageHighlightRepo.save(
-      createHightlight,
-    );
-    return saveHighlight;
+    const createHightlight: packagehighlight[]= []
+    for(const packagehighlightdto of packageHighlightDto){
+      const newHightlight = await this.packageHighlightRepo.create({...packagehighlightdto, tourpackage });
+      const saveHightlight = await this.packageHighlightRepo.save(newHightlight)
+      createHightlight.push(saveHightlight);
+    }
+    return createHightlight;
 
   }
 

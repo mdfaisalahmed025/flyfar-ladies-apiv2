@@ -165,7 +165,7 @@ export class TourpackageController {
   async createInstallment(
     @Param('Id') Id: number,
     @Res() res: Response,
-    @Body() installmentDto:CreateInstallmentDto
+    @Body() installmentDto:CreateInstallmentDto[]
   ) {
     await this.tourpackageService.AddInstallment(Id, installmentDto);
     return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package installment added succesfully", })
@@ -276,7 +276,7 @@ export class TourpackageController {
   @Post(':id/AddBookingPolicy')
   addTourPackageBookingPolicy(
     @Param('id', ParseIntPipe) id: number,
-    @Body() bookingpolicydto: CreateBookingPolicyDto,
+    @Body() bookingpolicydto: CreateBookingPolicyDto[],
     @Req() req: Request,
     @Res() res: Response,
   ) {
@@ -340,7 +340,7 @@ export class TourpackageController {
   @Post(':id/AddrefundPolicy')
   async addrefundPolicy(
     @Param('id', ParseIntPipe) id: number,
-    @Body() refundpolicydto: createRefundPolicyDto,
+    @Body() refundpolicydto: createRefundPolicyDto[],
     @Req() req: Request,
     @Res() res: Response,
   ) {
@@ -402,7 +402,7 @@ export class TourpackageController {
   @Post(':id/AddPackageInclusions')
   async addInclusion(
     @Param('id', ParseIntPipe) id: number,
-    @Body() Inclusionsdto: createpackageincluionDto,
+    @Body() Inclusionsdto: createpackageincluionDto[],
     @Req() req: Request,
     @Res() res: Response,
   ) {
@@ -695,7 +695,7 @@ export class TourpackageController {
   @Post(':id/AddTourPackagePlan')
   addTourPackagePlan(
     @Param('id', ParseIntPipe) id: number,
-    @Body() tourpackagePlandto: CreateTourPackagePlanDto,
+    @Body() tourpackagePlandto: CreateTourPackagePlanDto[],
     @Req() req: Request,
     @Res() res: Response,
   ) {
@@ -758,7 +758,7 @@ export class TourpackageController {
   @Post(':id/AddTourPackageExclusions')
   async addTourPackageExclusions(
     @Param('id', ParseIntPipe) id: number,
-    @Body() packageexcluionsdto: CreatepackageExclsuionsDto,
+    @Body() packageexcluionsdto: CreatepackageExclsuionsDto[],
     @Req() req: Request,
     @Res() res: Response,
   ) {
@@ -767,7 +767,7 @@ export class TourpackageController {
       packageexcluionsdto,
     );
     return res.status(HttpStatus.OK).send({
-      status: "success", message: "exlusions  Added Successfully", exclsuions
+      status: "success", message: "exlusions  Added Successfully",
     })
   }
 
@@ -830,7 +830,7 @@ export class TourpackageController {
   @Post(':id/AddTourPackageHighlight')
   addTourPackageHighlight(
     @Param('id', ParseIntPipe) id: number,
-    @Body() packageHighlightdto: CreatePackageHighlightDto,
+    @Body() packageHighlightdto: CreatePackageHighlightDto[],
     @Req() req: Request,
     @Res() res: Response,
   ) {
