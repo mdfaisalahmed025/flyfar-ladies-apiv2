@@ -15,12 +15,18 @@ export class BookingService {
       private bookingRepository: Repository<Booking>
    ) {}
 
-   async BookTravelpackage(Id: number, TravellerId: string) {
+   async BookTravelpackage(Id: number, TravellerId: string[]) {
       const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } })
-      const travelers = await this.travelerRepository.findOne({ where: { TravellerId } });
+      const travelers = await this.travelerRepository.findByIds(TravellerId );
       if (!tourPackage || !travelers) {
          throw new NotFoundException('Tour package or travellers not found');
       }
+
+
+          travelers.forEach(traveler => {
+      traveler.tourPackage = tourPackage;
+    });
+
       const booking = new Booking();
       booking.tourPackage = tourPackage;
       booking.travelers = travelers;

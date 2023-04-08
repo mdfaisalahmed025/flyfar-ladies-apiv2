@@ -24,13 +24,14 @@ export class UserController{
             throw new HttpException("User Already Exist,please try again with another email", HttpStatus.BAD_REQUEST,);
          }
       await this.userServices.Register(userDto)
-      return res.status(HttpStatus.CREATED).json({ message:'user register successfully'});
+      return res.status(HttpStatus.CREATED).json({ status:"success", message:'user register successfully'});
    }
    // User Login
    @Post('login')
-   async login(@Body('Email') Email: string, @Body('Password') Password: string): Promise<{ token: string }> {
+   async login(@Body('Email') Email: string, @Body('Password') Password: string,  @Req() req: Request,
+   @Res() res: Response){
      const token = await this.userServices.login(Email, Password);
-     return { token };
+     return res.status(HttpStatus.CREATED).json({ status:"success", message:'user login successfully',JwtToken:token}); ;
    }
 
    // verify token

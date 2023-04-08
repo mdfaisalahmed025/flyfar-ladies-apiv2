@@ -11,7 +11,7 @@ export class Booking{
    @ManyToOne(() => Tourpackage, tourPackage => tourPackage.bookings)
    tourPackage: Tourpackage;
    @ManyToOne(() => Traveller, traveller => traveller.bookings)
-   travelers: Traveller;
+   travelers: Traveller[];
    @CreateDateColumn()
    CreatedAt:Date
    @UpdateDateColumn()

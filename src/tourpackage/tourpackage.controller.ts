@@ -1,4 +1,3 @@
-import { tourpackageplan } from './entities/tourpackageplan.entity';
 
 import { CreateInstallmentDto } from './dto/create-installment.dto';
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseFilePipeBuilder, HttpStatus, ParseIntPipe, Req, Res, ParseFilePipe, FileTypeValidator, HttpException, Logger, UploadedFile, Query, Put } from '@nestjs/common';

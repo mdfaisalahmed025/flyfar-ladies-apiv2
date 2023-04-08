@@ -67,7 +67,19 @@ async  findOne(Id: number) {
   }
 
   async FindAllPackages(){
-    const packages= await this.TourpackageRepo.find({relations:{bookings:true}})
+    const packages= await this.TourpackageRepo.find({
+      relations:{
+      bookings:true,
+      installments:true,
+      mainimage:true,
+      PackageInclusions:true,
+      exclusions:true,
+      albumImages:true,
+      vistitedImages:true,
+      BookingPolicys:true,
+      highlights:true,
+      travelers:true
+      }})
     return packages;
    }
 

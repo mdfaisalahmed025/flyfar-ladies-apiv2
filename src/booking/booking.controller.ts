@@ -9,10 +9,11 @@ export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
   @Post('addbooking')
   async addbooking(
-    @Body('Id') Id: number, 
-    @Body('TravellerId') TravellerId: string,
+    @Body() 
+    body: { Id: number, TravellerId: string[] },
     @Req() req: Request,
     @Res() res: Response) {
+    const { Id, TravellerId } = body;
     await this.bookingService.BookTravelpackage(Id,TravellerId)
     return res.status(HttpStatus.OK).send({ status: "success", message: "Booking Confirmed" })
   }
