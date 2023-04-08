@@ -1,6 +1,6 @@
 import { Traveller } from 'src/Traveller/entities/traveller.entity';
 import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
-import { ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { ManyToOne, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable } from 'typeorm';
 import { Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 
@@ -10,7 +10,8 @@ export class Booking{
    Bookingid:string
    @ManyToOne(() => Tourpackage, tourPackage => tourPackage.bookings)
    tourPackage: Tourpackage;
-   @ManyToOne(() => Traveller, traveller => traveller.bookings)
+   @ManyToMany(() => Traveller, traveller => traveller.bookings)
+   @JoinTable()
    travelers: Traveller[];
    @CreateDateColumn()
    CreatedAt:Date

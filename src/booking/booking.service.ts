@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
 import { Traveller } from 'src/Traveller/entities/traveller.entity';
 import { Repository } from 'typeorm';
 import { Booking } from './entity/booking.entity';
+import { CreateBookingDto } from './dto/booking.dto';
 
 @Injectable()
 export class BookingService {
@@ -15,27 +16,43 @@ export class BookingService {
       private bookingRepository: Repository<Booking>
    ) {}
 
-   async BookTravelpackage(Id: number, TravellerId: string[]) {
+
+
+
+
+   async BookTravelpackage(bookingDto: CreateBookingDto, TravellerId:string) {
+      const {Id, travelers,} =bookingDto
       const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } })
-      const travelers = await this.travelerRepository.findByIds(TravellerId );
-      if (!tourPackage || !travelers) {
-         throw new NotFoundException('Tour package or travellers not found');
+      if (!tourPackage) {
+         throw new HttpException(
+            `TourPackage not found with this id=${Id}`,
+            HttpStatus.BAD_REQUEST,
+         );
       }
 
+      const arrayoftravlers =[]
+      for(const traveler of travelers){
+         let travelerentity = await this.travelerRepository.findOne({ where:{TravellerId} })
+         if (!travelerentity){
+            travelerentity = await this.travelerRepository.create(traveler)
+            await this.travelerRepository.save(travelerentity)
+         }
+         arrayoftravlers.push(travelerentity)
+      }
 
-          travelers.forEach(traveler => {
-      traveler.tourPackage = tourPackage;
-    });
+      const booking = await this.bookingRepository.create({
+         tourPackage,
+         travelers: arrayoftravlers
+      })
 
-      const booking = new Booking();
-      booking.tourPackage = tourPackage;
-      booking.travelers = travelers;
       await this.bookingRepository.save(booking)
-
-      return {
-         tourPackage, travelers, booking
-      }
+      return booking;
+   
    }
+
+
+
+
    async getBooking(Bookingid:string){
       const bookedpackage = await this.bookingRepository.find({ where: { Bookingid }, relations:['tourPackage','travelers']})
       return bookedpackage;

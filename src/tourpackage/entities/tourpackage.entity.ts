@@ -104,8 +104,10 @@ export class Tourpackage {
         eager: true, cascade: false,
     })
     installments: Installment;
+
+
     @OneToMany(() => Booking, (booking) => booking.tourPackage)
-    bookings: Booking;
+    bookings: Booking[]
 
 
     @OneToMany(() => Traveller, traveler => traveler.tourPackage, { cascade: true })

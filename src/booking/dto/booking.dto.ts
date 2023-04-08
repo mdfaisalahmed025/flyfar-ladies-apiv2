@@ -1,3 +1,5 @@
+import { Type } from 'class-transformer';
+import { CreateTravellerDto } from './../../Traveller/Dto/create-traveller.dto';
 
 import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
@@ -8,10 +10,11 @@ export class CreateBookingDto {
 
   @IsNotEmpty()
   @IsNumber()
-  tourPackageId: number;
+  Id: number;
 
   @IsNotEmpty()
   @IsArray()
   @IsString()
-  travelerIds: string[];
+  @Type(()=>CreateTravellerDto)
+  travelers: CreateTravellerDto[];
 }

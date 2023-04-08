@@ -1,4 +1,4 @@
-import { OneToMany } from 'typeorm';
+import { JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Booking } from 'src/booking/entity/booking.entity';
 import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
@@ -27,7 +27,8 @@ export class Traveller {
    CreatedAt:Date
    @UpdateDateColumn()
    UpdatedAt:Date
-   @OneToMany(()=>Booking,(booking)=>booking.travelers)
+   @ManyToMany(()=>Booking,(booking)=>booking.travelers)
+   @JoinTable()
    bookings:Booking;
    @ManyToOne(() => Tourpackage, tourPackage => tourPackage.travelers)
    tourPackage: Tourpackage;
