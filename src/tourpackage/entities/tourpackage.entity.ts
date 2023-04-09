@@ -106,7 +106,7 @@ export class Tourpackage {
     installments: Installment;
 
 
-    @OneToMany(() => Booking, (booking) => booking.tourPackage)
+    @OneToMany(() => Booking, (booking) => booking.tourPackage,{eager:true})
     bookings: Booking[]
 
 

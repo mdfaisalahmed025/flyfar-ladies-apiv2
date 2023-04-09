@@ -17,11 +17,9 @@ export class BookingService {
    ) {}
 
 
-
-
-
-   async BookTravelpackage(bookingDto: CreateBookingDto) {
-      const {Id, travelers,} =bookingDto
+   
+   async BookTravelpackage(Id:number,bookingDto: CreateBookingDto) {
+      const {travelers,} =bookingDto
       const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } })
       if (!tourPackage) {
          throw new HttpException(
@@ -46,8 +44,6 @@ export class BookingService {
       return booking;
    
    }
-
-
 
 
    async getBooking(Bookingid:string){

@@ -9,14 +9,15 @@ import { CreateBookingDto } from './dto/booking.dto';
 export class BookingController {
   constructor(private readonly bookingService: BookingService) { }
 
-  @Post('addbooking')
+  @Post(':Id/addbooking')
   async addbooking(
 
-    @Body() bookingDto: CreateBookingDto, file:Express.Multer.File,
+    @Body() bookingDto: CreateBookingDto,
+    @Param('Id') Id:number,
     @Req() req: Request,
     @Res() res: Response) {
 
-    const booking = await this.bookingService.BookTravelpackage(bookingDto)
+    const booking = await this.bookingService.BookTravelpackage(Id,bookingDto)
     return res.status(HttpStatus.OK).send({ status: "success", message: "Booking Confirmed", booking })
   }
   @Get(':Bookingid')
