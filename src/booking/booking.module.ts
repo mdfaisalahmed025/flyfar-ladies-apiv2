@@ -1,3 +1,4 @@
+import { S3Module } from './../s3/s3.module';
 import { Traveller } from 'src/Traveller/entities/traveller.entity';
 import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
 
@@ -8,7 +9,7 @@ import { BookingController } from './booking.controller';
 import { Booking } from './entity/booking.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Tourpackage, Traveller, Booking])],
+  imports:[TypeOrmModule.forFeature([Tourpackage, Traveller, Booking]),S3Module],
   controllers: [BookingController],
   providers: [BookingService]
 })
