@@ -20,7 +20,7 @@ export class BookingService {
 
 
 
-   async BookTravelpackage(bookingDto: CreateBookingDto, TravellerId:string) {
+   async BookTravelpackage(bookingDto: CreateBookingDto) {
       const {Id, travelers,} =bookingDto
       const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } })
       if (!tourPackage) {
@@ -32,11 +32,8 @@ export class BookingService {
 
       const arrayoftravlers =[]
       for(const traveler of travelers){
-         let travelerentity = await this.travelerRepository.findOne({ where:{TravellerId} })
-         if (!travelerentity){
-            travelerentity = await this.travelerRepository.create(traveler)
-            await this.travelerRepository.save(travelerentity)
-         }
+         const travelerentity = await this.travelerRepository.create(traveler)
+         await this.travelerRepository.save(travelerentity)
          arrayoftravlers.push(travelerentity)
       }
 

@@ -12,11 +12,11 @@ export class BookingController {
   @Post('addbooking')
   async addbooking(
 
-    @Body() bookingDto: CreateBookingDto, TravellerId: string,
+    @Body() bookingDto: CreateBookingDto, file:Express.Multer.File,
     @Req() req: Request,
     @Res() res: Response) {
 
-    const booking = await this.bookingService.BookTravelpackage(bookingDto, TravellerId)
+    const booking = await this.bookingService.BookTravelpackage(bookingDto)
     return res.status(HttpStatus.OK).send({ status: "success", message: "Booking Confirmed", booking })
   }
   @Get(':Bookingid')
