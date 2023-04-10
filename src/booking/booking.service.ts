@@ -1,3 +1,4 @@
+import { S3Service } from './../s3/s3.service';
 import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
@@ -13,12 +14,14 @@ export class BookingService {
       @InjectRepository(Traveller)
       private travelerRepository: Repository<Traveller>,
       @InjectRepository(Booking)
-      private bookingRepository: Repository<Booking>
+      private bookingRepository: Repository<Booking>,
+      private s3service: S3Service
+
    ) {}
 
 
    
-   async BookTravelpackage(Id:number,bookingDto: CreateBookingDto) {
+   async BookTravelpackage(Id:number,bookingDto: CreateBookingDto, file:Express.Multer.File) {
       const {travelers,} =bookingDto
       const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } })
       if (!tourPackage) {
@@ -30,10 +33,16 @@ export class BookingService {
 
       const arrayoftravlers =[]
       for(const traveler of travelers){
-         const travelerentity = await this.travelerRepository.create(traveler)
-         await this.travelerRepository.save(travelerentity)
-         arrayoftravlers.push(travelerentity)
-      }
+         const { FirstName, LastName, Email, } = traveler;
+         const x = await this.s3service.Addimage(file)
+        const newTraveler = new Traveller();
+        newTraveler.FirstName = FirstName;
+        newTraveler.LastName = LastName;
+        newTraveler.Email = Email;
+        newTraveler.PassportCopyURL =x
+        await this.travelerRepository.save(newTraveler)
+        arrayoftravlers.push(newTraveler)
+   }
 
       const booking = await this.bookingRepository.create({
          tourPackage,

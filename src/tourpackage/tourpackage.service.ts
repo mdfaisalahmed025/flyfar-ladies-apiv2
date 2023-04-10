@@ -266,8 +266,6 @@ async  remove(Id: number) {
   
   }
 
-
-
   async FindInstallment(Id: number, InstallmentId: number) {
     const tourpackage = await this.TourpackageRepo.findOne({
       where: {

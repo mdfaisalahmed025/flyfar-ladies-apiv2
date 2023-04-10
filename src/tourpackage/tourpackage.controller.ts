@@ -70,6 +70,7 @@ export class TourpackageController {
     tourpackage.Transport = req.body.Transport
     tourpackage.Food = req.body.Food
     tourpackage.Hotel = req.body.Hotel
+    tourpackage.Code = req.body.Code
     await this.TourpackageRepo.save(tourpackage)
     return res.status(HttpStatus.OK).send({ status: "success", message: "Travel package added succesfully", })
   }
