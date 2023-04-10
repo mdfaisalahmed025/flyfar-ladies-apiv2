@@ -1,6 +1,6 @@
 
 export class CreateUserProfileDto{
-   Id:string
+   Uid:string
    NameTitle:string
    FirstName:string
    LastName:string

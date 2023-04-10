@@ -6,6 +6,7 @@ import { Traveller } from 'src/Traveller/entities/traveller.entity';
 import { Repository } from 'typeorm';
 import { Booking } from './entity/booking.entity';
 import { CreateBookingDto } from './dto/booking.dto';
+import passport from 'passport';
 
 @Injectable()
 export class BookingService {
@@ -21,7 +22,7 @@ export class BookingService {
 
 
    
-   async BookTravelpackage(Id:number,bookingDto: CreateBookingDto, file:Express.Multer.File) {
+   async BookTravelpackage(Id:number,bookingDto: CreateBookingDto) {
       const {travelers,} =bookingDto
       const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } })
       if (!tourPackage) {
@@ -33,13 +34,14 @@ export class BookingService {
 
       const arrayoftravlers =[]
       for(const traveler of travelers){
-         const { FirstName, LastName, Email, } = traveler;
-         const x = await this.s3service.Addimage(file)
+      const { FirstName, LastName, DOB,PassportExpireDate,PassportNumber,Nationality} = traveler;
         const newTraveler = new Traveller();
         newTraveler.FirstName = FirstName;
         newTraveler.LastName = LastName;
-        newTraveler.Email = Email;
-        newTraveler.PassportCopyURL =x
+        newTraveler.Nationality =Nationality
+        newTraveler.DOB =DOB
+        newTraveler.PassportNumber =PassportNumber
+        newTraveler.PassportExpireDate =PassportExpireDate
         await this.travelerRepository.save(newTraveler)
         arrayoftravlers.push(newTraveler)
    }

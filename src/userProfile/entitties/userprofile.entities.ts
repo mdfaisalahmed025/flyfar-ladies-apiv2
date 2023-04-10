@@ -1,11 +1,12 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
-import { Column, CreateDateColumn, Entity, Generated, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
+import { Column, CreateDateColumn, Entity, Generated, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Userprofile {
    @PrimaryColumn({type:"uuid"})
    @Generated("uuid")
-   Id:string
+   Uid:string
    @Column({nullable:true})
    NameTitle:string
    @Column()   
@@ -59,4 +60,7 @@ export class Userprofile {
    CreatedAt:Date
    @UpdateDateColumn()
    UpdatedAt:Date
+   @ManyToMany(() => Tourpackage)
+   @JoinTable({name:'wishlist'})
+   wishlist: Tourpackage[];
 }

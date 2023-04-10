@@ -10,5 +10,6 @@ export class CreateTravellerDto{
    PassportNumber:string
    PassportExpireDate:string
    PassportCopyURL:string
+   Nationality:string
 
 }
