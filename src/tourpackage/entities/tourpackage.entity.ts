@@ -1,6 +1,6 @@
 
 import { Booking } from "src/booking/entity/booking.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
 import { Installment } from "./installment.entity";
@@ -12,6 +12,7 @@ import { refundpolicy } from "./refundpolicy.entity";
 import { tourpackageplan } from "./tourpackageplan.entity";
 import { VisitedPlace } from "./visitedplace.entity";
 import { Traveller } from "src/Traveller/entities/traveller.entity";
+import { Userprofile } from "src/userProfile/entitties/userprofile.entities";
 
 
 @Entity()
@@ -109,9 +110,11 @@ export class Tourpackage {
     @OneToMany(() => Booking, (booking) => booking.tourPackage,{eager:true})
     bookings: Booking[]
 
-
     @OneToMany(() => Traveller, traveler => traveler.tourPackage, { cascade: true })
     travelers: Traveller[];
+
+    @ManyToMany(() => Userprofile, userprofile => userprofile.wishlist)
+    usersWishlist: Userprofile[];
 
 
 }

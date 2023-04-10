@@ -60,7 +60,7 @@ export class Userprofile {
    CreatedAt:Date
    @UpdateDateColumn()
    UpdatedAt:Date
-   @ManyToMany(() => Tourpackage)
+   @ManyToMany(() => Tourpackage, tourpackage => tourpackage.usersWishlist, {eager:true})
    @JoinTable({name:'wishlist'})
    wishlist: Tourpackage[];
 }

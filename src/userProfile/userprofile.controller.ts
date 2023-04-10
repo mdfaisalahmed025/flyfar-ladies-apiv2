@@ -1,6 +1,6 @@
 import { UserServices } from './../Auth/user.service';
 
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, ParseIntPipe, Patch, Post, Req, Res, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, ParseIntPipe, ParseUUIDPipe, Patch, Post, Req, Res, UploadedFiles, UseInterceptors } from "@nestjs/common";
 import { FileFieldsInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Request, Response } from 'express';
@@ -27,45 +27,34 @@ export class userProfileController {
       { name: 'passportphotoUrl', maxCount: 2 },
    ]))
    async addProfile(
-      @UploadedFiles(
-         new ParseFilePipeBuilder()
-            .addFileTypeValidator({
-               fileType: /(jpg|jpeg|png|gif)$/,
-            })
-            .addMaxSizeValidator({
-               maxSize: 1024 * 1024 * 6,
-            })
-            .build({
-               errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-            }),
-      )
-      file: { PassportsizephotoUrl?: Express.Multer.File[], passportphotoUrl?: Express.Multer.File[]},
+      @UploadedFiles()
+      file: { PassportsizephotoUrl?: Express.Multer.File[], passportphotoUrl?: Express.Multer.File[] },
       @Body() body,
       @Req() req: Request,
       @Res() res: Response) {
 
-         const PassportsizephotoUrl = await this.s3service.Addimage(file.PassportsizephotoUrl[0])
-         const passportphotoUrl = await this.s3service.Addimage(file.passportphotoUrl[0])
-         const userprofile = new Userprofile();
-         userprofile.PassportCopy = passportphotoUrl
-         userprofile.PassportsizephotoUrl =PassportsizephotoUrl
-         userprofile.NameTitle = req.body.NameTitle
-         userprofile.FirstName = req.body.FirstName
-         userprofile.LastName = req.body.LastName
-         userprofile.DOB = req.body.DOB
-         userprofile.Gender = req.body.Gender
-         userprofile.Profession = req.body.Profession
-         userprofile.Nationality = req.body.Nationality
-         userprofile.Mobile = req.body.Mobile
-         userprofile.NID = req.body.NID
-         userprofile.PassportExpireDate = req.body.PassportExpireDate
-         userprofile.PassportNumber = req.body.PassportNumber
-         userprofile.FaceBookId = req.body.FaceBookId
-         userprofile.LinkedIn = req.body.LinkedIn
-         userprofile.WhatsApp = req.body.whatsApp
-         await this.profileRepository.save({ ...userprofile })
-      
-      return res.status(HttpStatus.CREATED).json({ message: 'user Profile Added successfully' });
+      const PassportsizephotoUrl = await this.s3service.Addimage(file.PassportsizephotoUrl[0])
+      const passportphotoUrl = await this.s3service.Addimage(file.passportphotoUrl[0])
+      const userprofile = new Userprofile();
+      userprofile.PassportCopy = passportphotoUrl
+      userprofile.PassportsizephotoUrl = PassportsizephotoUrl
+      userprofile.NameTitle = req.body.NameTitle
+      userprofile.FirstName = req.body.FirstName
+      userprofile.LastName = req.body.LastName
+      userprofile.DOB = req.body.DOB
+      userprofile.Gender = req.body.Gender
+      userprofile.Profession = req.body.Profession
+      userprofile.Nationality = req.body.Nationality
+      userprofile.Mobile = req.body.Mobile
+      userprofile.NID = req.body.NID
+      userprofile.PassportExpireDate = req.body.PassportExpireDate
+      userprofile.PassportNumber = req.body.PassportNumber
+      userprofile.FaceBookId = req.body.FaceBookId
+      userprofile.LinkedIn = req.body.LinkedIn
+      userprofile.WhatsApp = req.body.whatsApp
+      await this.profileRepository.save({ ...userprofile })
+
+      return res.status(HttpStatus.CREATED).json({ staus: "success", message: 'user Profile Added successfully' });
    }
 
 
@@ -109,31 +98,31 @@ export class userProfileController {
    }
 
 
-   
-  @Post(':Uid/:Id')
-  async addToWishlist(
-    @Param('Uid', ParseIntPipe) Uid: string,
-    @Param('Id', ParseIntPipe) Id: number,
-  ) {
-    return this.UserProfileServices.addToWishlist(Uid, Id);
-  }
 
-  @Delete(':Uid/:Id')
-  async removeFromWishlist(
-    @Param('Uid', ParseIntPipe) Uid: string,
-    @Param('Id', ParseIntPipe) Id: number,
-  ) {
-    return this.UserProfileServices.removeFromWishlist(Uid, Id);
-  }
+   @Post(':Uid/:Id')
+   async addToWishlist(
+      @Param('Uid', new ParseUUIDPipe) Uid: string,
+      @Param('Id', ParseIntPipe) Id: number,
+   ) {
+      return this.UserProfileServices.addToWishlist(Uid, Id);
+   }
 
-  @Get(':Uid')
-  async getWishlist(@Param('Uid', ParseIntPipe) Uid: string) {
-    return this.UserProfileServices.getWishlist(Uid);
-  }
+   @Delete(':Uid/:Id')
+   async removeFromWishlist(
+      @Param('Uid', new ParseUUIDPipe) Uid: string,
+      @Param('Id', ParseIntPipe) Id: number,
+      @Res() res: Response,
+   ) {
+      await this.UserProfileServices.removeFromWishlist(Uid, Id);
+      return res.status(HttpStatus.OK).json({
+         status: "success",
+         message: `Wishlist has removed`,
+      });
+   }
 
-  @Get(':Uid')
-  async getAllWishlist() {
-    return this.UserProfileServices.getAllWishlist();
-  }
+   @Get(':Uid')
+   async getWishlist(@Param('Uid', new ParseUUIDPipe) Uid: string) {
+      return this.UserProfileServices.getWishlist(Uid);
+   }
 
 }
