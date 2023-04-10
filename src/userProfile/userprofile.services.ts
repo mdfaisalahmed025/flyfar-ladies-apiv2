@@ -32,6 +32,10 @@ export class UserProfileServices {
 
    async removeFromWishlist(Uid: string, Id: number): Promise<Userprofile> {
       const user = await this.userRepository.findOne({ where: { Uid }, relations: { wishlist: true } });
+      if (!user) {
+         // Handle error, user or tourpackage not found
+         throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+      }
       user.wishlist = user.wishlist.filter((tourPackage) => tourPackage.Id !== Id);
       return this.userRepository.save(user);
    }
