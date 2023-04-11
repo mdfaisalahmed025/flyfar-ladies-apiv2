@@ -11,7 +11,6 @@ import { Packageinclusion } from "./packageInclusion.entitry";
 import { refundpolicy } from "./refundpolicy.entity";
 import { tourpackageplan } from "./tourpackageplan.entity";
 import { VisitedPlace } from "./visitedplace.entity";
-import { Traveller } from "src/Traveller/entities/traveller.entity";
 import { Userprofile } from "src/userProfile/entitties/userprofile.entities";
 
 
@@ -106,7 +105,7 @@ export class Tourpackage {
     })
     installments: Installment;
 
-    @OneToMany(() => Booking, (booking) => booking.tourPackage,{eager:true,cascade: false})
+    @OneToMany(() => Booking, (booking) => booking.tourPackage)
     bookings: Booking[]
 
     @ManyToOne(() => Userprofile, userprofile => userprofile.wishlist)
