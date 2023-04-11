@@ -23,7 +23,7 @@ export class UserProfileServices {
       const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } });
       if (!user || !tourPackage) {
          // Handle error, user or tourpackage not found
-         throw new HttpException('User or Tourpackage not found',HttpStatus.BAD_REQUEST);
+         throw new HttpException('User or Tourpackage not Found',HttpStatus.BAD_REQUEST);
       }
       user.wishlist.push(tourPackage);
      return await this.userRepository.save(user);

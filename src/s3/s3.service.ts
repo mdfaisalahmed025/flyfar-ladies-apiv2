@@ -1,6 +1,6 @@
 import { AlbumImage } from './../tourpackage/entities/albumimage.entity';
 import { DeleteObjectCommand, PutObjectCommand, PutObjectCommandInput, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
-import { HttpException, HttpStatus, Injectable, Logger} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Express } from 'express';
@@ -30,7 +30,7 @@ export class S3Service {
             }
         });
     }
- 
+
 
     // Add image 
     async Addimage(file: Express.Multer.File) {
@@ -58,8 +58,8 @@ export class S3Service {
 
     }
     // update cover image 
-    async updateImage(Id: number,file: Express.Multer.File ) {
-        const tourpackage = await this.TourpackageRepo.findOneBy({Id})
+    async updateImage(Id: number, file: Express.Multer.File) {
+        const tourpackage = await this.TourpackageRepo.findOneBy({ Id })
         const bucket = this.ConfigService.get<string>('DO_BUCKET_NAME')
         if (tourpackage.coverimageurl) {
             const coverimageurl = tourpackage.coverimageurl.split('/').pop();
@@ -77,38 +77,38 @@ export class S3Service {
                     Key: key,
                     ACL: 'public-read',
                     ContentType: file.mimetype
-                }),   
+                }),
             );
             if (response.$metadata.httpStatusCode === 200) {
-                 return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}` 
-             
+                return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}`
+
             }
             throw new Error("image not update in digital ocean s3")
-            
+
         }
-         catch (err) {
+        catch (err) {
             this.logger.error("cannot save file inside s3 spacebucket", err);
             throw err;
         }
 
-       
+
     }
 
-    async updateAlbumImage(Id: number,AlbumId:number,file: Express.Multer.File ) {
-        const tourpackage = await this.TourpackageRepo.findOneBy({Id})
+    async updateAlbumImage(Id: number, AlbumId: number, file: Express.Multer.File) {
+        const tourpackage = await this.TourpackageRepo.findOneBy({ Id })
         if (!tourpackage) {
             throw new HttpException(
-              `TourPackage not found with this id=${Id}`,
-              HttpStatus.BAD_REQUEST,
+                `TourPackage not found with this id=${Id}`,
+                HttpStatus.BAD_REQUEST,
             );
-          }
-        const albummage = await this.AlbumimageRepo.findOneBy({AlbumId})
+        }
+        const albummage = await this.AlbumimageRepo.findOneBy({ AlbumId })
         if (!albummage) {
             throw new HttpException(
-              `albummage not found with this id=${Id}`,
-              HttpStatus.BAD_REQUEST,
+                `albummage not found with this id=${Id}`,
+                HttpStatus.BAD_REQUEST,
             );
-          }
+        }
         const bucket = this.ConfigService.get<string>('DO_BUCKET_NAME')
         if (albummage.albumImageUrl) {
             const albumImageUrl = albummage.albumImageUrl.split('/').pop();
@@ -126,38 +126,38 @@ export class S3Service {
                     Key: key,
                     ACL: 'public-read',
                     ContentType: file.mimetype
-                }),   
+                }),
             );
             if (response.$metadata.httpStatusCode === 200) {
-                 return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}` 
-             
+                return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}`
+
             }
             throw new Error("image not update in digital ocean s3")
-            
+
         }
-         catch (err) {
+        catch (err) {
             this.logger.error("cannot save file inside s3 spacebucket", err);
             throw err;
         }
 
-       
+
     }
 
-    async updateMainImage(Id: number,mainimgId:number,file: Express.Multer.File ) {
-        const tourpackage = await this.TourpackageRepo.findOneBy({Id})
+    async updateMainImage(Id: number, mainimgId: number, file: Express.Multer.File) {
+        const tourpackage = await this.TourpackageRepo.findOneBy({ Id })
         if (!tourpackage) {
             throw new HttpException(
-              `TourPackage not found with this id=${Id}`,
-              HttpStatus.BAD_REQUEST,
+                `TourPackage not found with this id=${Id}`,
+                HttpStatus.BAD_REQUEST,
             );
-          }
-        const mainImage = await this.MainImageeRepo.findOneBy({mainimgId})
+        }
+        const mainImage = await this.MainImageeRepo.findOneBy({ mainimgId })
         if (!mainImage) {
             throw new HttpException(
-              `mainImage not found with this id=${Id}`,
-              HttpStatus.BAD_REQUEST,
+                `mainImage not found with this id=${Id}`,
+                HttpStatus.BAD_REQUEST,
             );
-          }
+        }
         const bucket = this.ConfigService.get<string>('DO_BUCKET_NAME')
         if (mainImage.MainImageUrl) {
             const MainImageUrl = mainImage.MainImageUrl.split('/').pop();
@@ -175,39 +175,39 @@ export class S3Service {
                     Key: key,
                     ACL: 'public-read',
                     ContentType: file.mimetype
-                }),   
+                }),
             );
             if (response.$metadata.httpStatusCode === 200) {
-                 return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}` 
-             
+                return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}`
+
             }
             throw new Error("image not update in digital ocean s3")
-            
+
         }
-         catch (err) {
+        catch (err) {
             this.logger.error("cannot save file inside s3 spacebucket", err);
             throw err;
         }
 
-       
+
     }
 
 
-    async updatevisitedImage(Id: number,VimageId:number,file: Express.Multer.File ) {
-        const tourpackage = await this.TourpackageRepo.findOneBy({Id})
+    async updatevisitedImage(Id: number, VimageId: number, file: Express.Multer.File) {
+        const tourpackage = await this.TourpackageRepo.findOneBy({ Id })
         if (!tourpackage) {
             throw new HttpException(
-              `TourPackage not found with this id=${Id}`,
-              HttpStatus.BAD_REQUEST,
+                `TourPackage not found with this id=${Id}`,
+                HttpStatus.BAD_REQUEST,
             );
-          }
-        const VisitedImage = await this.VisitedPlaceRepo.findOneBy({VimageId})
+        }
+        const VisitedImage = await this.VisitedPlaceRepo.findOneBy({ VimageId })
         if (!VisitedImage) {
             throw new HttpException(
-              `VisitedImage not found with this id=${Id}`,
-              HttpStatus.BAD_REQUEST,
+                `VisitedImage not found with this id=${Id}`,
+                HttpStatus.BAD_REQUEST,
             );
-          }
+        }
         const bucket = this.ConfigService.get<string>('DO_BUCKET_NAME')
         if (VisitedImage.VisitedImagePath) {
             const VisitedImagePath = VisitedImage.VisitedImagePath.split('/').pop();
@@ -225,20 +225,20 @@ export class S3Service {
                     Key: key,
                     ACL: 'public-read',
                     ContentType: file.mimetype
-                }),   
+                }),
             );
             if (response.$metadata.httpStatusCode === 200) {
-                 return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}` 
-             
+                return `https://${bucket}.${this.region}.cdn.digitaloceanspaces.com/${key}`
+
             }
             throw new Error("image not update in digital ocean s3")
-            
+
         }
-         catch (err) {
+        catch (err) {
             this.logger.error("cannot save file inside s3 spacebucket", err);
             throw err;
         }
 
-       
+
     }
 }
