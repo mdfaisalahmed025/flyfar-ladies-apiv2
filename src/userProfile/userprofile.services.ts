@@ -44,8 +44,6 @@ export class UserProfileServices {
       return await this.userRepository.findOne({ where: { Uid } });
    }
 
-
-
    // get All User
    async FindAllProfile() {
       const Profile = await this.userRepository.find({});
