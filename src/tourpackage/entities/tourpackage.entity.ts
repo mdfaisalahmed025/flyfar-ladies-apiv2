@@ -1,6 +1,6 @@
 
 import { Booking } from "src/booking/entity/booking.entity";
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlbumImage } from "./albumimage.entity";
 import { bookingpolicy } from "./bookingpolicy.entity";
 import { Installment } from "./installment.entity";
@@ -106,14 +106,10 @@ export class Tourpackage {
     })
     installments: Installment;
 
-
     @OneToMany(() => Booking, (booking) => booking.tourPackage,{eager:true,cascade: false})
     bookings: Booking[]
 
-    @OneToMany(() => Traveller, traveler => traveler.tourPackage)
-    travelers: Traveller[];
-
-    @ManyToMany(() => Userprofile, userprofile => userprofile.wishlist)
+    @ManyToOne(() => Userprofile, userprofile => userprofile.wishlist)
     usersWishlist: Userprofile[];
 
 

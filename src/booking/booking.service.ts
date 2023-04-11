@@ -15,12 +15,9 @@ export class BookingService {
       private travelerRepository: Repository<Traveller>,
       @InjectRepository(Booking)
       private bookingRepository: Repository<Booking>,
-      private s3service: S3Service
-
    ) {}
 
 
-   
    async BookTravelpackage(Id:number,bookingDto: CreateBookingDto) {
       const {travelers,} =bookingDto
       const tourPackage = await this.tourPackageRepository.findOne({ where: { Id } })

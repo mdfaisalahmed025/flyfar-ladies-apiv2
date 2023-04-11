@@ -8,7 +8,7 @@ import { S3Module } from 'src/s3/s3.module';
 
 
 @Module({
-   imports: [TypeOrmModule.forFeature([Traveller]), S3Module],
+   imports: [S3Module,TypeOrmModule.forFeature([Traveller])],
    controllers:[TravellerController],
    providers:[TravellerServices]
 
