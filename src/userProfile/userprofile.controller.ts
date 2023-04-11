@@ -18,7 +18,7 @@ import { S3Service } from "src/s3/s3.service";
 export class userProfileController {
    constructor(@InjectRepository(Userprofile) private profileRepository: Repository<Userprofile>,
       private readonly UserProfileServices: UserProfileServices,
-      private s3service: S3Service) { }
+      private s3service: S3Service) {}
 
    // Add Traveller
    @Post('addProfile')

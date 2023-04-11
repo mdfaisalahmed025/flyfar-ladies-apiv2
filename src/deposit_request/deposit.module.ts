@@ -11,7 +11,7 @@ import { Bkash } from './Entity/Bkash.entity';
 import { MobileBanking } from './Entity/MobileBanking.entity';
 
 @Module({
-  imports:[S3Module,TypeOrmModule.forFeature([Cheque,Cash, BankTransfer, CardPayment, Bkash, MobileBanking])],
+  imports:[TypeOrmModule.forFeature([Cheque,Cash, BankTransfer, CardPayment, Bkash, MobileBanking]), S3Module],
   controllers: [DepositController],
   providers: [DepositService]
 })

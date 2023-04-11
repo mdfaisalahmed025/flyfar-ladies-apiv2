@@ -6,7 +6,6 @@ import { Traveller } from 'src/Traveller/entities/traveller.entity';
 import { Repository } from 'typeorm';
 import { Booking } from './entity/booking.entity';
 import { CreateBookingDto } from './dto/booking.dto';
-import passport from 'passport';
 
 @Injectable()
 export class BookingService {

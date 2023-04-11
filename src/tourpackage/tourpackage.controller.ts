@@ -101,8 +101,6 @@ export class TourpackageController {
     return this.tourpackageService.getCityByTripType(TripType);
   }
 
-
-
   @Get('/')
   async getTourPackages(
     @Query('TripType') TripType: string,

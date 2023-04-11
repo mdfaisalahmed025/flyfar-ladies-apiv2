@@ -1,4 +1,4 @@
-import { Traveller } from './../entities/traveller.entity';
+
 
 export class CreateTravellerDto{
    TravellerId:string
