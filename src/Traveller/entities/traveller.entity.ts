@@ -30,7 +30,7 @@ export class Traveller {
    @UpdateDateColumn()
    UpdatedAt:Date
    @ManyToMany(()=>Booking,(booking)=>booking.travelers,{eager:true})
-   @JoinTable()
+   @JoinTable({name:'travlerBookings',})
    bookings:Booking;
    @ManyToOne(() => Tourpackage, tourPackage => tourPackage.travelers,{eager:true})
    tourPackage: Tourpackage;
