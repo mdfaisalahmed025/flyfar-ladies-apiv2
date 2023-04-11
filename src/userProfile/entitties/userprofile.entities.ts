@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import { Tourpackage } from 'src/tourpackage/entities/tourpackage.entity';
-import { Column, CreateDateColumn, Entity, Generated, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Generated, JoinTable, ManyToMany, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Userprofile {
@@ -60,7 +60,6 @@ export class Userprofile {
    CreatedAt:Date
    @UpdateDateColumn()
    UpdatedAt:Date
-   @ManyToMany(() => Tourpackage, tourpackage => tourpackage.usersWishlist, {eager:true})
-   @JoinTable({name:'wishlist'})
+   @OneToMany(() => Tourpackage, tourpackage => tourpackage.usersWishlist, {eager:true})
    wishlist: Tourpackage[];
 }
