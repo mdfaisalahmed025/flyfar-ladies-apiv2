@@ -1,0 +1,40 @@
+/// <reference types="multer" />
+import { DepositService } from './deposit.service';
+import { S3Service } from 'src/s3/s3.service';
+import { Cheque } from './Entity/cheq.entity';
+import { Repository } from 'typeorm';
+import { Request, Response } from 'express';
+import { Cash } from './Entity/cash.entity';
+import { BankTransfer } from './Entity/BankTransfer.entity';
+import { CardPayment } from './Entity/Cardpayment.entity';
+import { Bkash } from './Entity/Bkash.entity';
+import { MobileBanking } from './Entity/MobileBanking.entity';
+export declare class DepositController {
+    private chequeRepository;
+    private CashRepository;
+    private BankTransferRepository;
+    private CardPaymentRepository;
+    private BkashPaymentRepository;
+    private MobileBankingRepository;
+    private readonly depositService;
+    private s3service;
+    constructor(chequeRepository: Repository<Cheque>, CashRepository: Repository<Cash>, BankTransferRepository: Repository<BankTransfer>, CardPaymentRepository: Repository<CardPayment>, BkashPaymentRepository: Repository<Bkash>, MobileBankingRepository: Repository<MobileBanking>, depositService: DepositService, s3service: S3Service);
+    ChequeDeposit(file: Express.Multer.File, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    getchequedeposit(id: string, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    getAllchequedeposit(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    cashdeposit(file: Express.Multer.File, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    getcashdeposit(id: string, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    getAllCashdeposit(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    BankDeposit(file: Express.Multer.File, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    getbankdeposit(id: string, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    getAllbankdeposit(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    CardPaymentDeposit(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    getcarddeposit(id: string, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    allcarddeposit(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    bkashdeposit(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    getBkashdeposit(id: string, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    allBkashdeposit(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    MobileBankdeposit(file: Express.Multer.File, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    getMobileBankdeposit(id: string, req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    allmobilebankingdeposit(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+}
