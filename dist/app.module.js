@@ -48,7 +48,7 @@ AppModule = __decorate([
             config_1.ConfigModule.forRoot({ isGlobal: true }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mysql',
-                host: 'localhost',
+                host: '192.241.145.76',
                 port: 3306,
                 username: 'flyfarladies',
                 password: 'F3r2r28AsiFzW8Ke',
