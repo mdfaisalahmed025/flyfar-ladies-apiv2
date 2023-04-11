@@ -55,14 +55,11 @@ private InstallmentRepo: Repository<Installment>,
 private AlbumImageRepo: Repository<AlbumImage>,
 @InjectRepository(MainImage) private MainImageRepo: Repository<MainImage>,
 @InjectRepository(VisitedPlace)
-private visitedImageRepo: Repository<VisitedPlace>,
-@InjectRepository(Traveller) private tarvellerRepository: Repository<Traveller>
+private visitedImageRepo: Repository<VisitedPlace>
 ){}
 
 async  findOne(Id: number) {
-    const gettourpackage =  this.TourpackageRepo.findOne({where:{Id}, relations:{
-      bookings:true
-    }});
+    const gettourpackage =  this.TourpackageRepo.findOne({where:{Id}});
     return gettourpackage;
   }
 
