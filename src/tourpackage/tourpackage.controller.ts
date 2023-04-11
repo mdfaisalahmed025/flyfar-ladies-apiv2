@@ -80,8 +80,8 @@ export class TourpackageController {
   async FindAll(   
   @Req() req: Request,
   @Res() res: Response) {
-  const gettourpackage = await this.tourpackageService.FindAllPackages();
-  return res.status(HttpStatus.OK).json({ gettourpackage });
+  const Alltourpackage = await this.tourpackageService.FindAllPackages();
+  return res.status(HttpStatus.OK).json({ Alltourpackage});
   }
 
   @Get(':id')

@@ -10,7 +10,7 @@ export class Booking{
    Bookingid:string
    @ManyToOne(() => Tourpackage, tourPackage => tourPackage.bookings)
    tourPackage: Tourpackage;
-   @ManyToMany(() => Traveller, traveller => traveller.bookings)
+   @ManyToMany(() => Traveller,)
    @JoinTable({name: 'Traveler_bookings'})
    travelers: Traveller[];
    @CreateDateColumn()
